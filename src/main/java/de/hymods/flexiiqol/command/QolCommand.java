@@ -5,7 +5,10 @@ import com.hypixel.hytale.server.core.command.system.CommandContext;
 import com.hypixel.hytale.server.core.command.system.basecommands.AbstractCommandCollection;
 import com.hypixel.hytale.server.core.command.system.basecommands.CommandBase;
 import de.hymods.flexiiqol.FlexiiQolPlugin;
+import de.hymods.flexiiqol.QolConfig;
 import de.hymods.flexiiqol.spike.SpikeCommand;
+import de.hymods.flexiiqol.zoom.Glide;
+import de.hymods.flexiiqol.zoom.ZoomSpec;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
@@ -23,6 +26,22 @@ public final class QolCommand extends AbstractCommandCollection {
         this.addSubCommand(new SpikeCommand(plugin));
     }
 
+    /** One line each for the zoom and fullbright. */
+    public static String[] describe(FlexiiQolPlugin plugin) {
+        QolConfig config = plugin.config();
+        ZoomSpec zoom = plugin.zoom();
+        Glide.Setting glide = plugin.glide().setting();
+        return new String[]{
+                "FlexiiQOL zoom %s: %s, glide %s".formatted(
+                        config.zoom.enabled ? "on" : "off",
+                        zoom == null ? "root not loaded" : zoom.describe(),
+                        glide == null ? "off" : glide.glide() + (glide.always() ? " always" : "")),
+                "FlexiiQOL fullbright %s: level %d, %d player(s) with it on, %s".formatted(
+                        plugin.fullbright().isAvailable() ? "on" : "off", config.fullbright.level,
+                        plugin.fullbright().players(), plugin.fullbright().stats())
+        };
+    }
+
     private static final class Status extends CommandBase {
         private final FlexiiQolPlugin plugin;
 
@@ -33,10 +52,10 @@ public final class QolCommand extends AbstractCommandCollection {
 
         @Override
         protected void executeSync(@Nonnull CommandContext context) {
-            context.sendMessage(Message.raw("FlexiiQOL zoom %s (%s), fullbright %s (level %d, %d player(s), %s), config %s".formatted(
-                    this.plugin.config().zoomEnabled ? "on" : "off", this.plugin.config().zoomSpec().describe(),
-                    this.plugin.config().fullbrightEnabled ? "on" : "off", this.plugin.config().fullbrightLevel,
-                    this.plugin.fullbright().players(), this.plugin.fullbright().stats(), this.plugin.configFile())));
+            for (String line : describe(this.plugin)) {
+                context.sendMessage(Message.raw(line));
+            }
+            context.sendMessage(Message.raw("config: " + this.plugin.configFile()));
         }
     }
 
@@ -51,8 +70,16 @@ public final class QolCommand extends AbstractCommandCollection {
         @Override
         protected void executeSync(@Nonnull CommandContext context) {
             try {
-                this.plugin.reloadConfig();
-                context.sendMessage(Message.raw("FlexiiQOL: config reloaded"));
+                this.plugin.reload().whenComplete((zoom, error) -> {
+                    if (error != null) {
+                        context.sendMessage(Message.raw("FlexiiQOL: config reloaded, but the zoom did not load: " + error.getMessage()));
+                        return;
+                    }
+                    context.sendMessage(Message.raw("FlexiiQOL: config reloaded"));
+                    for (String line : describe(this.plugin)) {
+                        context.sendMessage(Message.raw(line));
+                    }
+                });
             } catch (IOException | RuntimeException e) {
                 context.sendMessage(Message.raw("FlexiiQOL: config not reloaded, keeping the old one: " + e.getMessage()));
             }

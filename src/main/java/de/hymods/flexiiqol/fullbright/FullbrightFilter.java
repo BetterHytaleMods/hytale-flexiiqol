@@ -1,8 +1,11 @@
 package de.hymods.flexiiqol.fullbright;
 
 import com.hypixel.hytale.logger.HytaleLogger;
+import com.hypixel.hytale.math.util.ChunkUtil;
 import com.hypixel.hytale.protocol.CachedPacket;
 import com.hypixel.hytale.protocol.Packet;
+import com.hypixel.hytale.protocol.packets.world.ServerSetBlock;
+import com.hypixel.hytale.protocol.packets.world.ServerSetBlocks;
 import com.hypixel.hytale.protocol.packets.world.SetChunk;
 import com.hypixel.hytale.server.core.io.adapter.PacketAdapters;
 import com.hypixel.hytale.server.core.io.adapter.PacketFilter;
@@ -12,23 +15,22 @@ import de.hymods.flexiiqol.light.LightTree;
 
 import javax.annotation.Nonnull;
 import java.lang.foreign.MemorySegment;
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 
 /**
- * Brightens the chunk sections one player receives. The server shares one serialized
+ * Brightens the chunk sections a player with fullbright receives. The server shares one serialized
  * {@code SetChunk} per section between all players, so the filter decodes a copy, raises its light,
  * sends the copy and drops the original. The server's own light, which spawning and plant growth
- * read, stays untouched.
+ * read, stays untouched. Block changes are noted for {@link EditResend}.
  */
 public final class FullbrightFilter implements PlayerPacketFilter {
     private final HytaleLogger logger;
-    /** Players with fullbright on, and their light level. */
-    private final Map<UUID, Integer> levels = new ConcurrentHashMap<>();
+    private final FullbrightPlayers players;
+    private final EditResend edits;
+    /** Light level for players with fullbright on; 0 while fullbright is off on the server. */
+    private volatile int level;
     /** Set while this filter writes its own copy, which passes through the filters again. */
     private final ThreadLocal<Boolean> writing = ThreadLocal.withInitial(() -> false);
     private final AtomicBoolean warned = new AtomicBoolean();
@@ -36,8 +38,10 @@ public final class FullbrightFilter implements PlayerPacketFilter {
     private final AtomicLong nanos = new AtomicLong();
     private PacketFilter handle;
 
-    public FullbrightFilter(HytaleLogger logger) {
+    public FullbrightFilter(HytaleLogger logger, FullbrightPlayers players, EditResend edits) {
         this.logger = logger;
+        this.players = players;
+        this.edits = edits;
     }
 
     public void register() {
@@ -52,29 +56,23 @@ public final class FullbrightFilter implements PlayerPacketFilter {
         }
     }
 
-    public void set(@Nonnull UUID player, int level) {
+    /** @param level 0 to 15; 0 sends the server's light unchanged */
+    public void configure(boolean enabled, int level) {
         if (level < 0 || level > 15) {
             throw new IllegalArgumentException("light level must be 0 to 15");
         }
-        this.levels.put(player, level);
+        this.level = enabled ? level : 0;
     }
 
-    public void clear(@Nonnull UUID player) {
-        this.levels.remove(player);
-    }
-
-    public boolean isOn(@Nonnull UUID player) {
-        return this.levels.containsKey(player);
-    }
-
-    public int players() {
-        return this.levels.size();
+    public int level() {
+        return this.level;
     }
 
     /** Sections rewritten so far and the average time per section in microseconds. */
     public String stats() {
         long count = this.rewritten.get();
-        return count + " section(s), " + (count == 0 ? 0 : this.nanos.get() / count / 1000) + " µs each";
+        return "%d section(s) rewritten, %d µs each, %d sent again after edits".formatted(
+                count, count == 0 ? 0 : this.nanos.get() / count / 1000, this.edits.resent());
     }
 
     @Override
@@ -82,9 +80,21 @@ public final class FullbrightFilter implements PlayerPacketFilter {
         if (this.writing.get()) {
             return false;
         }
-        Integer level = this.levels.get(player.getUuid());
-        if (level == null) {
+        int level = this.level;
+        if (level == 0 || !this.players.isOn(player.getUuid())) {
             return false;
+        }
+        switch (packet) {
+            case ServerSetBlock block -> {
+                this.edits.mark(player, ChunkUtil.chunkCoordinate(block.x), ChunkUtil.chunkCoordinate(block.y), ChunkUtil.chunkCoordinate(block.z));
+                return false;
+            }
+            case ServerSetBlocks blocks -> {
+                this.edits.mark(player, blocks.x, blocks.y, blocks.z);
+                return false;
+            }
+            default -> {
+            }
         }
         long started = System.nanoTime();
         SetChunk copy;

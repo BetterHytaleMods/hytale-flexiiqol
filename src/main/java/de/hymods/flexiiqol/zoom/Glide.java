@@ -17,38 +17,44 @@ import java.util.concurrent.ConcurrentHashMap;
  * what the feasibility test finds out.
  */
 public final class Glide {
-    /** @param always also without zooming, to try the camera on its own */
+    /**
+     * @param lerp   share of the remaining turn the camera covers per step, above 0 and below 1
+     * @param always also without zooming, to try the camera on its own
+     */
     public record Setting(float lerp, boolean always) {
         public Setting {
             if (!(lerp > 0f && lerp < 1f)) {
                 throw new IllegalArgumentException("glide lerp must be above 0 and below 1");
             }
         }
-    }
 
-    private final Map<UUID, Setting> settings = new ConcurrentHashMap<>();
-    /** Players whose camera is ours right now, with the lerp they got. */
-    private final Map<UUID, Float> active = new ConcurrentHashMap<>();
+        /** The setting for a config value: 0 is off, higher values trail more. */
+        @Nullable
+        public static Setting of(float glide, boolean always) {
+            return glide > 0f ? new Setting(1f - Math.min(glide, 0.95f), always) : null;
+        }
 
-    public void set(@Nonnull UUID player, @Nullable Setting setting) {
-        if (setting == null) {
-            this.settings.remove(player);
-        } else {
-            this.settings.put(player, setting);
+        /** As the config writes it. */
+        public float glide() {
+            return 1f - this.lerp;
         }
     }
 
+    private volatile Setting setting;
+    /** Players whose camera is ours right now, with the lerp they got. */
+    private final Map<UUID, Float> active = new ConcurrentHashMap<>();
+
+    public void set(@Nullable Setting setting) {
+        this.setting = setting;
+    }
+
     @Nullable
-    public Setting setting(@Nonnull UUID player) {
-        return this.settings.get(player);
+    public Setting setting() {
+        return this.setting;
     }
 
     public boolean isActive(@Nonnull UUID player) {
         return this.active.containsKey(player);
-    }
-
-    public int players() {
-        return this.settings.size();
     }
 
     /** Sends the gliding camera or the normal one when {@code want} changes. */
@@ -75,7 +81,6 @@ public final class Glide {
     }
 
     public void forget(@Nonnull UUID player) {
-        this.settings.remove(player);
         this.active.remove(player);
     }
 

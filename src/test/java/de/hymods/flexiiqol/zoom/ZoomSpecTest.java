@@ -4,8 +4,12 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.junit.jupiter.api.Test;
 
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -31,6 +35,15 @@ class ZoomSpecTest {
         assertEquals(0.35f, zoom.get("MouseSensitivityMultiplier").getAsFloat());
         assertEquals("FirstPerson", zoom.get("ForcePerspective").getAsString());
         assertFalse(zoom.has("OverlayTexture"));
+    }
+
+    @Test
+    void theJarsZoomMatchesTheDefaults() throws Exception {
+        try (InputStream in = ZoomSpecTest.class.getResourceAsStream("/Server/Item/RootInteractions/FlexiiQOL/Root_FlexiiQOL_Zoom_Base.json")) {
+            assertNotNull(in);
+            assertEquals(JsonParser.parseString(ZoomSpec.defaults().toRootJson()),
+                    JsonParser.parseString(new String(in.readAllBytes(), StandardCharsets.UTF_8)));
+        }
     }
 
     @Test

@@ -14,10 +14,9 @@ import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 
 import javax.annotation.Nonnull;
-import java.util.UUID;
 
 /**
- * Every tick: does a player with a glide setting hold a zoom chain right now? Watching the chains
+ * Every tick, while gliding is on: does the player hold a zoom chain right now? Watching the chains
  * also covers every way a zoom can end (release, click, item change, death), not only the release.
  */
 public final class GlideSystem extends EntityTickingSystem<EntityStore> {
@@ -44,9 +43,8 @@ public final class GlideSystem extends EntityTickingSystem<EntityStore> {
         if (player == null) {
             return;
         }
-        UUID id = player.getUuid();
-        Glide.Setting setting = this.glide.setting(id);
-        if (setting == null && !this.glide.isActive(id)) {
+        Glide.Setting setting = this.glide.setting();
+        if (setting == null && !this.glide.isActive(player.getUuid())) {
             return;
         }
         boolean want = setting != null && (setting.always() || zooming(archetypeChunk.getComponent(index, this.managerType)));

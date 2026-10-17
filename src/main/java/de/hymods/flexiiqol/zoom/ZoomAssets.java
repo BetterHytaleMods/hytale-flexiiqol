@@ -17,6 +17,8 @@ import java.util.List;
 public final class ZoomAssets {
     /** Every zoom root starts with this, which is how a binding is recognised as FlexiiQOL's. */
     public static final String PREFIX = "Root_FlexiiQOL_Zoom";
+    /** The zoom R gets, written from the config. */
+    public static final String ROOT = PREFIX;
 
     private final String packKey;
     private final Path dir;

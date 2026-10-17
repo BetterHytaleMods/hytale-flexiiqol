@@ -15,21 +15,34 @@ class QolConfigTest {
     void writesTheDefaultsWhenThereIsNoFile(@TempDir Path dir) throws Exception {
         Path file = dir.resolve("config.json");
         QolConfig config = QolConfig.load(file);
-        assertEquals(4f, config.zoomMagnification);
-        assertEquals(15, config.fullbrightLevel);
-        assertTrue(Files.readString(file).contains("\"zoomMagnification\": 4.0"));
+        assertEquals(4f, config.zoom.magnification);
+        assertEquals(15, config.fullbright.level);
+        String written = Files.readString(file);
+        assertTrue(written.contains("\"zoom\": {"), written);
+        assertTrue(written.contains("\"magnification\": 4.0"), written);
     }
 
     @Test
     void keepsDefaultsForMissingFieldsAndClampsTheRest(@TempDir Path dir) throws Exception {
         Path file = dir.resolve("config.json");
-        Files.writeString(file, "{\"zoomMagnification\": 99, \"zoomSensitivity\": -1, \"fullbrightLevel\": 20}");
+        Files.writeString(file, "{\"zoom\": {\"magnification\": 99, \"sensitivity\": -1, \"glide\": 3}, \"fullbright\": {\"level\": 20}}");
         QolConfig config = QolConfig.load(file);
-        assertEquals(16f, config.zoomMagnification);
-        assertEquals(0.05f, config.zoomSensitivity);
-        assertEquals(15, config.fullbrightLevel);
-        assertEquals(0.15f, config.zoomInLerp);
-        assertTrue(Files.readString(file).contains("\"zoomOutLerp\": 0.25"), "missing fields are written back");
-        assertEquals(16f, config.zoomSpec().magnification());
+        assertEquals(16f, config.zoom.magnification);
+        assertEquals(0.05f, config.zoom.sensitivity);
+        assertEquals(0.95f, config.zoom.glide);
+        assertEquals(15, config.fullbright.level);
+        assertEquals(0.15f, config.zoom.inLerp);
+        assertTrue(Files.readString(file).contains("\"outLerp\": 0.25"), "missing fields are written back");
+        assertEquals(16f, config.zoom.spec().magnification());
+    }
+
+    @Test
+    void missingOrNullSectionsGetTheirDefaults(@TempDir Path dir) throws Exception {
+        Path file = dir.resolve("config.json");
+        Files.writeString(file, "{\"zoom\": null}");
+        QolConfig config = QolConfig.load(file);
+        assertTrue(config.zoom.enabled);
+        assertTrue(config.fullbright.enabled);
+        assertEquals(0.7f, config.zoom.glide);
     }
 }
