@@ -1,0 +1,5 @@
+commands.qol.desc = FlexiiQOL administration
+commands.qol.status.desc = Show the zoom and fullbright settings
+commands.qol.reload.desc = Reload config.json
+commands.qol.spike.desc = Feasibility test for zoom, glide and fullbright
+commands.qol.spike.args.desc = zoom | unzoom | input | glide | light | resend | probe | status, with their settings

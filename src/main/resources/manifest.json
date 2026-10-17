@@ -1,0 +1,20 @@
+{
+  "Group": "de.hymods",
+  "Name": "FlexiiQOL",
+  "Version": "${project.version}",
+  "Description": "Quality of life: hold R to zoom like OptiFine, /fullbright lights up caves for you alone.",
+  "Authors": [
+    {
+      "Name": "Hymods",
+      "Email": "contact@hymods.de",
+      "Url": "https://hymods.de"
+    }
+  ],
+  "Website": "https://github.com/BetterHytaleMods/hytale-flexiiqol",
+  "ServerVersion": ">=0.7.0 <0.8.0",
+  "Dependencies": {},
+  "OptionalDependencies": {},
+  "DisabledByDefault": false,
+  "IncludesAssetPack": true,
+  "Main": "de.hymods.flexiiqol.FlexiiQolPlugin"
+}
