@@ -6,9 +6,10 @@
 ## Regeln
 
 - **Commits auf Englisch, ohne Claude-Zeilen** (kein `Co-Authored-By`, keine Session-Zeile).
-- **Öffentliches Repo:** kein dekompilierter Hytale-Code, keine kopierten Ausschnitte, keine kopierten
-  Vanilla-Assets. Lesen ja, übernehmen nein. Vanilla-IDs (Items, Sounds, Texturen) nur als Verweis.
-  Keine privaten Infrastruktur-Details (AWS, SSM) hier.
+- **Öffentliches Repo:** kein dekompilierter Hytale-Code und keine Ausschnitte daraus. **Spiel-Assets
+  (Modelle, Texturen) dürfen genutzt werden**: Laut Felix (18.10.) hat Hypixel (Simon) Mod-Erstellern
+  das ausdrücklich erlaubt; die Brillenhelme bauen auf den Vanilla-Helmen auf. Keine privaten
+  Infrastruktur-Details (AWS, SSM) hier.
 - **Produktentscheidungen** (Stärken, Materialien, Namen, Optik, Texte) trifft Felix: fragen statt
   Defaults setzen.
 - `zoom/ZoomSpec`, `zoom/ZoomSteps`, `zoom/ZoomRules`, `goggles/Goggles`, `goggles/Effective`,
@@ -16,7 +17,9 @@
 - Hytale hat keine deutsche Sprache. Texte auf Englisch in
   `Server/Languages/en-US/flexiisgoggles.lang` (Schlüssel `flexiisgoggles.<key>`).
 - **Grafik nur über `dev/art/Art.java`** (`java dev/art/Art.java` im Repo): Modelle aus Boxen, Texturen
-  aus Paletten, Icons daraus gerendert. Danach Server neu starten.
+  aus Paletten, Icons daraus gerendert. Die Brillenhelme liest `dev/art/Helms.java` aus dem Vanilla-Helm
+  der Stufe in `Assets.zip` (Pfad per `HYTALE_ASSETS` änderbar) und setzt die Brille ein;
+  `dev/art/Blocky.java` rendert beliebige Blockymodelle. Danach Server neu starten.
 
 ## Stand (18.10.2026)
 

@@ -5,8 +5,8 @@
   },
   "Quality": "Uncommon",
   "Icon": "Icons/ItemsGenerated/Flexii_Helm_Nightwatch_2.png",
-  "Model": "Items/FlexiisGoggles/Helm_Nightwatch.blockymodel",
-  "Texture": "Items/FlexiisGoggles/Helm_NightVision_2.png",
+  "Model": "Items/FlexiisGoggles/Helm_Nightwatch_2.blockymodel",
+  "Texture": "Items/FlexiisGoggles/Helm_Nightwatch_2_Texture.png",
   "Recipe": {
     "Input": [
       {

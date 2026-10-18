@@ -6,7 +6,7 @@
   "Quality": "Legendary",
   "Icon": "Icons/ItemsGenerated/Flexii_Helm_Overseer.png",
   "Model": "Items/FlexiisGoggles/Helm_Overseer.blockymodel",
-  "Texture": "Items/FlexiisGoggles/Helm_Ultra.png",
+  "Texture": "Items/FlexiisGoggles/Helm_Overseer_Texture.png",
   "Recipe": {
     "Input": [
       {

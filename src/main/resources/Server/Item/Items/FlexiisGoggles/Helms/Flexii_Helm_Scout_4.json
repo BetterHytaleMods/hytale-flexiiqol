@@ -5,8 +5,8 @@
   },
   "Quality": "Epic",
   "Icon": "Icons/ItemsGenerated/Flexii_Helm_Scout_4.png",
-  "Model": "Items/FlexiisGoggles/Helm_Scout.blockymodel",
-  "Texture": "Items/FlexiisGoggles/Helm_Zoom_4.png",
+  "Model": "Items/FlexiisGoggles/Helm_Scout_4.blockymodel",
+  "Texture": "Items/FlexiisGoggles/Helm_Scout_4_Texture.png",
   "Recipe": {
     "Input": [
       {

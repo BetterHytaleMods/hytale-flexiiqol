@@ -92,7 +92,8 @@ java dev/art/Art.java          # redraw models, textures and icons into src/main
 - Debugger: IntelliJ configuration "Debug dev server" (port 5006).
 - `dev/decompile.sh` decompiles the installed server into `~/Hytale-Projects/decompiled/<version>/` for
   reading the API. Decompiled code never goes into this repository.
-- All art is drawn by `dev/art/Art.java` from boxes and palettes; no game assets are copied.
+- All art is drawn by `dev/art/Art.java`. The helms start from the game's own tier helmets (read from
+  `Assets.zip`, set `HYTALE_ASSETS` for another path), which Hypixel allows mod creators to use.
 
 ## License
 

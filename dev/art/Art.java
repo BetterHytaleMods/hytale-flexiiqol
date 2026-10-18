@@ -20,7 +20,7 @@ import java.util.Random;
  * block, origin at the bottom centre; an ingot is 26 units long.
  */
 public final class Art {
-    private static final Path COMMON = Path.of("src/main/resources/Common");
+    static final Path COMMON = Path.of("src/main/resources/Common");
 
     public static void main(String[] args) throws IOException {
         Gear.all();
@@ -408,6 +408,11 @@ public final class Art {
                 }
             }
         }
+        return downsample(color, size, ss);
+    }
+
+    /** Averages {@code ss} x {@code ss} samples into each pixel of a 64x64 icon. */
+    static BufferedImage downsample(int[] color, int size, int ss) {
         BufferedImage out = new BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB);
         for (int y = 0; y < 64; y++) {
             for (int x = 0; x < 64; x++) {
@@ -513,19 +518,14 @@ public final class Art {
             Palette ultra = new Palette("Ultra", GOLD, ULTRA_LENS, Mat.of("#2a1838", Style.LEATHER), VOID);
             String dir = "Items/FlexiisGoggles/";
             java.util.function.Predicate<Box> front = box -> !box.name.startsWith("Strap_Side") && !box.name.startsWith("Strap_Back");
-            variants(p -> zoomGoggles(dir + "Goggles_Zoom", p, false), zoom, dir + "Goggles_",
+            variants(p -> zoomGoggles(dir + "Goggles_Zoom", p), zoom, dir + "Goggles_",
                     ids("Flexii_Goggles_Zoom_"), 28, 14, front);
-            variants(p -> nightGoggles(dir + "Goggles_NightVision", p, false), night, dir + "Goggles_",
+            variants(p -> nightGoggles(dir + "Goggles_NightVision", p), night, dir + "Goggles_",
                     ids("Flexii_Goggles_NightVision_"), 28, 14, front);
-            variants(p -> ultraGoggles(dir + "Goggles_Ultra", p, false), new Palette[]{ultra}, dir + "Goggles_",
+            variants(p -> ultraGoggles(dir + "Goggles_Ultra", p), new Palette[]{ultra}, dir + "Goggles_",
                     new String[]{"Flexii_Goggles_Ultra"}, 28, 14, front);
-            // helms: the same goggles on a helmet shell in the tier's metal
-            variants(p -> zoomGoggles(dir + "Helm_Scout", p, true), zoom, dir + "Helm_",
-                    new String[]{"Flexii_Helm_Scout_1", "Flexii_Helm_Scout_2", "Flexii_Helm_Scout_3", "Flexii_Helm_Scout_4"}, 35, 20);
-            variants(p -> nightGoggles(dir + "Helm_Nightwatch", p, true), night, dir + "Helm_",
-                    new String[]{"Flexii_Helm_Nightwatch_1", "Flexii_Helm_Nightwatch_2", "Flexii_Helm_Nightwatch_3", "Flexii_Helm_Nightwatch_4"}, 35, 20);
-            variants(p -> ultraGoggles(dir + "Helm_Overseer", p, true), new Palette[]{ultra}, dir + "Helm_",
-                    new String[]{"Flexii_Helm_Overseer"}, 35, 20);
+            // helms: the game's helmet of each tier with the goggles fitted in
+            Helms.all(zoom, night, ultra);
         }
 
         static String[] ids(String prefix) {
@@ -539,20 +539,8 @@ public final class Art {
             m.pair("Strap_Front", 13.5, -1, 14.5, 3, 4, 1, p.strap());
         }
 
-        /** A helmet shell in the frame's metal: crown, sides, back and a brow band; the face stays open. */
-        static void helmet(Model m, Palette p) {
-            Mat metal = p.frame();
-            Mat dark = new Mat(shade(metal.rgb(), 0.78), Style.METAL);
-            m.add(new Box("Crown", 0, 15.5, 0, 34, 5, 32, metal));
-            m.pair("Side", 16.5, 5, 0, 3, 18, 30, dark);
-            m.add(new Box("Back", 0, 5, -15.5, 30, 18, 3, dark));
-            m.add(new Box("Brow", 0, 10, 15.5, 30, 4, 3, metal));
-            m.add(new Box("Crest", 0, 19, -1, 4, 3, 26, p.accent()));
-        }
-
-        static Model zoomGoggles(String path, Palette p, boolean helm) {
+        static Model zoomGoggles(String path, Palette p) {
             Model m = new Model(path, true);
-            if (helm) helmet(m, p);
             strap(m, p);
             m.pair("Frame", 7.5, -2, 15.5, 10, 9, 2, p.frame());
             m.add(new Box("Bridge", 0, -1, 15.5, 5, 2, 2, p.frame()));
@@ -562,9 +550,8 @@ public final class Art {
             return m;
         }
 
-        static Model nightGoggles(String path, Palette p, boolean helm) {
+        static Model nightGoggles(String path, Palette p) {
             Model m = new Model(path, true);
-            if (helm) helmet(m, p);
             strap(m, p);
             m.pair("Frame", 7.5, -2, 15.5, 10, 9, 2, p.frame());
             m.add(new Box("Bridge", 0, -1, 15.5, 5, 2, 2, p.frame()));
@@ -577,9 +564,8 @@ public final class Art {
             return m;
         }
 
-        static Model ultraGoggles(String path, Palette p, boolean helm) {
+        static Model ultraGoggles(String path, Palette p) {
             Model m = new Model(path, true);
-            if (helm) helmet(m, p);
             strap(m, p);
             m.add(new Box("Visor_Frame", 0, -2, 15.5, 28, 10, 2, p.frame()));
             m.add(new Box("Visor", 0, -2, 16.75, 24, 6, 1, p.lens())).glow();
