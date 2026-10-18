@@ -1,4 +1,4 @@
-# FlexiiQOL – Arbeitsregeln
+# FlexiisGoggles – Arbeitsregeln
 
 Öffentlicher Hytale-Server-Mod (CurseForge, MIT): Zoom auf R, Fullbright je Spieler, später
 Einstellungsseite und Progression.
@@ -10,11 +10,11 @@ Einstellungsseite und Progression.
   Vanilla-Assets. Lesen ja, übernehmen nein. Keine privaten Infrastruktur-Details (AWS, SSM) hier.
 - **Produktentscheidungen** (Zoomstärke, Klickverhalten, Gleiten, Helligkeit, Texte) trifft Felix:
   fragen statt Defaults setzen.
-- `zoom/ZoomSpec`, `zoom/ZoomRules`, `settings/PlayerSettings` und `QolConfig`
+- `zoom/ZoomSpec`, `zoom/ZoomRules`, `settings/PlayerSettings` und `GogglesConfig`
   bleiben frei von Hytale-Klassen (testbar ohne Server). Hytale-Spezifisches gehört in die übrigen
   Klassen.
 - Hytale hat keine deutsche Sprache (Client und Server: en-US, es-ES, fr-FR, pt-BR, ru-RU, uk-UA,
-  zh-CN). Texte also auf Englisch in `Server/Languages/en-US/flexiiqol.lang`.
+  zh-CN). Texte also auf Englisch in `Server/Languages/en-US/flexiisgoggles.lang`.
 
 ## Stand (18.10.2026)
 
@@ -25,7 +25,7 @@ AWS. **Nächstes Vorhaben:** Brillen-Progression („FlexiisGoggles“), wird ge
 - Zoom nur auf R („Use Ability 3“), keine Tastenwahl im Mod; eine andere Taste legt jeder in Hytales
   Steuerung um. Ausnahmen wie gehabt (Block in der Hand, passende Rune, fremde Belegung).
 - Beim Zoomen Ego-Perspektive, Item in der Hand ausgeblendet, keine Vignette, Klick beendet den Zoom.
-- Einstellungsseite `/qol` für jeden Spieler: Zoomstärke 2–12× (ab Werk 4×, Schritte 1), Gleiten aus
+- Einstellungsseite `/goggles` für jeden Spieler: Zoomstärke 2–12× (ab Werk 4×, Schritte 1), Gleiten aus
   bis 1,8 (ab Werk 0,5), Fullbright an/aus (ab Werk aus) mit Helligkeit 1–6 (ab Werk 3).
 - Fullbright über das Licht der Luft (siehe API-Fakten), Radius 0. Die Lichtdaten der Chunks zu
   ändern wirkt im Client nicht.
@@ -35,14 +35,14 @@ AWS. **Nächstes Vorhaben:** Brillen-Progression („FlexiisGoggles“), wird ge
 | Klasse | Aufgabe |
 |---|---|
 | `settings/PlayerSettings` | Eigene Wahl je Spieler in `players.json`; nicht Gewähltes folgt der Config |
-| `ui/SettingsPage` + `Common/UI/Custom/FlexiiQOL/Settings.ui` | Seite `/qol`: Schieberegler mit Wertanzeige, Checkbox |
+| `ui/SettingsPage` + `Common/UI/Custom/FlexiisGoggles/Settings.ui` | Seite `/goggles`: Schieberegler mit Wertanzeige, Checkbox |
 | `zoom/ZoomBindingSystem` | Jeden Tick je Spieler: R auf die Zoom-Root der gewählten Stufe legen oder freigeben, nach `ZoomRules` |
 | `zoom/ZoomRules` | R bleibt beim Spiel bei Block in der Hand, passender Rune in Slot 3, fremder Belegung oder `OverrideAll` (Zuschauer) |
 | `zoom/UseEntityGuard` | Bricht `UseEntityEvent.Pre` ab, wenn das Ziel unseren Zoom auf der Taste hat |
-| `zoom/ZoomAssets`, `ZoomSpec` | Eine Root je Stufe (`Root_FlexiiQOL_Zoom_<n>x`) schreiben und zur Laufzeit laden (`start()`, `/qol reload`) |
+| `zoom/ZoomAssets`, `ZoomSpec` | Eine Root je Stufe (`Root_FlexiisGoggles_Zoom_<n>x`) schreiben und zur Laufzeit laden (`start()`, `/goggles reload`) |
 | `zoom/Glide`, `GlideSystem` | Server-Kamera mit kleinem `rotationLerpSpeed`, solange eine Zoom-Kette läuft |
 | `fullbright/FullbrightSystem`, `AirLight` | Jeden Tick je Spieler: hat sein Client das gewünschte Licht der Luft? Änderung nach 300 ms Ruhe schicken |
-| `command/QolCommand` | `/qol` öffnet die Seite (für alle); `/qol status|reload` brauchen die Berechtigung |
+| `command/GogglesCommand` | `/goggles` öffnet die Seite (für alle); `/goggles status|reload` brauchen die Berechtigung |
 | `command/FullbrightCommand` | `/fullbright` schaltet um (für alle) |
 
 ## Hytale 0.7.1/0.7.2: geprüfte API-Fakten
@@ -72,7 +72,7 @@ Fakten aus `../hytale-gifchat/CLAUDE.md` (World-Thread, Client-Log, Asset-Pack-P
   Zoom beenden.
 - **Assets zur Laufzeit:** `RootInteraction.getAssetStore().loadAssetsFromPaths(packKey, paths)` lädt
   eine geschriebene JSON-Datei; der Server schickt sie sofort an alle Clients. `packKey` ist
-  `Group:Name` des Plugins (`de.hymods:FlexiiQOL`). Geht schon in `start()`. `plugin reload` lässt
+  `Group:Name` des Plugins (`de.hymods:FlexiisGoggles`). Geht schon in `start()`. `plugin reload` lässt
   geladene Assets stehen.
 - **Server-Kamera:** `SetServerCamera(Custom, true, ServerCameraSettings)`, zurück mit
   `SetServerCamera(Custom, false, null)`. `rotationLerpSpeed < 1` lässt die Kamera nachgleiten.
@@ -92,11 +92,11 @@ Fakten aus `../hytale-gifchat/CLAUDE.md` (World-Thread, Client-Log, Asset-Pack-P
 - **Seiten-UI (Test 18.10.):** Vanilla-Muster aus `EntitySpawnPage` laufen: `Slider` mit
   `Min`/`Max`/`Step`, Wert als Codec.FLOAT über `ValueChanged` und `MouseButtonReleased`,
   Label daneben per `set("#X.TextSpans", Message)`; `$C.@CheckBoxWithLabel #Id` mit
-  `"#Id #CheckBox.Value"`; `$C.@BackButton {}`. Übersetzungen im Markup als `%flexiiqol.<key>`.
+  `"#Id #CheckBox.Value"`; `$C.@BackButton {}`. Übersetzungen im Markup als `%flexiisgoggles.<key>`.
   Ein `AbstractPlayerCommand` kann Unterbefehle haben; mit `requireNoPermission()` gilt das nur für ihn
   selbst, Unterbefehle brauchen weiter ihre Berechtigung (auch von der Konsole aufrufbar).
 - `HytaleServer.SCHEDULED_EXECUTOR` ist ein einzelner Thread für den ganzen Server: nur kurze Aufgaben.
-- Die Warnung „Skipping pack at de.hymods_FlexiiQOL: missing or invalid manifest.json“ beim Start ist
+- Die Warnung „Skipping pack at de.hymods_FlexiisGoggles: missing or invalid manifest.json“ beim Start ist
   harmlos: Der Server sucht in `mods/` nach Asset-Packs und findet dort unseren Datenordner.
 
 ## Entwicklung
@@ -104,7 +104,7 @@ Fakten aus `../hytale-gifchat/CLAUDE.md` (World-Thread, Client-Log, Asset-Pack-P
 `dev/server.sh start|stop|restart|reload|cmd|logs|status` – lokaler Server in `run/` (git-ignoriert) auf
 `127.0.0.1:5521` (`BIND=0.0.0.0 dev/server.sh restart` öffnet ihn fürs Heimnetz), Debugger 5006, damit der GifChat-Testserver (5520/5005) parallel laufen kann. Konsole
 über eine FIFO. `reload` (= `plugin reload`) lädt nur Code; Änderungen am Asset-Pack (auch an
-`flexiiqol.lang`) brauchen `restart`. Felix ist auf dem Testserver Operator (`run/permissions.json`).
+`flexiisgoggles.lang`) brauchen `restart`. Felix ist auf dem Testserver Operator (`run/permissions.json`).
 
 Bildschirmfotos macht Felix selbst (⇧⌘3, `~/Ablage/Screenshots`). Client-Fehler stehen in
 `~/Library/Application Support/Hytale/UserData/Logs/*_client.log` („Disconnecting with error …“).

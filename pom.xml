@@ -5,13 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>de.hymods</groupId>
-    <artifactId>FlexiiQOL</artifactId>
+    <artifactId>FlexiisGoggles</artifactId>
     <version>0.1.0</version>
 
     <properties>
         <maven.compiler.release>25</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <hytale.version>0.7.1</hytale.version>
+        <hytale.version>0.7.2</hytale.version>
     </properties>
 
     <repositories>

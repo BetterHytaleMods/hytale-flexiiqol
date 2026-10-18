@@ -1,8 +1,8 @@
-# FlexiiQOL
+# FlexiisGoggles
 
 Quality of life for Hytale servers (0.7):
 
-- **Zoom:** hold **R** to zoom in, like OptiFine. FlexiiQOL uses Hytale's own client-side zoom (the one
+- **Zoom:** hold **R** to zoom in, like OptiFine. FlexiisGoggles uses Hytale's own client-side zoom (the one
   the spyglass uses): the view narrows smoothly, the item in your hand goes away, the mouse slows down,
   and the camera glides after it. Letting go zooms back out.
   - R is Hytale's "Use Ability 3"; bind that action to any key under Settings → Controls.
@@ -11,21 +11,21 @@ Quality of life for Hytale servers (0.7):
 - **Fullbright:** caves and nights light up for you alone. Torches, lava and the sun still light up
   more, so the world keeps its depth. Nobody else sees it, and mob spawning and plant growth keep
   using the real light.
-- **Settings page:** `/qol` lets every player pick their zoom strength (2x to 12x), how much the camera
+- **Settings page:** `/goggles` lets every player pick their zoom strength (2x to 12x), how much the camera
   glides, and fullbright with its brightness (1 to 6). The choices are saved per player.
 
-FlexiiQOL is a server plugin. Players need nothing but the normal Hytale client.
+FlexiisGoggles is a server plugin. Players need nothing but the normal Hytale client.
 
 **Status:** in development, nothing released yet.
 
 ## Install
 
-Put `FlexiiQOL-<version>.jar` into the server's `mods/` folder and restart.
+Put `FlexiisGoggles-<version>.jar` into the server's `mods/` folder and restart.
 
 ## Settings
 
-`mods/de.hymods_FlexiiQOL/config.json`, created on the first start, holds what players get until they
-pick their own on `/qol`. `/qol reload` applies changes without a restart.
+`mods/de.hymods_FlexiisGoggles/config.json`, created on the first start, holds what players get until they
+pick their own on `/goggles`. `/goggles reload` applies changes without a restart.
 
 ```json
 {
@@ -60,10 +60,10 @@ flicker.
 ## Commands
 
 ```
-/qol                   settings page (every player)
+/goggles                   settings page (every player)
 /fullbright            switch fullbright on or off for yourself (every player)
-/qol status            settings and state (operators and the console)
-/qol reload            read config.json again (operators and the console)
+/goggles status            settings and state (operators and the console)
+/goggles reload            read config.json again (operators and the console)
 ```
 
 ## Development
@@ -74,7 +74,7 @@ comes through the wrapper.
 ```bash
 dev/server.sh start            # build, install the plugin, start a local server (run/)
 dev/server.sh reload           # rebuild and reload only the plugin (not for asset changes)
-dev/server.sh cmd <command>    # console command, e.g. dev/server.sh cmd qol status
+dev/server.sh cmd <command>    # console command, e.g. dev/server.sh cmd goggles status
 dev/server.sh logs | status | stop | restart
 ./mvnw verify                  # tests
 ```

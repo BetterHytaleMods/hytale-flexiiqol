@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
-# Local Hytale dev server for FlexiiQOL.
+# Local Hytale dev server for FlexiisGoggles.
 #
 #   dev/server.sh start      build, install the plugin, start the server in the background
 #   dev/server.sh stop       save and stop
 #   dev/server.sh restart
 #   dev/server.sh reload     rebuild and reload only the plugin (server keeps running)
-#   dev/server.sh cmd <...>  send a console command, e.g. dev/server.sh cmd qol status
+#   dev/server.sh cmd <...>  send a console command, e.g. dev/server.sh cmd goggles status
 #   dev/server.sh logs       follow the server log
 #   dev/server.sh status
 #
@@ -29,7 +29,7 @@ ROOT=$(cd "$(dirname "$0")/.." && pwd)
 RUN=$ROOT/run
 GAME="$HOME/Library/Application Support/Hytale/install/release/package/game/latest"
 JAVA="$(/usr/libexec/java_home -v 25)/bin/java"
-PLUGIN_ID=de.hymods:FlexiiQOL
+PLUGIN_ID=de.hymods:FlexiisGoggles
 AUTH_MODE=${AUTH_MODE:-authenticated}
 PORT=${PORT:-5521}
 BIND=${BIND:-127.0.0.1}
@@ -62,11 +62,11 @@ sync_server_jar() {
 install_plugin() {
   (cd "$ROOT" && ./mvnw -q -B package -DskipTests)
   local jar
-  jar=$(ls "$ROOT"/target/FlexiiQOL-*.jar | head -1)
+  jar=$(ls "$ROOT"/target/FlexiisGoggles-*.jar | head -1)
   mkdir -p "$RUN/mods"
   # Replace atomically: the running server may still have the old jar open.
-  cp "$jar" "$RUN/mods/.FlexiiQOL.jar.tmp"
-  mv -f "$RUN/mods/.FlexiiQOL.jar.tmp" "$RUN/mods/FlexiiQOL.jar"
+  cp "$jar" "$RUN/mods/.FlexiisGoggles.jar.tmp"
+  mv -f "$RUN/mods/.FlexiisGoggles.jar.tmp" "$RUN/mods/FlexiisGoggles.jar"
 }
 
 send() {

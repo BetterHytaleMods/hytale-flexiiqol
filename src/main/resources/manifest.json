@@ -1,8 +1,8 @@
 {
   "Group": "de.hymods",
-  "Name": "FlexiiQOL",
+  "Name": "FlexiisGoggles",
   "Version": "${project.version}",
-  "Description": "Quality of life: hold R to zoom like OptiFine, /fullbright lights up caves for you alone.",
+  "Description": "Craftable goggles: hold R to zoom like OptiFine, night vision lights up caves for you alone.",
   "Authors": [
     {
       "Name": "Hymods",
@@ -10,11 +10,11 @@
       "Url": "https://hymods.de"
     }
   ],
-  "Website": "https://github.com/BetterHytaleMods/hytale-flexiiqol",
+  "Website": "https://github.com/BetterHytaleMods/hytale-flexiisgoggles",
   "ServerVersion": ">=0.7.0 <0.8.0",
   "Dependencies": {},
   "OptionalDependencies": {},
   "DisabledByDefault": false,
   "IncludesAssetPack": true,
-  "Main": "de.hymods.flexiiqol.FlexiiQolPlugin"
+  "Main": "de.hymods.flexiisgoggles.FlexiisGogglesPlugin"
 }

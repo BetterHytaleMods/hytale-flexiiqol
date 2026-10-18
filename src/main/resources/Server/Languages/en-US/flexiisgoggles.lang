@@ -1,0 +1,15 @@
+commands.goggles.desc = Open the FlexiisGoggles settings
+commands.goggles.status.desc = Show the zoom and fullbright settings
+commands.goggles.reload.desc = Reload config.json
+commands.fullbright.desc = Switch fullbright on or off for yourself
+fullbright.on = Fullbright on
+fullbright.off = Fullbright off
+fullbright.unavailable = Fullbright is switched off on this server
+settings.title = FlexiisGoggles
+settings.zoom = Zoom
+settings.strength = Strength
+settings.glide = Glide
+settings.off = Off
+settings.fullbright = Fullbright
+settings.on = On
+settings.brightness = Brightness
