@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.1 – 2026-10-18
+
+- About twice as much quartz: new chunks get about 140 blocks of quartz ore instead of 60.
+- Existing worlds get quartz too: a chunk generated before the mod gets quartz veins in its stone the
+  first time it loads with the mod, once (marked in the chunk, so it never happens again).
+
 ## 0.1.0 – 2026-10-18
 
 First release.

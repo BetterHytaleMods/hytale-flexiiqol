@@ -15,7 +15,7 @@
         "Name": "Flexii_Quartz",
         "PointGrid": {
           "Seed": "Flexii_Quartz",
-          "Scale": 3,
+          "Scale": 2,
           "Jitter": 0.8
         },
         "HeightRange": {
@@ -46,7 +46,7 @@
           },
           "Length": {
             "Min": 2,
-            "Max": 4
+            "Max": 5
           },
           "Repetitions": {
             "Min": 1,

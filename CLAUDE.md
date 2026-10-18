@@ -170,9 +170,17 @@ Fakten aus `../hytale-gifchat/CLAUDE.md` (World-Thread, Client-Log, Asset-Pack-P
   auf Zones.<Zone>.Cave.Caves]}` und `Operations [{Type: Add, Content: {Type: CaveType, PointGrid,
   HeightRange, BlockMask, Generator: {Type: OreCluster}}}]` greift (Test 18.10.). Enums in Codecs in
   Pascal-Schreibweise (`CaveType`, nicht `CAVE_TYPE`). `{Type: Log, ContentType: CaveType}` loggt die
-  getroffenen Dateien. `PointGrid.Scale` = Abstand in Blöcken; Scale 3 ergab etwa 60 Quarzblöcke je
-  Chunk, Kupfer etwa 370. Lumenite (Scale 14, y 20–75, kleine Cluster): in 2 von 12 Chunks, 7 und 25
+  getroffenen Dateien. `PointGrid.Scale` = Abstand in Blöcken (waagerechtes Raster); Scale 3 ergab etwa
+  60 Quarzblöcke je Chunk, Scale 2 mit Länge 2–5 etwa 140 (0.1.1, Felix fand 60 zu wenig), Kupfer etwa
+  330–370. Lumenite (Scale 14, y 20–75, kleine Cluster): in 2 von 12 Chunks, 7 und 25
   Blöcke. Nur neu erzeugte Chunks; von der Konsole erzeugt `chunk load <x> <z>` einen.
+- **Erz in alten Chunks (0.1.1):** `ChunkPreLoadProcessEvent` (`registerGlobal`) meldet jeden Chunk vor dem
+  Laden mit `isNewlyGenerated()` und dem `Holder` (Sektionen über `ChunkColumn`, Blöcke über
+  `BlockSection.set`). `ore/QuartzBackfill` streut einmalig `QuartzVeins` in den Stein alter Chunks der
+  Hytale-Generatoren und hängt die Chunk-Komponente `FlexiisGogglesOres` an (registriert mit
+  `getChunkStoreRegistry().registerComponent(Klasse, Id, CODEC)`, wird mit dem Chunk gespeichert). Neue Chunks
+  bekommen nur die Markierung. Ohne die Mod behält das Spiel die Komponente als „Unknown“. Gemessen:
+  80 Adern ergeben in normalem Stein etwa 137 Quarz je Chunk, in steinarmen Gegenden 60–70.
 - **Verstecktes Erz:** Der Blocktyp im Spiel sieht aus wie Stein (gleiche drei Texturen, Sounds,
   Partikel wie `Rock_Stone`). Die leuchtende Optik steckt in einem nie platzierten Vorlage-Blocktyp
   (`Flexii_Ore_Lumenite_Revealed`), damit Client und Server Modell und Textur kennen. Für die

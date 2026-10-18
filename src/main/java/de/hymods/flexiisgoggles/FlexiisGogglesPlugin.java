@@ -5,11 +5,14 @@ import com.hypixel.hytale.server.core.event.events.player.PlayerDisconnectEvent;
 import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import com.hypixel.hytale.server.core.universe.Universe;
+import com.hypixel.hytale.server.core.universe.world.events.ChunkPreLoadProcessEvent;
 import de.hymods.flexiisgoggles.command.GogglesCommand;
 import de.hymods.flexiisgoggles.command.NightVisionCommand;
 import de.hymods.flexiisgoggles.goggles.Effective;
 import de.hymods.flexiisgoggles.goggles.WornGoggles;
 import de.hymods.flexiisgoggles.nightvision.NightVisionSystem;
+import de.hymods.flexiisgoggles.ore.OreMarker;
+import de.hymods.flexiisgoggles.ore.QuartzBackfill;
 import de.hymods.flexiisgoggles.settings.PlayerSettings;
 import de.hymods.flexiisgoggles.zoom.Glide;
 import de.hymods.flexiisgoggles.zoom.GlideSystem;
@@ -75,6 +78,9 @@ public class FlexiisGogglesPlugin extends JavaPlugin {
             this.glide.forget(player);
             this.nightVision.forget(player);
         });
+        // quartz for chunks from before the mod; the world generator handles new ones
+        QuartzBackfill backfill = new QuartzBackfill(this.getChunkStoreRegistry().registerComponent(OreMarker.class, "FlexiisGogglesOres", OreMarker.CODEC));
+        this.getEventRegistry().registerGlobal(ChunkPreLoadProcessEvent.class, backfill::onChunk);
         this.getCommandRegistry().registerCommand(new GogglesCommand(this));
         this.getCommandRegistry().registerCommand(new NightVisionCommand(this));
     }

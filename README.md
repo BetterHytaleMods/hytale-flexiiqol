@@ -56,8 +56,9 @@ UltraGoggles (e.g. Cobalt Scout Helm).
 
 Put `FlexiisGoggles-<version>.jar` into the server's `mods/` folder and restart.
 
-- Quartz and lumenite ore only appear in chunks generated after the mod was installed; in an existing
-  world, explore new land.
+- Quartz comes into an existing world too: a chunk generated before the mod gets its quartz the first
+  time it loads with the mod, once. Lumenite only appears in chunks generated after the mod was
+  installed.
 - Removing the mod later leaves its blocks (ores, benches) in the world as unknown blocks.
 
 ## Settings
