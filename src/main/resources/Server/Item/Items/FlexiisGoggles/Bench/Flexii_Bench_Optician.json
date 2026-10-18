@@ -61,7 +61,7 @@
               },
               {
                 "ItemId": "Flexii_Quartz",
-                "Quantity": 15
+                "Quantity": 20
               },
               {
                 "ItemId": "Ingredient_Leather_Light",
@@ -86,6 +86,10 @@
               {
                 "ResourceTypeId": "Crystal_Shards",
                 "Quantity": 15
+              },
+              {
+                "ItemId": "Flexii_Quartz",
+                "Quantity": 30
               }
             ],
             "TimeSeconds": 6
@@ -106,6 +110,10 @@
               {
                 "ItemId": "Ingredient_Voidheart",
                 "Quantity": 2
+              },
+              {
+                "ItemId": "Flexii_Quartz",
+                "Quantity": 45
               }
             ],
             "TimeSeconds": 9
@@ -126,6 +134,10 @@
               {
                 "ItemId": "Ingredient_Crystal_Void",
                 "Quantity": 10
+              },
+              {
+                "ItemId": "Flexii_Quartz",
+                "Quantity": 60
               }
             ],
             "TimeSeconds": 12

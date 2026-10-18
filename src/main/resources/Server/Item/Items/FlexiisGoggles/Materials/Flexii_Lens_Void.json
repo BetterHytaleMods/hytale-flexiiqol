@@ -27,6 +27,10 @@
       {
         "ItemId": "Ingredient_Crystal_Void",
         "Quantity": 2
+      },
+      {
+        "ItemId": "Flexii_Quartz",
+        "Quantity": 8
       }
     ],
     "BenchRequirement": [

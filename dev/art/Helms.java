@@ -46,14 +46,16 @@ final class Helms {
     static void all() throws IOException {
         try (ZipFile zip = new ZipFile(assets().toFile())) {
             for (Helmet helmet : HELMETS) {
-                build(zip, "Flexii_Helm_Scout_" + helmet.metal(), "Helm_Scout_" + helmet.metal(), helmet.vanillaItem(), Gear.Kind.ZOOM, helmet.tier());
-                build(zip, "Flexii_Helm_Nightwatch_" + helmet.metal(), "Helm_Nightwatch_" + helmet.metal(), helmet.vanillaItem(), Gear.Kind.NIGHT, helmet.tier());
+                build(zip, "Flexii_Helm_Scout_" + helmet.metal(), "Helm_Scout_" + helmet.metal(), helmet.vanillaItem(), Gear.Kind.ZOOM, helmet.tier(), null);
+                build(zip, "Flexii_Helm_Nightwatch_" + helmet.metal(), "Helm_Nightwatch_" + helmet.metal(), helmet.vanillaItem(), Gear.Kind.NIGHT, helmet.tier(), null);
             }
-            build(zip, "Flexii_Helm_Overseer", "Helm_Overseer", "Armor_Adamantite_Head", Gear.Kind.ULTRA, 5);
+            // the visor covers the adamantite helmet's gem, so the overseer goes without it
+            build(zip, "Flexii_Helm_Overseer", "Helm_Overseer", "Armor_Adamantite_Head", Gear.Kind.ULTRA, 5, "Gel");
         }
     }
 
-    private static void build(ZipFile zip, String itemId, String file, String vanillaItem, Gear.Kind kind, int tier) throws IOException {
+    /** @param without a part of the helmet to leave out: the node holding a node of this name, or null */
+    private static void build(ZipFile zip, String itemId, String file, String vanillaItem, Gear.Kind kind, int tier, String without) throws IOException {
         String modelPath = itemField(zip, vanillaItem, "Model");
         String texturePath = itemField(zip, vanillaItem, "Texture");
         Map<String, Object> model = Json.object(Json.parse(text(zip, "Common/" + modelPath)));
@@ -62,6 +64,9 @@ final class Helms {
             helmet = ImageIO.read(in);
         }
         Map<String, Object> root = Json.object(Json.array(model.get("nodes")).get(0));
+        if (without != null) {
+            removeHolder(root, without);
+        }
         double[] rootOffset = Blocky.vec(Json.object(root.get("shape")).get("offset"), 0);
         List<Blocky.Face> faces = Blocky.faces(model);
 
@@ -93,6 +98,16 @@ final class Helms {
         Files.writeString(modelFile, Json.write(model), StandardCharsets.UTF_8);
         Art.png(texture, dir + file + "_Texture.png");
         Art.png(Blocky.render(Blocky.faces(model), texture, -40, 20), "Icons/ItemsGenerated/" + itemId + ".png");
+    }
+
+    /** Removes, below {@code node}, every node that holds a node named {@code name}, with all it holds. */
+    static void removeHolder(Map<String, Object> node, String name) {
+        List<Object> children = Json.array(node.getOrDefault("children", new ArrayList<>()));
+        children.removeIf(child -> Json.array(Json.object(child).getOrDefault("children", List.of())).stream()
+                .anyMatch(grandchild -> name.equals(Json.object(grandchild).get("name"))));
+        for (Object child : children) {
+            removeHolder(Json.object(child), name);
+        }
     }
 
     /** How far forward the helmet reaches at (x, y), in head-centre coordinates: its face there. */

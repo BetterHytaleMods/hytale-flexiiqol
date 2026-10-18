@@ -32,10 +32,10 @@ FlexiisGoggles is a server plugin. Players need nothing but the normal Hytale cl
 ## Getting started
 
 1. Craft the **Optician's Bench** at the Workbench: 4 copper bars, 10 logs, 5 rock.
-2. Mine **quartz ore** in the stone of zones 1–3. At the bench, 2 sand and 1 quartz make glass, glass
-   makes lenses, lenses make goggles.
+2. Mine **quartz ore** in the stone of zones 1–3; it goes into nearly everything. At the bench, sand and
+   quartz make glass, glass and more quartz make lenses, lenses make goggles.
 3. Upgrade the bench for stronger goggles: iron, quartz and light leather for tier 2, then thorium, gold
-   and crystal shards, then adamantite, void crystals and voidhearts.
+   and crystal shards, then adamantite, void crystals and voidhearts – and more quartz every time.
 4. Night Vision Goggles IV show **lumenite**, which looks like plain stone to everyone else. Three of it
    go into the UltraGoggles at bench tier 5.
 5. At the armor bench, goggles and a vanilla helmet of their tier make a helm.

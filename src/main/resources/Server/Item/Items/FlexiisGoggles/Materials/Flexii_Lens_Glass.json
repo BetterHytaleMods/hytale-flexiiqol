@@ -23,6 +23,10 @@
       {
         "ItemId": "Flexii_Glass",
         "Quantity": 2
+      },
+      {
+        "ItemId": "Flexii_Quartz",
+        "Quantity": 2
       }
     ],
     "BenchRequirement": [

@@ -27,6 +27,10 @@
       {
         "ResourceTypeId": "Crystal_Shards",
         "Quantity": 4
+      },
+      {
+        "ItemId": "Flexii_Quartz",
+        "Quantity": 6
       }
     ],
     "BenchRequirement": [

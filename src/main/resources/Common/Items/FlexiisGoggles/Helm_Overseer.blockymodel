@@ -241,201 +241,6 @@
               "children": []
             },
             {
-              "id": "88",
-              "name": "Block",
-              "position": {
-                "x": 0,
-                "y": 3,
-                "z": 16
-              },
-              "orientation": {
-                "x": 0,
-                "y": 0,
-                "z": -0.382683,
-                "w": 0.92388
-              },
-              "shape": {
-                "offset": {
-                  "x": 0,
-                  "y": 0,
-                  "z": 0
-                },
-                "stretch": {
-                  "x": 0.9,
-                  "y": 0.9,
-                  "z": 1
-                },
-                "textureLayout": {
-                  "top": {
-                    "offset": {
-                      "x": 99,
-                      "y": 54
-                    },
-                    "mirror": {
-                      "x": false,
-                      "y": false
-                    },
-                    "angle": 0
-                  },
-                  "bottom": {
-                    "offset": {
-                      "x": 99,
-                      "y": 59
-                    },
-                    "mirror": {
-                      "x": false,
-                      "y": true
-                    },
-                    "angle": 0
-                  },
-                  "front": {
-                    "offset": {
-                      "x": 99,
-                      "y": 59
-                    },
-                    "mirror": {
-                      "x": false,
-                      "y": false
-                    },
-                    "angle": 0
-                  },
-                  "left": {
-                    "offset": {
-                      "x": 112,
-                      "y": 54
-                    },
-                    "mirror": {
-                      "x": false,
-                      "y": false
-                    },
-                    "angle": 90
-                  },
-                  "right": {
-                    "offset": {
-                      "x": 112,
-                      "y": 59
-                    },
-                    "mirror": {
-                      "x": true,
-                      "y": false
-                    },
-                    "angle": 90
-                  }
-                },
-                "type": "box",
-                "settings": {
-                  "size": {
-                    "x": 13,
-                    "y": 13,
-                    "z": 5
-                  }
-                },
-                "unwrapMode": "custom",
-                "visible": true,
-                "doubleSided": false,
-                "shadingMode": "flat"
-              },
-              "children": [
-                {
-                  "id": "105",
-                  "name": "Gel",
-                  "children": [],
-                  "position": {
-                    "x": 0,
-                    "y": 0,
-                    "z": 2
-                  },
-                  "orientation": {
-                    "x": 0,
-                    "y": 0,
-                    "z": 0,
-                    "w": 1
-                  },
-                  "shape": {
-                    "type": "box",
-                    "offset": {
-                      "x": 0,
-                      "y": 0,
-                      "z": 0
-                    },
-                    "stretch": {
-                      "x": 1,
-                      "y": 1,
-                      "z": 1
-                    },
-                    "settings": {
-                      "size": {
-                        "x": 6,
-                        "y": 6,
-                        "z": 2
-                      }
-                    },
-                    "visible": true,
-                    "doubleSided": false,
-                    "shadingMode": "fullbright",
-                    "unwrapMode": "custom",
-                    "textureLayout": {
-                      "front": {
-                        "offset": {
-                          "x": 70,
-                          "y": 23
-                        },
-                        "mirror": {
-                          "x": false,
-                          "y": false
-                        },
-                        "angle": 0
-                      },
-                      "right": {
-                        "offset": {
-                          "x": 76,
-                          "y": 21
-                        },
-                        "mirror": {
-                          "x": false,
-                          "y": false
-                        },
-                        "angle": 90
-                      },
-                      "bottom": {
-                        "offset": {
-                          "x": 70,
-                          "y": 21
-                        },
-                        "mirror": {
-                          "x": false,
-                          "y": false
-                        },
-                        "angle": 0
-                      },
-                      "left": {
-                        "offset": {
-                          "x": 76,
-                          "y": 21
-                        },
-                        "mirror": {
-                          "x": false,
-                          "y": false
-                        },
-                        "angle": 90
-                      },
-                      "top": {
-                        "offset": {
-                          "x": 70,
-                          "y": 21
-                        },
-                        "mirror": {
-                          "x": false,
-                          "y": false
-                        },
-                        "angle": 0
-                      }
-                    }
-                  }
-                }
-              ]
-            },
-            {
               "id": "91",
               "name": "Block",
               "position": {
@@ -1680,6 +1485,114 @@
         },
         {
           "id": "112",
+          "name": "Visor_Divider",
+          "position": {
+            "x": 0,
+            "y": 3,
+            "z": 17.75
+          },
+          "orientation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "shape": {
+            "type": "box",
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "stretch": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "settings": {
+              "size": {
+                "x": 7,
+                "y": 7,
+                "z": 1
+              }
+            },
+            "textureLayout": {
+              "front": {
+                "offset": {
+                  "x": 9,
+                  "y": 137
+                },
+                "mirror": {
+                  "x": false,
+                  "y": false
+                },
+                "angle": 0
+              },
+              "back": {
+                "offset": {
+                  "x": 16,
+                  "y": 137
+                },
+                "mirror": {
+                  "x": false,
+                  "y": false
+                },
+                "angle": 0
+              },
+              "left": {
+                "offset": {
+                  "x": 23,
+                  "y": 137
+                },
+                "mirror": {
+                  "x": false,
+                  "y": false
+                },
+                "angle": 0
+              },
+              "right": {
+                "offset": {
+                  "x": 24,
+                  "y": 137
+                },
+                "mirror": {
+                  "x": false,
+                  "y": false
+                },
+                "angle": 0
+              },
+              "top": {
+                "offset": {
+                  "x": 25,
+                  "y": 137
+                },
+                "mirror": {
+                  "x": false,
+                  "y": false
+                },
+                "angle": 0
+              },
+              "bottom": {
+                "offset": {
+                  "x": 32,
+                  "y": 137
+                },
+                "mirror": {
+                  "x": false,
+                  "y": false
+                },
+                "angle": 0
+              }
+            },
+            "unwrapMode": "custom",
+            "visible": true,
+            "doubleSided": false,
+            "shadingMode": "standard"
+          },
+          "children": []
+        },
+        {
+          "id": "113",
           "name": "Scope_Base_0",
           "position": {
             "x": 11.5,
@@ -1736,7 +1649,7 @@
               },
               "left": {
                 "offset": {
-                  "x": 9,
+                  "x": 39,
                   "y": 137
                 },
                 "mirror": {
@@ -1747,7 +1660,7 @@
               },
               "right": {
                 "offset": {
-                  "x": 13,
+                  "x": 43,
                   "y": 137
                 },
                 "mirror": {
@@ -1758,7 +1671,7 @@
               },
               "top": {
                 "offset": {
-                  "x": 17,
+                  "x": 47,
                   "y": 137
                 },
                 "mirror": {
@@ -1769,7 +1682,7 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 22,
+                  "x": 52,
                   "y": 137
                 },
                 "mirror": {
@@ -1787,7 +1700,7 @@
           "children": []
         },
         {
-          "id": "113",
+          "id": "114",
           "name": "Scope_Base_1",
           "position": {
             "x": 11.5,
@@ -1844,7 +1757,7 @@
               },
               "left": {
                 "offset": {
-                  "x": 27,
+                  "x": 57,
                   "y": 137
                 },
                 "mirror": {
@@ -1855,8 +1768,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 31,
-                  "y": 137
+                  "x": 0,
+                  "y": 144
                 },
                 "mirror": {
                   "x": false,
@@ -1866,8 +1779,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 35,
-                  "y": 137
+                  "x": 4,
+                  "y": 144
                 },
                 "mirror": {
                   "x": false,
@@ -1877,8 +1790,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 42,
-                  "y": 137
+                  "x": 11,
+                  "y": 144
                 },
                 "mirror": {
                   "x": false,
@@ -1895,7 +1808,7 @@
           "children": []
         },
         {
-          "id": "114",
+          "id": "115",
           "name": "Scope_Base_2",
           "position": {
             "x": 11.5,
@@ -1952,8 +1865,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 49,
-                  "y": 137
+                  "x": 18,
+                  "y": 144
                 },
                 "mirror": {
                   "x": false,
@@ -1963,8 +1876,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 53,
-                  "y": 137
+                  "x": 22,
+                  "y": 144
                 },
                 "mirror": {
                   "x": false,
@@ -1974,7 +1887,7 @@
               },
               "top": {
                 "offset": {
-                  "x": 0,
+                  "x": 26,
                   "y": 144
                 },
                 "mirror": {
@@ -1985,7 +1898,7 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 9,
+                  "x": 35,
                   "y": 144
                 },
                 "mirror": {
@@ -2003,7 +1916,7 @@
           "children": []
         },
         {
-          "id": "115",
+          "id": "116",
           "name": "Scope_Base_3",
           "position": {
             "x": 11.5,
@@ -2060,7 +1973,7 @@
               },
               "left": {
                 "offset": {
-                  "x": 18,
+                  "x": 44,
                   "y": 144
                 },
                 "mirror": {
@@ -2071,7 +1984,7 @@
               },
               "right": {
                 "offset": {
-                  "x": 22,
+                  "x": 48,
                   "y": 144
                 },
                 "mirror": {
@@ -2082,7 +1995,7 @@
               },
               "top": {
                 "offset": {
-                  "x": 26,
+                  "x": 52,
                   "y": 144
                 },
                 "mirror": {
@@ -2093,8 +2006,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 33,
-                  "y": 144
+                  "x": 0,
+                  "y": 149
                 },
                 "mirror": {
                   "x": false,
@@ -2111,7 +2024,7 @@
           "children": []
         },
         {
-          "id": "116",
+          "id": "117",
           "name": "Scope_Base_4",
           "position": {
             "x": 11.5,
@@ -2168,8 +2081,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 40,
-                  "y": 144
+                  "x": 7,
+                  "y": 149
                 },
                 "mirror": {
                   "x": false,
@@ -2179,8 +2092,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 44,
-                  "y": 144
+                  "x": 11,
+                  "y": 149
                 },
                 "mirror": {
                   "x": false,
@@ -2190,8 +2103,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 48,
-                  "y": 144
+                  "x": 15,
+                  "y": 149
                 },
                 "mirror": {
                   "x": false,
@@ -2201,8 +2114,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 53,
-                  "y": 144
+                  "x": 20,
+                  "y": 149
                 },
                 "mirror": {
                   "x": false,
@@ -2219,7 +2132,7 @@
           "children": []
         },
         {
-          "id": "117",
+          "id": "118",
           "name": "Scope_Band_0",
           "position": {
             "x": 11.5,
@@ -2254,8 +2167,8 @@
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 58,
-                  "y": 144
+                  "x": 25,
+                  "y": 149
                 },
                 "mirror": {
                   "x": false,
@@ -2265,8 +2178,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 0,
-                  "y": 148
+                  "x": 29,
+                  "y": 149
                 },
                 "mirror": {
                   "x": false,
@@ -2276,8 +2189,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 4,
-                  "y": 148
+                  "x": 33,
+                  "y": 149
                 },
                 "mirror": {
                   "x": false,
@@ -2287,8 +2200,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 5,
-                  "y": 148
+                  "x": 34,
+                  "y": 149
                 },
                 "mirror": {
                   "x": false,
@@ -2298,8 +2211,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 6,
-                  "y": 148
+                  "x": 35,
+                  "y": 149
                 },
                 "mirror": {
                   "x": false,
@@ -2309,8 +2222,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 10,
-                  "y": 148
+                  "x": 39,
+                  "y": 149
                 },
                 "mirror": {
                   "x": false,
@@ -2327,7 +2240,7 @@
           "children": []
         },
         {
-          "id": "118",
+          "id": "119",
           "name": "Scope_Band_1",
           "position": {
             "x": 8.5,
@@ -2362,8 +2275,8 @@
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 14,
-                  "y": 148
+                  "x": 43,
+                  "y": 149
                 },
                 "mirror": {
                   "x": false,
@@ -2373,8 +2286,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 16,
-                  "y": 148
+                  "x": 45,
+                  "y": 149
                 },
                 "mirror": {
                   "x": false,
@@ -2384,8 +2297,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 18,
-                  "y": 148
+                  "x": 47,
+                  "y": 149
                 },
                 "mirror": {
                   "x": false,
@@ -2395,8 +2308,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 19,
-                  "y": 148
+                  "x": 48,
+                  "y": 149
                 },
                 "mirror": {
                   "x": false,
@@ -2406,8 +2319,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 20,
-                  "y": 148
+                  "x": 49,
+                  "y": 149
                 },
                 "mirror": {
                   "x": false,
@@ -2417,8 +2330,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 22,
-                  "y": 148
+                  "x": 51,
+                  "y": 149
                 },
                 "mirror": {
                   "x": false,
@@ -2435,7 +2348,7 @@
           "children": []
         },
         {
-          "id": "119",
+          "id": "120",
           "name": "Scope_Band_2",
           "position": {
             "x": 14.5,
@@ -2470,8 +2383,8 @@
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 24,
-                  "y": 148
+                  "x": 53,
+                  "y": 149
                 },
                 "mirror": {
                   "x": false,
@@ -2481,8 +2394,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 26,
-                  "y": 148
+                  "x": 55,
+                  "y": 149
                 },
                 "mirror": {
                   "x": false,
@@ -2492,8 +2405,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 28,
-                  "y": 148
+                  "x": 57,
+                  "y": 149
                 },
                 "mirror": {
                   "x": false,
@@ -2503,8 +2416,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 29,
-                  "y": 148
+                  "x": 58,
+                  "y": 149
                 },
                 "mirror": {
                   "x": false,
@@ -2514,8 +2427,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 30,
-                  "y": 148
+                  "x": 59,
+                  "y": 149
                 },
                 "mirror": {
                   "x": false,
@@ -2525,8 +2438,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 32,
-                  "y": 148
+                  "x": 61,
+                  "y": 149
                 },
                 "mirror": {
                   "x": false,
@@ -2543,7 +2456,7 @@
           "children": []
         },
         {
-          "id": "120",
+          "id": "121",
           "name": "Scope_Band_3",
           "position": {
             "x": 8,
@@ -2578,8 +2491,8 @@
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 34,
-                  "y": 148
+                  "x": 63,
+                  "y": 149
                 },
                 "mirror": {
                   "x": false,
@@ -2589,8 +2502,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 35,
-                  "y": 148
+                  "x": 0,
+                  "y": 153
                 },
                 "mirror": {
                   "x": false,
@@ -2600,8 +2513,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 36,
-                  "y": 148
+                  "x": 1,
+                  "y": 153
                 },
                 "mirror": {
                   "x": false,
@@ -2611,8 +2524,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 37,
-                  "y": 148
+                  "x": 2,
+                  "y": 153
                 },
                 "mirror": {
                   "x": false,
@@ -2622,8 +2535,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 38,
-                  "y": 148
+                  "x": 3,
+                  "y": 153
                 },
                 "mirror": {
                   "x": false,
@@ -2633,8 +2546,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 39,
-                  "y": 148
+                  "x": 4,
+                  "y": 153
                 },
                 "mirror": {
                   "x": false,
@@ -2651,7 +2564,7 @@
           "children": []
         },
         {
-          "id": "121",
+          "id": "122",
           "name": "Scope_Band_4",
           "position": {
             "x": 15,
@@ -2686,8 +2599,8 @@
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 40,
-                  "y": 148
+                  "x": 5,
+                  "y": 153
                 },
                 "mirror": {
                   "x": false,
@@ -2697,8 +2610,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 41,
-                  "y": 148
+                  "x": 6,
+                  "y": 153
                 },
                 "mirror": {
                   "x": false,
@@ -2708,8 +2621,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 42,
-                  "y": 148
+                  "x": 7,
+                  "y": 153
                 },
                 "mirror": {
                   "x": false,
@@ -2719,8 +2632,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 43,
-                  "y": 148
+                  "x": 8,
+                  "y": 153
                 },
                 "mirror": {
                   "x": false,
@@ -2730,8 +2643,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 44,
-                  "y": 148
+                  "x": 9,
+                  "y": 153
                 },
                 "mirror": {
                   "x": false,
@@ -2741,8 +2654,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 45,
-                  "y": 148
+                  "x": 10,
+                  "y": 153
                 },
                 "mirror": {
                   "x": false,
@@ -2759,7 +2672,7 @@
           "children": []
         },
         {
-          "id": "122",
+          "id": "123",
           "name": "Scope_Band_5",
           "position": {
             "x": 7,
@@ -2794,8 +2707,8 @@
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 46,
-                  "y": 148
+                  "x": 11,
+                  "y": 153
                 },
                 "mirror": {
                   "x": false,
@@ -2805,8 +2718,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 47,
-                  "y": 148
+                  "x": 12,
+                  "y": 153
                 },
                 "mirror": {
                   "x": false,
@@ -2816,8 +2729,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 48,
-                  "y": 148
+                  "x": 13,
+                  "y": 153
                 },
                 "mirror": {
                   "x": false,
@@ -2827,8 +2740,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 49,
-                  "y": 148
+                  "x": 14,
+                  "y": 153
                 },
                 "mirror": {
                   "x": false,
@@ -2838,8 +2751,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 50,
-                  "y": 148
+                  "x": 15,
+                  "y": 153
                 },
                 "mirror": {
                   "x": false,
@@ -2849,8 +2762,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 51,
-                  "y": 148
+                  "x": 16,
+                  "y": 153
                 },
                 "mirror": {
                   "x": false,
@@ -2867,7 +2780,7 @@
           "children": []
         },
         {
-          "id": "123",
+          "id": "124",
           "name": "Scope_Band_6",
           "position": {
             "x": 16,
@@ -2902,8 +2815,8 @@
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 52,
-                  "y": 148
+                  "x": 17,
+                  "y": 153
                 },
                 "mirror": {
                   "x": false,
@@ -2913,8 +2826,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 53,
-                  "y": 148
+                  "x": 18,
+                  "y": 153
                 },
                 "mirror": {
                   "x": false,
@@ -2924,8 +2837,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 54,
-                  "y": 148
+                  "x": 19,
+                  "y": 153
                 },
                 "mirror": {
                   "x": false,
@@ -2935,8 +2848,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 55,
-                  "y": 148
+                  "x": 20,
+                  "y": 153
                 },
                 "mirror": {
                   "x": false,
@@ -2946,8 +2859,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 56,
-                  "y": 148
+                  "x": 21,
+                  "y": 153
                 },
                 "mirror": {
                   "x": false,
@@ -2957,8 +2870,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 57,
-                  "y": 148
+                  "x": 22,
+                  "y": 153
                 },
                 "mirror": {
                   "x": false,
@@ -2975,7 +2888,7 @@
           "children": []
         },
         {
-          "id": "124",
+          "id": "125",
           "name": "Scope_Band_7",
           "position": {
             "x": 8,
@@ -3010,8 +2923,8 @@
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 58,
-                  "y": 148
+                  "x": 23,
+                  "y": 153
                 },
                 "mirror": {
                   "x": false,
@@ -3021,8 +2934,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 59,
-                  "y": 148
+                  "x": 24,
+                  "y": 153
                 },
                 "mirror": {
                   "x": false,
@@ -3032,8 +2945,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 60,
-                  "y": 148
+                  "x": 25,
+                  "y": 153
                 },
                 "mirror": {
                   "x": false,
@@ -3043,8 +2956,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 61,
-                  "y": 148
+                  "x": 26,
+                  "y": 153
                 },
                 "mirror": {
                   "x": false,
@@ -3054,8 +2967,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 62,
-                  "y": 148
+                  "x": 27,
+                  "y": 153
                 },
                 "mirror": {
                   "x": false,
@@ -3065,8 +2978,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 63,
-                  "y": 148
+                  "x": 28,
+                  "y": 153
                 },
                 "mirror": {
                   "x": false,
@@ -3083,7 +2996,7 @@
           "children": []
         },
         {
-          "id": "125",
+          "id": "126",
           "name": "Scope_Band_8",
           "position": {
             "x": 15,
@@ -3118,8 +3031,8 @@
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 0,
-                  "y": 152
+                  "x": 29,
+                  "y": 153
                 },
                 "mirror": {
                   "x": false,
@@ -3129,8 +3042,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 1,
-                  "y": 152
+                  "x": 30,
+                  "y": 153
                 },
                 "mirror": {
                   "x": false,
@@ -3140,8 +3053,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 2,
-                  "y": 152
+                  "x": 31,
+                  "y": 153
                 },
                 "mirror": {
                   "x": false,
@@ -3151,8 +3064,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 3,
-                  "y": 152
+                  "x": 32,
+                  "y": 153
                 },
                 "mirror": {
                   "x": false,
@@ -3162,8 +3075,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 4,
-                  "y": 152
+                  "x": 33,
+                  "y": 153
                 },
                 "mirror": {
                   "x": false,
@@ -3173,8 +3086,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 5,
-                  "y": 152
+                  "x": 34,
+                  "y": 153
                 },
                 "mirror": {
                   "x": false,
@@ -3191,7 +3104,7 @@
           "children": []
         },
         {
-          "id": "126",
+          "id": "127",
           "name": "Scope_Band_9",
           "position": {
             "x": 8.5,
@@ -3226,8 +3139,8 @@
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 6,
-                  "y": 152
+                  "x": 35,
+                  "y": 153
                 },
                 "mirror": {
                   "x": false,
@@ -3237,8 +3150,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 8,
-                  "y": 152
+                  "x": 37,
+                  "y": 153
                 },
                 "mirror": {
                   "x": false,
@@ -3248,8 +3161,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 10,
-                  "y": 152
+                  "x": 39,
+                  "y": 153
                 },
                 "mirror": {
                   "x": false,
@@ -3259,8 +3172,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 11,
-                  "y": 152
+                  "x": 40,
+                  "y": 153
                 },
                 "mirror": {
                   "x": false,
@@ -3270,8 +3183,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 12,
-                  "y": 152
+                  "x": 41,
+                  "y": 153
                 },
                 "mirror": {
                   "x": false,
@@ -3281,8 +3194,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 14,
-                  "y": 152
+                  "x": 43,
+                  "y": 153
                 },
                 "mirror": {
                   "x": false,
@@ -3299,7 +3212,7 @@
           "children": []
         },
         {
-          "id": "127",
+          "id": "128",
           "name": "Scope_Band_10",
           "position": {
             "x": 14.5,
@@ -3334,8 +3247,8 @@
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 16,
-                  "y": 152
+                  "x": 45,
+                  "y": 153
                 },
                 "mirror": {
                   "x": false,
@@ -3345,8 +3258,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 18,
-                  "y": 152
+                  "x": 47,
+                  "y": 153
                 },
                 "mirror": {
                   "x": false,
@@ -3356,8 +3269,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 20,
-                  "y": 152
+                  "x": 49,
+                  "y": 153
                 },
                 "mirror": {
                   "x": false,
@@ -3367,8 +3280,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 21,
-                  "y": 152
+                  "x": 50,
+                  "y": 153
                 },
                 "mirror": {
                   "x": false,
@@ -3378,8 +3291,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 22,
-                  "y": 152
+                  "x": 51,
+                  "y": 153
                 },
                 "mirror": {
                   "x": false,
@@ -3389,8 +3302,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 24,
-                  "y": 152
+                  "x": 53,
+                  "y": 153
                 },
                 "mirror": {
                   "x": false,
@@ -3407,7 +3320,7 @@
           "children": []
         },
         {
-          "id": "128",
+          "id": "129",
           "name": "Scope_Band_11",
           "position": {
             "x": 11.5,
@@ -3442,8 +3355,8 @@
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 26,
-                  "y": 152
+                  "x": 55,
+                  "y": 153
                 },
                 "mirror": {
                   "x": false,
@@ -3453,8 +3366,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 30,
-                  "y": 152
+                  "x": 59,
+                  "y": 153
                 },
                 "mirror": {
                   "x": false,
@@ -3464,8 +3377,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 34,
-                  "y": 152
+                  "x": 63,
+                  "y": 153
                 },
                 "mirror": {
                   "x": false,
@@ -3475,8 +3388,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 35,
-                  "y": 152
+                  "x": 0,
+                  "y": 157
                 },
                 "mirror": {
                   "x": false,
@@ -3486,8 +3399,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 36,
-                  "y": 152
+                  "x": 1,
+                  "y": 157
                 },
                 "mirror": {
                   "x": false,
@@ -3497,8 +3410,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 40,
-                  "y": 152
+                  "x": 5,
+                  "y": 157
                 },
                 "mirror": {
                   "x": false,
@@ -3515,7 +3428,7 @@
           "children": []
         },
         {
-          "id": "129",
+          "id": "130",
           "name": "Scope_Draw_0",
           "position": {
             "x": 11.5,
@@ -3572,8 +3485,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 44,
-                  "y": 152
+                  "x": 9,
+                  "y": 157
                 },
                 "mirror": {
                   "x": false,
@@ -3583,8 +3496,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 48,
-                  "y": 152
+                  "x": 13,
+                  "y": 157
                 },
                 "mirror": {
                   "x": false,
@@ -3594,8 +3507,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 52,
-                  "y": 152
+                  "x": 17,
+                  "y": 157
                 },
                 "mirror": {
                   "x": false,
@@ -3605,8 +3518,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 55,
-                  "y": 152
+                  "x": 20,
+                  "y": 157
                 },
                 "mirror": {
                   "x": false,
@@ -3623,7 +3536,7 @@
           "children": []
         },
         {
-          "id": "130",
+          "id": "131",
           "name": "Scope_Draw_1",
           "position": {
             "x": 11.5,
@@ -3680,8 +3593,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 58,
-                  "y": 152
+                  "x": 23,
+                  "y": 157
                 },
                 "mirror": {
                   "x": false,
@@ -3691,8 +3604,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 0,
-                  "y": 156
+                  "x": 27,
+                  "y": 157
                 },
                 "mirror": {
                   "x": false,
@@ -3702,8 +3615,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 4,
-                  "y": 156
+                  "x": 31,
+                  "y": 157
                 },
                 "mirror": {
                   "x": false,
@@ -3713,8 +3626,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 9,
-                  "y": 156
+                  "x": 36,
+                  "y": 157
                 },
                 "mirror": {
                   "x": false,
@@ -3731,7 +3644,7 @@
           "children": []
         },
         {
-          "id": "131",
+          "id": "132",
           "name": "Scope_Draw_2",
           "position": {
             "x": 11.5,
@@ -3788,8 +3701,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 14,
-                  "y": 156
+                  "x": 41,
+                  "y": 157
                 },
                 "mirror": {
                   "x": false,
@@ -3799,8 +3712,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 18,
-                  "y": 156
+                  "x": 45,
+                  "y": 157
                 },
                 "mirror": {
                   "x": false,
@@ -3810,8 +3723,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 22,
-                  "y": 156
+                  "x": 49,
+                  "y": 157
                 },
                 "mirror": {
                   "x": false,
@@ -3821,8 +3734,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 29,
-                  "y": 156
+                  "x": 56,
+                  "y": 157
                 },
                 "mirror": {
                   "x": false,
@@ -3839,7 +3752,7 @@
           "children": []
         },
         {
-          "id": "132",
+          "id": "133",
           "name": "Scope_Draw_3",
           "position": {
             "x": 11.5,
@@ -3896,8 +3809,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 36,
-                  "y": 156
+                  "x": 0,
+                  "y": 161
                 },
                 "mirror": {
                   "x": false,
@@ -3907,8 +3820,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 40,
-                  "y": 156
+                  "x": 4,
+                  "y": 161
                 },
                 "mirror": {
                   "x": false,
@@ -3918,8 +3831,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 44,
-                  "y": 156
+                  "x": 8,
+                  "y": 161
                 },
                 "mirror": {
                   "x": false,
@@ -3929,8 +3842,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 49,
-                  "y": 156
+                  "x": 13,
+                  "y": 161
                 },
                 "mirror": {
                   "x": false,
@@ -3947,7 +3860,7 @@
           "children": []
         },
         {
-          "id": "133",
+          "id": "134",
           "name": "Scope_Draw_4",
           "position": {
             "x": 11.5,
@@ -4004,8 +3917,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 54,
-                  "y": 156
+                  "x": 18,
+                  "y": 161
                 },
                 "mirror": {
                   "x": false,
@@ -4015,8 +3928,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 58,
-                  "y": 156
+                  "x": 22,
+                  "y": 161
                 },
                 "mirror": {
                   "x": false,
@@ -4026,8 +3939,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 0,
-                  "y": 160
+                  "x": 26,
+                  "y": 161
                 },
                 "mirror": {
                   "x": false,
@@ -4037,8 +3950,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 3,
-                  "y": 160
+                  "x": 29,
+                  "y": 161
                 },
                 "mirror": {
                   "x": false,
@@ -4055,7 +3968,7 @@
           "children": []
         },
         {
-          "id": "134",
+          "id": "135",
           "name": "Scope_Bezel_0",
           "position": {
             "x": 11.5,
@@ -4090,8 +4003,8 @@
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 6,
-                  "y": 160
+                  "x": 32,
+                  "y": 161
                 },
                 "mirror": {
                   "x": false,
@@ -4101,8 +4014,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 10,
-                  "y": 160
+                  "x": 36,
+                  "y": 161
                 },
                 "mirror": {
                   "x": false,
@@ -4112,8 +4025,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 14,
-                  "y": 160
+                  "x": 40,
+                  "y": 161
                 },
                 "mirror": {
                   "x": false,
@@ -4123,8 +4036,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 15,
-                  "y": 160
+                  "x": 41,
+                  "y": 161
                 },
                 "mirror": {
                   "x": false,
@@ -4134,8 +4047,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 16,
-                  "y": 160
+                  "x": 42,
+                  "y": 161
                 },
                 "mirror": {
                   "x": false,
@@ -4145,8 +4058,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 20,
-                  "y": 160
+                  "x": 46,
+                  "y": 161
                 },
                 "mirror": {
                   "x": false,
@@ -4163,7 +4076,7 @@
           "children": []
         },
         {
-          "id": "135",
+          "id": "136",
           "name": "Scope_Bezel_1",
           "position": {
             "x": 9,
@@ -4198,8 +4111,8 @@
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 24,
-                  "y": 160
+                  "x": 50,
+                  "y": 161
                 },
                 "mirror": {
                   "x": false,
@@ -4209,8 +4122,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 25,
-                  "y": 160
+                  "x": 51,
+                  "y": 161
                 },
                 "mirror": {
                   "x": false,
@@ -4220,8 +4133,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 26,
-                  "y": 160
+                  "x": 52,
+                  "y": 161
                 },
                 "mirror": {
                   "x": false,
@@ -4231,8 +4144,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 27,
-                  "y": 160
+                  "x": 53,
+                  "y": 161
                 },
                 "mirror": {
                   "x": false,
@@ -4242,8 +4155,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 28,
-                  "y": 160
+                  "x": 54,
+                  "y": 161
                 },
                 "mirror": {
                   "x": false,
@@ -4253,8 +4166,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 29,
-                  "y": 160
+                  "x": 55,
+                  "y": 161
                 },
                 "mirror": {
                   "x": false,
@@ -4271,7 +4184,7 @@
           "children": []
         },
         {
-          "id": "136",
+          "id": "137",
           "name": "Scope_Bezel_2",
           "position": {
             "x": 14,
@@ -4306,8 +4219,8 @@
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 30,
-                  "y": 160
+                  "x": 56,
+                  "y": 161
                 },
                 "mirror": {
                   "x": false,
@@ -4317,8 +4230,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 31,
-                  "y": 160
+                  "x": 57,
+                  "y": 161
                 },
                 "mirror": {
                   "x": false,
@@ -4328,8 +4241,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 32,
-                  "y": 160
+                  "x": 58,
+                  "y": 161
                 },
                 "mirror": {
                   "x": false,
@@ -4339,8 +4252,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 33,
-                  "y": 160
+                  "x": 59,
+                  "y": 161
                 },
                 "mirror": {
                   "x": false,
@@ -4350,8 +4263,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 34,
-                  "y": 160
+                  "x": 60,
+                  "y": 161
                 },
                 "mirror": {
                   "x": false,
@@ -4361,8 +4274,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 35,
-                  "y": 160
+                  "x": 61,
+                  "y": 161
                 },
                 "mirror": {
                   "x": false,
@@ -4379,7 +4292,7 @@
           "children": []
         },
         {
-          "id": "137",
+          "id": "138",
           "name": "Scope_Bezel_3",
           "position": {
             "x": 8,
@@ -4414,8 +4327,8 @@
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 36,
-                  "y": 160
+                  "x": 62,
+                  "y": 161
                 },
                 "mirror": {
                   "x": false,
@@ -4425,8 +4338,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 37,
-                  "y": 160
+                  "x": 63,
+                  "y": 161
                 },
                 "mirror": {
                   "x": false,
@@ -4436,8 +4349,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 38,
-                  "y": 160
+                  "x": 0,
+                  "y": 165
                 },
                 "mirror": {
                   "x": false,
@@ -4447,8 +4360,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 39,
-                  "y": 160
+                  "x": 1,
+                  "y": 165
                 },
                 "mirror": {
                   "x": false,
@@ -4458,8 +4371,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 40,
-                  "y": 160
+                  "x": 2,
+                  "y": 165
                 },
                 "mirror": {
                   "x": false,
@@ -4469,8 +4382,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 41,
-                  "y": 160
+                  "x": 3,
+                  "y": 165
                 },
                 "mirror": {
                   "x": false,
@@ -4487,7 +4400,7 @@
           "children": []
         },
         {
-          "id": "138",
+          "id": "139",
           "name": "Scope_Bezel_4",
           "position": {
             "x": 15,
@@ -4522,8 +4435,8 @@
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 42,
-                  "y": 160
+                  "x": 4,
+                  "y": 165
                 },
                 "mirror": {
                   "x": false,
@@ -4533,8 +4446,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 43,
-                  "y": 160
+                  "x": 5,
+                  "y": 165
                 },
                 "mirror": {
                   "x": false,
@@ -4544,8 +4457,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 44,
-                  "y": 160
+                  "x": 6,
+                  "y": 165
                 },
                 "mirror": {
                   "x": false,
@@ -4555,8 +4468,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 45,
-                  "y": 160
+                  "x": 7,
+                  "y": 165
                 },
                 "mirror": {
                   "x": false,
@@ -4566,8 +4479,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 46,
-                  "y": 160
+                  "x": 8,
+                  "y": 165
                 },
                 "mirror": {
                   "x": false,
@@ -4577,8 +4490,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 47,
-                  "y": 160
+                  "x": 9,
+                  "y": 165
                 },
                 "mirror": {
                   "x": false,
@@ -4595,7 +4508,7 @@
           "children": []
         },
         {
-          "id": "139",
+          "id": "140",
           "name": "Scope_Bezel_5",
           "position": {
             "x": 9,
@@ -4630,8 +4543,8 @@
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 48,
-                  "y": 160
+                  "x": 10,
+                  "y": 165
                 },
                 "mirror": {
                   "x": false,
@@ -4641,8 +4554,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 49,
-                  "y": 160
+                  "x": 11,
+                  "y": 165
                 },
                 "mirror": {
                   "x": false,
@@ -4652,8 +4565,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 50,
-                  "y": 160
+                  "x": 12,
+                  "y": 165
                 },
                 "mirror": {
                   "x": false,
@@ -4663,8 +4576,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 51,
-                  "y": 160
+                  "x": 13,
+                  "y": 165
                 },
                 "mirror": {
                   "x": false,
@@ -4674,8 +4587,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 52,
-                  "y": 160
+                  "x": 14,
+                  "y": 165
                 },
                 "mirror": {
                   "x": false,
@@ -4685,8 +4598,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 53,
-                  "y": 160
+                  "x": 15,
+                  "y": 165
                 },
                 "mirror": {
                   "x": false,
@@ -4703,7 +4616,7 @@
           "children": []
         },
         {
-          "id": "140",
+          "id": "141",
           "name": "Scope_Bezel_6",
           "position": {
             "x": 14,
@@ -4738,8 +4651,8 @@
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 54,
-                  "y": 160
+                  "x": 16,
+                  "y": 165
                 },
                 "mirror": {
                   "x": false,
@@ -4749,8 +4662,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 55,
-                  "y": 160
+                  "x": 17,
+                  "y": 165
                 },
                 "mirror": {
                   "x": false,
@@ -4760,8 +4673,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 56,
-                  "y": 160
+                  "x": 18,
+                  "y": 165
                 },
                 "mirror": {
                   "x": false,
@@ -4771,8 +4684,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 57,
-                  "y": 160
+                  "x": 19,
+                  "y": 165
                 },
                 "mirror": {
                   "x": false,
@@ -4782,8 +4695,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 58,
-                  "y": 160
+                  "x": 20,
+                  "y": 165
                 },
                 "mirror": {
                   "x": false,
@@ -4793,8 +4706,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 59,
-                  "y": 160
+                  "x": 21,
+                  "y": 165
                 },
                 "mirror": {
                   "x": false,
@@ -4811,7 +4724,7 @@
           "children": []
         },
         {
-          "id": "141",
+          "id": "142",
           "name": "Scope_Bezel_7",
           "position": {
             "x": 11.5,
@@ -4846,8 +4759,8 @@
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 60,
-                  "y": 160
+                  "x": 22,
+                  "y": 165
                 },
                 "mirror": {
                   "x": false,
@@ -4857,8 +4770,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 0,
-                  "y": 164
+                  "x": 26,
+                  "y": 165
                 },
                 "mirror": {
                   "x": false,
@@ -4868,8 +4781,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 4,
-                  "y": 164
+                  "x": 30,
+                  "y": 165
                 },
                 "mirror": {
                   "x": false,
@@ -4879,8 +4792,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 5,
-                  "y": 164
+                  "x": 31,
+                  "y": 165
                 },
                 "mirror": {
                   "x": false,
@@ -4890,8 +4803,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 6,
-                  "y": 164
+                  "x": 32,
+                  "y": 165
                 },
                 "mirror": {
                   "x": false,
@@ -4901,8 +4814,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 10,
-                  "y": 164
+                  "x": 36,
+                  "y": 165
                 },
                 "mirror": {
                   "x": false,
@@ -4919,7 +4832,7 @@
           "children": []
         },
         {
-          "id": "142",
+          "id": "143",
           "name": "Scope_Lens_0",
           "position": {
             "x": 11.5,
@@ -4976,8 +4889,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 14,
-                  "y": 164
+                  "x": 40,
+                  "y": 165
                 },
                 "mirror": {
                   "x": false,
@@ -4987,8 +4900,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 15,
-                  "y": 164
+                  "x": 41,
+                  "y": 165
                 },
                 "mirror": {
                   "x": false,
@@ -4998,8 +4911,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 16,
-                  "y": 164
+                  "x": 42,
+                  "y": 165
                 },
                 "mirror": {
                   "x": false,
@@ -5009,8 +4922,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 20,
-                  "y": 164
+                  "x": 46,
+                  "y": 165
                 },
                 "mirror": {
                   "x": false,
@@ -5027,7 +4940,7 @@
           "children": []
         },
         {
-          "id": "143",
+          "id": "144",
           "name": "Scope_Lens_1",
           "position": {
             "x": 11.5,
@@ -5084,8 +4997,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 24,
-                  "y": 164
+                  "x": 50,
+                  "y": 165
                 },
                 "mirror": {
                   "x": false,
@@ -5095,8 +5008,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 25,
-                  "y": 164
+                  "x": 51,
+                  "y": 165
                 },
                 "mirror": {
                   "x": false,
@@ -5106,8 +5019,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 26,
-                  "y": 164
+                  "x": 52,
+                  "y": 165
                 },
                 "mirror": {
                   "x": false,
@@ -5117,8 +5030,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 32,
-                  "y": 164
+                  "x": 58,
+                  "y": 165
                 },
                 "mirror": {
                   "x": false,
@@ -5135,7 +5048,7 @@
           "children": []
         },
         {
-          "id": "144",
+          "id": "145",
           "name": "Scope_Lens_2",
           "position": {
             "x": 11.5,
@@ -5192,8 +5105,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 38,
-                  "y": 164
+                  "x": 0,
+                  "y": 169
                 },
                 "mirror": {
                   "x": false,
@@ -5203,8 +5116,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 39,
-                  "y": 164
+                  "x": 1,
+                  "y": 169
                 },
                 "mirror": {
                   "x": false,
@@ -5214,8 +5127,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 40,
-                  "y": 164
+                  "x": 2,
+                  "y": 169
                 },
                 "mirror": {
                   "x": false,
@@ -5225,8 +5138,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 44,
-                  "y": 164
+                  "x": 6,
+                  "y": 169
                 },
                 "mirror": {
                   "x": false,
@@ -5243,12 +5156,12 @@
           "children": []
         },
         {
-          "id": "145",
+          "id": "146",
           "name": "Hinge",
           "position": {
             "x": 0,
             "y": 9.5,
-            "z": 20.5
+            "z": 19
           },
           "orientation": {
             "x": 0,
@@ -5278,8 +5191,8 @@
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 48,
-                  "y": 164
+                  "x": 10,
+                  "y": 169
                 },
                 "mirror": {
                   "x": false,
@@ -5289,8 +5202,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 0,
-                  "y": 168
+                  "x": 24,
+                  "y": 169
                 },
                 "mirror": {
                   "x": false,
@@ -5300,8 +5213,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 14,
-                  "y": 168
+                  "x": 38,
+                  "y": 169
                 },
                 "mirror": {
                   "x": false,
@@ -5311,8 +5224,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 17,
-                  "y": 168
+                  "x": 41,
+                  "y": 169
                 },
                 "mirror": {
                   "x": false,
@@ -5322,116 +5235,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 20,
-                  "y": 168
-                },
-                "mirror": {
-                  "x": false,
-                  "y": false
-                },
-                "angle": 0
-              },
-              "bottom": {
-                "offset": {
-                  "x": 34,
-                  "y": 168
-                },
-                "mirror": {
-                  "x": false,
-                  "y": false
-                },
-                "angle": 0
-              }
-            },
-            "unwrapMode": "custom",
-            "visible": true,
-            "doubleSided": false,
-            "shadingMode": "standard"
-          },
-          "children": []
-        },
-        {
-          "id": "146",
-          "name": "Up_Tube_L_0",
-          "position": {
-            "x": -4.5,
-            "y": 12.852952387243699,
-            "z": 23.414814565722672
-          },
-          "orientation": {
-            "x": -0.6087614290087207,
-            "y": 0,
-            "z": 0,
-            "w": 0.7933533402912352
-          },
-          "shape": {
-            "type": "box",
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "z": 0
-            },
-            "stretch": {
-              "x": 1,
-              "y": 1,
-              "z": 1
-            },
-            "settings": {
-              "size": {
-                "x": 4,
-                "y": 1,
-                "z": 6
-              }
-            },
-            "textureLayout": {
-              "front": {
-                "offset": {
-                  "x": 23,
-                  "y": 101
-                },
-                "mirror": {
-                  "x": false,
-                  "y": false
-                },
-                "angle": 0
-              },
-              "back": {
-                "offset": {
-                  "x": 23,
-                  "y": 101
-                },
-                "mirror": {
-                  "x": false,
-                  "y": false
-                },
-                "angle": 0
-              },
-              "left": {
-                "offset": {
-                  "x": 48,
-                  "y": 168
-                },
-                "mirror": {
-                  "x": false,
-                  "y": false
-                },
-                "angle": 0
-              },
-              "right": {
-                "offset": {
-                  "x": 54,
-                  "y": 168
-                },
-                "mirror": {
-                  "x": false,
-                  "y": false
-                },
-                "angle": 0
-              },
-              "top": {
-                "offset": {
-                  "x": 60,
-                  "y": 168
+                  "x": 44,
+                  "y": 169
                 },
                 "mirror": {
                   "x": false,
@@ -5442,7 +5247,7 @@
               "bottom": {
                 "offset": {
                   "x": 0,
-                  "y": 174
+                  "y": 172
                 },
                 "mirror": {
                   "x": false,
@@ -5460,11 +5265,11 @@
         },
         {
           "id": "147",
-          "name": "Up_Tube_L_1",
+          "name": "Up_Tube_L_0",
           "position": {
             "x": -4.5,
-            "y": 13.5,
-            "z": 21
+            "y": 12.852952387243699,
+            "z": 21.914814565722672
           },
           "orientation": {
             "x": -0.6087614290087207,
@@ -5486,16 +5291,16 @@
             },
             "settings": {
               "size": {
-                "x": 6,
-                "y": 4,
+                "x": 4,
+                "y": 1,
                 "z": 6
               }
             },
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 22,
-                  "y": 97
+                  "x": 23,
+                  "y": 101
                 },
                 "mirror": {
                   "x": false,
@@ -5505,8 +5310,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 22,
-                  "y": 97
+                  "x": 23,
+                  "y": 101
                 },
                 "mirror": {
                   "x": false,
@@ -5516,8 +5321,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 4,
-                  "y": 174
+                  "x": 14,
+                  "y": 172
                 },
                 "mirror": {
                   "x": false,
@@ -5527,8 +5332,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 10,
-                  "y": 174
+                  "x": 20,
+                  "y": 172
                 },
                 "mirror": {
                   "x": false,
@@ -5538,8 +5343,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 16,
-                  "y": 174
+                  "x": 26,
+                  "y": 172
                 },
                 "mirror": {
                   "x": false,
@@ -5549,8 +5354,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 22,
-                  "y": 174
+                  "x": 30,
+                  "y": 172
                 },
                 "mirror": {
                   "x": false,
@@ -5568,11 +5373,11 @@
         },
         {
           "id": "148",
-          "name": "Up_Tube_L_2",
+          "name": "Up_Tube_L_1",
           "position": {
             "x": -4.5,
-            "y": 14.147047612756301,
-            "z": 18.585185434277328
+            "y": 13.5,
+            "z": 19.5
           },
           "orientation": {
             "x": -0.6087614290087207,
@@ -5594,16 +5399,16 @@
             },
             "settings": {
               "size": {
-                "x": 4,
-                "y": 1,
+                "x": 6,
+                "y": 4,
                 "z": 6
               }
             },
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 23,
-                  "y": 96
+                  "x": 22,
+                  "y": 97
                 },
                 "mirror": {
                   "x": false,
@@ -5613,8 +5418,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 23,
-                  "y": 96
+                  "x": 22,
+                  "y": 97
                 },
                 "mirror": {
                   "x": false,
@@ -5624,8 +5429,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 28,
-                  "y": 174
+                  "x": 34,
+                  "y": 172
                 },
                 "mirror": {
                   "x": false,
@@ -5635,8 +5440,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 34,
-                  "y": 174
+                  "x": 40,
+                  "y": 172
                 },
                 "mirror": {
                   "x": false,
@@ -5646,8 +5451,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 40,
-                  "y": 174
+                  "x": 46,
+                  "y": 172
                 },
                 "mirror": {
                   "x": false,
@@ -5657,8 +5462,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 44,
-                  "y": 174
+                  "x": 52,
+                  "y": 172
                 },
                 "mirror": {
                   "x": false,
@@ -5676,11 +5481,11 @@
         },
         {
           "id": "149",
-          "name": "Up_Bezel_L_0",
+          "name": "Up_Tube_L_2",
           "position": {
             "x": -4.5,
-            "y": 16.23369277925544,
-            "z": 24.320681223581495
+            "y": 14.147047612756301,
+            "z": 17.085185434277328
           },
           "orientation": {
             "x": -0.6087614290087207,
@@ -5704,14 +5509,14 @@
               "size": {
                 "x": 4,
                 "y": 1,
-                "z": 1
+                "z": 6
               }
             },
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 48,
-                  "y": 174
+                  "x": 23,
+                  "y": 96
                 },
                 "mirror": {
                   "x": false,
@@ -5721,8 +5526,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 52,
-                  "y": 174
+                  "x": 23,
+                  "y": 96
                 },
                 "mirror": {
                   "x": false,
@@ -5732,8 +5537,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 56,
-                  "y": 174
+                  "x": 58,
+                  "y": 172
                 },
                 "mirror": {
                   "x": false,
@@ -5743,8 +5548,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 57,
-                  "y": 174
+                  "x": 0,
+                  "y": 178
                 },
                 "mirror": {
                   "x": false,
@@ -5754,8 +5559,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 58,
-                  "y": 174
+                  "x": 6,
+                  "y": 178
                 },
                 "mirror": {
                   "x": false,
@@ -5765,8 +5570,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 0,
-                  "y": 180
+                  "x": 10,
+                  "y": 178
                 },
                 "mirror": {
                   "x": false,
@@ -5784,11 +5589,11 @@
         },
         {
           "id": "150",
-          "name": "Up_Bezel_L_1",
+          "name": "Up_Bezel_L_0",
           "position": {
-            "x": -6.5,
-            "y": 16.49251182435796,
-            "z": 23.354755397292426
+            "x": -4.5,
+            "y": 16.23369277925544,
+            "z": 22.820681223581495
           },
           "orientation": {
             "x": -0.6087614290087207,
@@ -5810,7 +5615,7 @@
             },
             "settings": {
               "size": {
-                "x": 2,
+                "x": 4,
                 "y": 1,
                 "z": 1
               }
@@ -5818,8 +5623,8 @@
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 4,
-                  "y": 180
+                  "x": 14,
+                  "y": 178
                 },
                 "mirror": {
                   "x": false,
@@ -5829,8 +5634,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 6,
-                  "y": 180
+                  "x": 18,
+                  "y": 178
                 },
                 "mirror": {
                   "x": false,
@@ -5840,8 +5645,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 8,
-                  "y": 180
+                  "x": 22,
+                  "y": 178
                 },
                 "mirror": {
                   "x": false,
@@ -5851,8 +5656,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 9,
-                  "y": 180
+                  "x": 23,
+                  "y": 178
                 },
                 "mirror": {
                   "x": false,
@@ -5862,8 +5667,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 10,
-                  "y": 180
+                  "x": 24,
+                  "y": 178
                 },
                 "mirror": {
                   "x": false,
@@ -5873,8 +5678,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 12,
-                  "y": 180
+                  "x": 28,
+                  "y": 178
                 },
                 "mirror": {
                   "x": false,
@@ -5892,11 +5697,11 @@
         },
         {
           "id": "151",
-          "name": "Up_Bezel_L_2",
+          "name": "Up_Bezel_L_1",
           "position": {
-            "x": -2.5,
+            "x": -6.5,
             "y": 16.49251182435796,
-            "z": 23.354755397292426
+            "z": 21.854755397292426
           },
           "orientation": {
             "x": -0.6087614290087207,
@@ -5926,8 +5731,8 @@
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 14,
-                  "y": 180
+                  "x": 32,
+                  "y": 178
                 },
                 "mirror": {
                   "x": false,
@@ -5937,8 +5742,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 16,
-                  "y": 180
+                  "x": 34,
+                  "y": 178
                 },
                 "mirror": {
                   "x": false,
@@ -5948,8 +5753,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 18,
-                  "y": 180
+                  "x": 36,
+                  "y": 178
                 },
                 "mirror": {
                   "x": false,
@@ -5959,8 +5764,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 19,
-                  "y": 180
+                  "x": 37,
+                  "y": 178
                 },
                 "mirror": {
                   "x": false,
@@ -5970,8 +5775,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 20,
-                  "y": 180
+                  "x": 38,
+                  "y": 178
                 },
                 "mirror": {
                   "x": false,
@@ -5981,8 +5786,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 22,
-                  "y": 180
+                  "x": 40,
+                  "y": 178
                 },
                 "mirror": {
                   "x": false,
@@ -6000,11 +5805,11 @@
         },
         {
           "id": "152",
-          "name": "Up_Bezel_L_3",
+          "name": "Up_Bezel_L_2",
           "position": {
-            "x": -7,
-            "y": 16.880740392011738,
-            "z": 21.905866657858823
+            "x": -2.5,
+            "y": 16.49251182435796,
+            "z": 21.854755397292426
           },
           "orientation": {
             "x": -0.6087614290087207,
@@ -6026,16 +5831,16 @@
             },
             "settings": {
               "size": {
-                "x": 1,
-                "y": 2,
+                "x": 2,
+                "y": 1,
                 "z": 1
               }
             },
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 24,
-                  "y": 180
+                  "x": 42,
+                  "y": 178
                 },
                 "mirror": {
                   "x": false,
@@ -6045,8 +5850,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 25,
-                  "y": 180
+                  "x": 44,
+                  "y": 178
                 },
                 "mirror": {
                   "x": false,
@@ -6056,8 +5861,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 26,
-                  "y": 180
+                  "x": 46,
+                  "y": 178
                 },
                 "mirror": {
                   "x": false,
@@ -6067,8 +5872,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 27,
-                  "y": 180
+                  "x": 47,
+                  "y": 178
                 },
                 "mirror": {
                   "x": false,
@@ -6078,8 +5883,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 28,
-                  "y": 180
+                  "x": 48,
+                  "y": 178
                 },
                 "mirror": {
                   "x": false,
@@ -6089,8 +5894,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 29,
-                  "y": 180
+                  "x": 50,
+                  "y": 178
                 },
                 "mirror": {
                   "x": false,
@@ -6108,11 +5913,11 @@
         },
         {
           "id": "153",
-          "name": "Up_Bezel_L_4",
+          "name": "Up_Bezel_L_3",
           "position": {
-            "x": -2,
+            "x": -7,
             "y": 16.880740392011738,
-            "z": 21.905866657858823
+            "z": 20.405866657858823
           },
           "orientation": {
             "x": -0.6087614290087207,
@@ -6142,8 +5947,8 @@
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 30,
-                  "y": 180
+                  "x": 52,
+                  "y": 178
                 },
                 "mirror": {
                   "x": false,
@@ -6153,8 +5958,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 31,
-                  "y": 180
+                  "x": 53,
+                  "y": 178
                 },
                 "mirror": {
                   "x": false,
@@ -6164,8 +5969,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 32,
-                  "y": 180
+                  "x": 54,
+                  "y": 178
                 },
                 "mirror": {
                   "x": false,
@@ -6175,8 +5980,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 33,
-                  "y": 180
+                  "x": 55,
+                  "y": 178
                 },
                 "mirror": {
                   "x": false,
@@ -6186,8 +5991,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 34,
-                  "y": 180
+                  "x": 56,
+                  "y": 178
                 },
                 "mirror": {
                   "x": false,
@@ -6197,8 +6002,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 35,
-                  "y": 180
+                  "x": 57,
+                  "y": 178
                 },
                 "mirror": {
                   "x": false,
@@ -6216,11 +6021,11 @@
         },
         {
           "id": "154",
-          "name": "Up_Bezel_L_5",
+          "name": "Up_Bezel_L_4",
           "position": {
-            "x": -6.5,
-            "y": 17.26896895966552,
-            "z": 20.45697791842522
+            "x": -2,
+            "y": 16.880740392011738,
+            "z": 20.405866657858823
           },
           "orientation": {
             "x": -0.6087614290087207,
@@ -6242,16 +6047,16 @@
             },
             "settings": {
               "size": {
-                "x": 2,
-                "y": 1,
+                "x": 1,
+                "y": 2,
                 "z": 1
               }
             },
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 36,
-                  "y": 180
+                  "x": 58,
+                  "y": 178
                 },
                 "mirror": {
                   "x": false,
@@ -6261,8 +6066,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 38,
-                  "y": 180
+                  "x": 59,
+                  "y": 178
                 },
                 "mirror": {
                   "x": false,
@@ -6272,8 +6077,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 40,
-                  "y": 180
+                  "x": 60,
+                  "y": 178
                 },
                 "mirror": {
                   "x": false,
@@ -6283,8 +6088,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 41,
-                  "y": 180
+                  "x": 61,
+                  "y": 178
                 },
                 "mirror": {
                   "x": false,
@@ -6294,8 +6099,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 42,
-                  "y": 180
+                  "x": 62,
+                  "y": 178
                 },
                 "mirror": {
                   "x": false,
@@ -6305,8 +6110,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 44,
-                  "y": 180
+                  "x": 63,
+                  "y": 178
                 },
                 "mirror": {
                   "x": false,
@@ -6324,11 +6129,11 @@
         },
         {
           "id": "155",
-          "name": "Up_Bezel_L_6",
+          "name": "Up_Bezel_L_5",
           "position": {
-            "x": -2.5,
+            "x": -6.5,
             "y": 17.26896895966552,
-            "z": 20.45697791842522
+            "z": 18.95697791842522
           },
           "orientation": {
             "x": -0.6087614290087207,
@@ -6358,8 +6163,8 @@
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 46,
-                  "y": 180
+                  "x": 0,
+                  "y": 184
                 },
                 "mirror": {
                   "x": false,
@@ -6369,8 +6174,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 48,
-                  "y": 180
+                  "x": 2,
+                  "y": 184
                 },
                 "mirror": {
                   "x": false,
@@ -6380,8 +6185,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 50,
-                  "y": 180
+                  "x": 4,
+                  "y": 184
                 },
                 "mirror": {
                   "x": false,
@@ -6391,8 +6196,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 51,
-                  "y": 180
+                  "x": 5,
+                  "y": 184
                 },
                 "mirror": {
                   "x": false,
@@ -6402,8 +6207,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 52,
-                  "y": 180
+                  "x": 6,
+                  "y": 184
                 },
                 "mirror": {
                   "x": false,
@@ -6413,8 +6218,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 54,
-                  "y": 180
+                  "x": 8,
+                  "y": 184
                 },
                 "mirror": {
                   "x": false,
@@ -6432,11 +6237,119 @@
         },
         {
           "id": "156",
+          "name": "Up_Bezel_L_6",
+          "position": {
+            "x": -2.5,
+            "y": 17.26896895966552,
+            "z": 18.95697791842522
+          },
+          "orientation": {
+            "x": -0.6087614290087207,
+            "y": 0,
+            "z": 0,
+            "w": 0.7933533402912352
+          },
+          "shape": {
+            "type": "box",
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "stretch": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "settings": {
+              "size": {
+                "x": 2,
+                "y": 1,
+                "z": 1
+              }
+            },
+            "textureLayout": {
+              "front": {
+                "offset": {
+                  "x": 10,
+                  "y": 184
+                },
+                "mirror": {
+                  "x": false,
+                  "y": false
+                },
+                "angle": 0
+              },
+              "back": {
+                "offset": {
+                  "x": 12,
+                  "y": 184
+                },
+                "mirror": {
+                  "x": false,
+                  "y": false
+                },
+                "angle": 0
+              },
+              "left": {
+                "offset": {
+                  "x": 14,
+                  "y": 184
+                },
+                "mirror": {
+                  "x": false,
+                  "y": false
+                },
+                "angle": 0
+              },
+              "right": {
+                "offset": {
+                  "x": 15,
+                  "y": 184
+                },
+                "mirror": {
+                  "x": false,
+                  "y": false
+                },
+                "angle": 0
+              },
+              "top": {
+                "offset": {
+                  "x": 16,
+                  "y": 184
+                },
+                "mirror": {
+                  "x": false,
+                  "y": false
+                },
+                "angle": 0
+              },
+              "bottom": {
+                "offset": {
+                  "x": 18,
+                  "y": 184
+                },
+                "mirror": {
+                  "x": false,
+                  "y": false
+                },
+                "angle": 0
+              }
+            },
+            "unwrapMode": "custom",
+            "visible": true,
+            "doubleSided": false,
+            "shadingMode": "standard"
+          },
+          "children": []
+        },
+        {
+          "id": "157",
           "name": "Up_Bezel_L_7",
           "position": {
             "x": -4.5,
             "y": 17.52778800476804,
-            "z": 19.49105209213615
+            "z": 17.99105209213615
           },
           "orientation": {
             "x": -0.6087614290087207,
@@ -6466,8 +6379,8 @@
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 56,
-                  "y": 180
+                  "x": 20,
+                  "y": 184
                 },
                 "mirror": {
                   "x": false,
@@ -6477,8 +6390,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 60,
-                  "y": 180
+                  "x": 24,
+                  "y": 184
                 },
                 "mirror": {
                   "x": false,
@@ -6488,8 +6401,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 0,
-                  "y": 182
+                  "x": 28,
+                  "y": 184
                 },
                 "mirror": {
                   "x": false,
@@ -6499,8 +6412,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 1,
-                  "y": 182
+                  "x": 29,
+                  "y": 184
                 },
                 "mirror": {
                   "x": false,
@@ -6510,8 +6423,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 2,
-                  "y": 182
+                  "x": 30,
+                  "y": 184
                 },
                 "mirror": {
                   "x": false,
@@ -6521,8 +6434,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 6,
-                  "y": 182
+                  "x": 34,
+                  "y": 184
                 },
                 "mirror": {
                   "x": false,
@@ -6539,12 +6452,12 @@
           "children": []
         },
         {
-          "id": "157",
+          "id": "158",
           "name": "Up_Lens_L_0",
           "position": {
             "x": -4.5,
             "y": 16.49251182435796,
-            "z": 23.354755397292426
+            "z": 21.854755397292426
           },
           "orientation": {
             "x": -0.6087614290087207,
@@ -6596,8 +6509,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 10,
-                  "y": 182
+                  "x": 38,
+                  "y": 184
                 },
                 "mirror": {
                   "x": false,
@@ -6607,8 +6520,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 11,
-                  "y": 182
+                  "x": 39,
+                  "y": 184
                 },
                 "mirror": {
                   "x": false,
@@ -6618,8 +6531,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 12,
-                  "y": 182
+                  "x": 40,
+                  "y": 184
                 },
                 "mirror": {
                   "x": false,
@@ -6629,8 +6542,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 14,
-                  "y": 182
+                  "x": 42,
+                  "y": 184
                 },
                 "mirror": {
                   "x": false,
@@ -6647,12 +6560,12 @@
           "children": []
         },
         {
-          "id": "158",
+          "id": "159",
           "name": "Up_Lens_L_1",
           "position": {
             "x": -4.5,
             "y": 16.880740392011738,
-            "z": 21.905866657858823
+            "z": 20.405866657858823
           },
           "orientation": {
             "x": -0.6087614290087207,
@@ -6704,8 +6617,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 16,
-                  "y": 182
+                  "x": 44,
+                  "y": 184
                 },
                 "mirror": {
                   "x": false,
@@ -6715,8 +6628,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 17,
-                  "y": 182
+                  "x": 45,
+                  "y": 184
                 },
                 "mirror": {
                   "x": false,
@@ -6726,8 +6639,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 18,
-                  "y": 182
+                  "x": 46,
+                  "y": 184
                 },
                 "mirror": {
                   "x": false,
@@ -6737,8 +6650,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 22,
-                  "y": 182
+                  "x": 50,
+                  "y": 184
                 },
                 "mirror": {
                   "x": false,
@@ -6755,12 +6668,12 @@
           "children": []
         },
         {
-          "id": "159",
+          "id": "160",
           "name": "Up_Lens_L_2",
           "position": {
             "x": -4.5,
             "y": 17.26896895966552,
-            "z": 20.45697791842522
+            "z": 18.95697791842522
           },
           "orientation": {
             "x": -0.6087614290087207,
@@ -6812,8 +6725,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 26,
-                  "y": 182
+                  "x": 54,
+                  "y": 184
                 },
                 "mirror": {
                   "x": false,
@@ -6823,8 +6736,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 27,
-                  "y": 182
+                  "x": 55,
+                  "y": 184
                 },
                 "mirror": {
                   "x": false,
@@ -6834,8 +6747,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 28,
-                  "y": 182
+                  "x": 56,
+                  "y": 184
                 },
                 "mirror": {
                   "x": false,
@@ -6845,8 +6758,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 30,
-                  "y": 182
+                  "x": 58,
+                  "y": 184
                 },
                 "mirror": {
                   "x": false,
@@ -6863,12 +6776,12 @@
           "children": []
         },
         {
-          "id": "160",
+          "id": "161",
           "name": "Up_Tube_R_0",
           "position": {
             "x": 4.5,
             "y": 12.852952387243699,
-            "z": 23.414814565722672
+            "z": 21.914814565722672
           },
           "orientation": {
             "x": -0.6087614290087207,
@@ -6920,8 +6833,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 32,
-                  "y": 182
+                  "x": 0,
+                  "y": 186
                 },
                 "mirror": {
                   "x": false,
@@ -6931,8 +6844,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 38,
-                  "y": 182
+                  "x": 6,
+                  "y": 186
                 },
                 "mirror": {
                   "x": false,
@@ -6942,8 +6855,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 44,
-                  "y": 182
+                  "x": 12,
+                  "y": 186
                 },
                 "mirror": {
                   "x": false,
@@ -6953,8 +6866,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 48,
-                  "y": 182
+                  "x": 16,
+                  "y": 186
                 },
                 "mirror": {
                   "x": false,
@@ -6971,12 +6884,12 @@
           "children": []
         },
         {
-          "id": "161",
+          "id": "162",
           "name": "Up_Tube_R_1",
           "position": {
             "x": 4.5,
             "y": 13.5,
-            "z": 21
+            "z": 19.5
           },
           "orientation": {
             "x": -0.6087614290087207,
@@ -7028,8 +6941,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 52,
-                  "y": 182
+                  "x": 20,
+                  "y": 186
                 },
                 "mirror": {
                   "x": false,
@@ -7039,8 +6952,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 58,
-                  "y": 182
+                  "x": 26,
+                  "y": 186
                 },
                 "mirror": {
                   "x": false,
@@ -7050,8 +6963,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 0,
-                  "y": 188
+                  "x": 32,
+                  "y": 186
                 },
                 "mirror": {
                   "x": false,
@@ -7061,8 +6974,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 6,
-                  "y": 188
+                  "x": 38,
+                  "y": 186
                 },
                 "mirror": {
                   "x": false,
@@ -7079,12 +6992,12 @@
           "children": []
         },
         {
-          "id": "162",
+          "id": "163",
           "name": "Up_Tube_R_2",
           "position": {
             "x": 4.5,
             "y": 14.147047612756301,
-            "z": 18.585185434277328
+            "z": 17.085185434277328
           },
           "orientation": {
             "x": -0.6087614290087207,
@@ -7136,8 +7049,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 12,
-                  "y": 188
+                  "x": 44,
+                  "y": 186
                 },
                 "mirror": {
                   "x": false,
@@ -7147,8 +7060,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 18,
-                  "y": 188
+                  "x": 50,
+                  "y": 186
                 },
                 "mirror": {
                   "x": false,
@@ -7158,8 +7071,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 24,
-                  "y": 188
+                  "x": 56,
+                  "y": 186
                 },
                 "mirror": {
                   "x": false,
@@ -7169,8 +7082,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 28,
-                  "y": 188
+                  "x": 60,
+                  "y": 186
                 },
                 "mirror": {
                   "x": false,
@@ -7187,12 +7100,12 @@
           "children": []
         },
         {
-          "id": "163",
+          "id": "164",
           "name": "Up_Bezel_R_0",
           "position": {
             "x": 4.5,
             "y": 16.23369277925544,
-            "z": 24.320681223581495
+            "z": 22.820681223581495
           },
           "orientation": {
             "x": -0.6087614290087207,
@@ -7222,8 +7135,8 @@
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 32,
-                  "y": 188
+                  "x": 0,
+                  "y": 192
                 },
                 "mirror": {
                   "x": false,
@@ -7233,8 +7146,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 36,
-                  "y": 188
+                  "x": 4,
+                  "y": 192
                 },
                 "mirror": {
                   "x": false,
@@ -7244,8 +7157,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 40,
-                  "y": 188
+                  "x": 8,
+                  "y": 192
                 },
                 "mirror": {
                   "x": false,
@@ -7255,8 +7168,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 41,
-                  "y": 188
+                  "x": 9,
+                  "y": 192
                 },
                 "mirror": {
                   "x": false,
@@ -7266,8 +7179,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 42,
-                  "y": 188
+                  "x": 10,
+                  "y": 192
                 },
                 "mirror": {
                   "x": false,
@@ -7277,8 +7190,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 46,
-                  "y": 188
+                  "x": 14,
+                  "y": 192
                 },
                 "mirror": {
                   "x": false,
@@ -7295,12 +7208,444 @@
           "children": []
         },
         {
-          "id": "164",
+          "id": "165",
           "name": "Up_Bezel_R_1",
           "position": {
             "x": 2.5,
             "y": 16.49251182435796,
-            "z": 23.354755397292426
+            "z": 21.854755397292426
+          },
+          "orientation": {
+            "x": -0.6087614290087207,
+            "y": 0,
+            "z": 0,
+            "w": 0.7933533402912352
+          },
+          "shape": {
+            "type": "box",
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "stretch": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "settings": {
+              "size": {
+                "x": 2,
+                "y": 1,
+                "z": 1
+              }
+            },
+            "textureLayout": {
+              "front": {
+                "offset": {
+                  "x": 18,
+                  "y": 192
+                },
+                "mirror": {
+                  "x": false,
+                  "y": false
+                },
+                "angle": 0
+              },
+              "back": {
+                "offset": {
+                  "x": 20,
+                  "y": 192
+                },
+                "mirror": {
+                  "x": false,
+                  "y": false
+                },
+                "angle": 0
+              },
+              "left": {
+                "offset": {
+                  "x": 22,
+                  "y": 192
+                },
+                "mirror": {
+                  "x": false,
+                  "y": false
+                },
+                "angle": 0
+              },
+              "right": {
+                "offset": {
+                  "x": 23,
+                  "y": 192
+                },
+                "mirror": {
+                  "x": false,
+                  "y": false
+                },
+                "angle": 0
+              },
+              "top": {
+                "offset": {
+                  "x": 24,
+                  "y": 192
+                },
+                "mirror": {
+                  "x": false,
+                  "y": false
+                },
+                "angle": 0
+              },
+              "bottom": {
+                "offset": {
+                  "x": 26,
+                  "y": 192
+                },
+                "mirror": {
+                  "x": false,
+                  "y": false
+                },
+                "angle": 0
+              }
+            },
+            "unwrapMode": "custom",
+            "visible": true,
+            "doubleSided": false,
+            "shadingMode": "standard"
+          },
+          "children": []
+        },
+        {
+          "id": "166",
+          "name": "Up_Bezel_R_2",
+          "position": {
+            "x": 6.5,
+            "y": 16.49251182435796,
+            "z": 21.854755397292426
+          },
+          "orientation": {
+            "x": -0.6087614290087207,
+            "y": 0,
+            "z": 0,
+            "w": 0.7933533402912352
+          },
+          "shape": {
+            "type": "box",
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "stretch": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "settings": {
+              "size": {
+                "x": 2,
+                "y": 1,
+                "z": 1
+              }
+            },
+            "textureLayout": {
+              "front": {
+                "offset": {
+                  "x": 28,
+                  "y": 192
+                },
+                "mirror": {
+                  "x": false,
+                  "y": false
+                },
+                "angle": 0
+              },
+              "back": {
+                "offset": {
+                  "x": 30,
+                  "y": 192
+                },
+                "mirror": {
+                  "x": false,
+                  "y": false
+                },
+                "angle": 0
+              },
+              "left": {
+                "offset": {
+                  "x": 32,
+                  "y": 192
+                },
+                "mirror": {
+                  "x": false,
+                  "y": false
+                },
+                "angle": 0
+              },
+              "right": {
+                "offset": {
+                  "x": 33,
+                  "y": 192
+                },
+                "mirror": {
+                  "x": false,
+                  "y": false
+                },
+                "angle": 0
+              },
+              "top": {
+                "offset": {
+                  "x": 34,
+                  "y": 192
+                },
+                "mirror": {
+                  "x": false,
+                  "y": false
+                },
+                "angle": 0
+              },
+              "bottom": {
+                "offset": {
+                  "x": 36,
+                  "y": 192
+                },
+                "mirror": {
+                  "x": false,
+                  "y": false
+                },
+                "angle": 0
+              }
+            },
+            "unwrapMode": "custom",
+            "visible": true,
+            "doubleSided": false,
+            "shadingMode": "standard"
+          },
+          "children": []
+        },
+        {
+          "id": "167",
+          "name": "Up_Bezel_R_3",
+          "position": {
+            "x": 2,
+            "y": 16.880740392011738,
+            "z": 20.405866657858823
+          },
+          "orientation": {
+            "x": -0.6087614290087207,
+            "y": 0,
+            "z": 0,
+            "w": 0.7933533402912352
+          },
+          "shape": {
+            "type": "box",
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "stretch": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "settings": {
+              "size": {
+                "x": 1,
+                "y": 2,
+                "z": 1
+              }
+            },
+            "textureLayout": {
+              "front": {
+                "offset": {
+                  "x": 38,
+                  "y": 192
+                },
+                "mirror": {
+                  "x": false,
+                  "y": false
+                },
+                "angle": 0
+              },
+              "back": {
+                "offset": {
+                  "x": 39,
+                  "y": 192
+                },
+                "mirror": {
+                  "x": false,
+                  "y": false
+                },
+                "angle": 0
+              },
+              "left": {
+                "offset": {
+                  "x": 40,
+                  "y": 192
+                },
+                "mirror": {
+                  "x": false,
+                  "y": false
+                },
+                "angle": 0
+              },
+              "right": {
+                "offset": {
+                  "x": 41,
+                  "y": 192
+                },
+                "mirror": {
+                  "x": false,
+                  "y": false
+                },
+                "angle": 0
+              },
+              "top": {
+                "offset": {
+                  "x": 42,
+                  "y": 192
+                },
+                "mirror": {
+                  "x": false,
+                  "y": false
+                },
+                "angle": 0
+              },
+              "bottom": {
+                "offset": {
+                  "x": 43,
+                  "y": 192
+                },
+                "mirror": {
+                  "x": false,
+                  "y": false
+                },
+                "angle": 0
+              }
+            },
+            "unwrapMode": "custom",
+            "visible": true,
+            "doubleSided": false,
+            "shadingMode": "standard"
+          },
+          "children": []
+        },
+        {
+          "id": "168",
+          "name": "Up_Bezel_R_4",
+          "position": {
+            "x": 7,
+            "y": 16.880740392011738,
+            "z": 20.405866657858823
+          },
+          "orientation": {
+            "x": -0.6087614290087207,
+            "y": 0,
+            "z": 0,
+            "w": 0.7933533402912352
+          },
+          "shape": {
+            "type": "box",
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "stretch": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "settings": {
+              "size": {
+                "x": 1,
+                "y": 2,
+                "z": 1
+              }
+            },
+            "textureLayout": {
+              "front": {
+                "offset": {
+                  "x": 44,
+                  "y": 192
+                },
+                "mirror": {
+                  "x": false,
+                  "y": false
+                },
+                "angle": 0
+              },
+              "back": {
+                "offset": {
+                  "x": 45,
+                  "y": 192
+                },
+                "mirror": {
+                  "x": false,
+                  "y": false
+                },
+                "angle": 0
+              },
+              "left": {
+                "offset": {
+                  "x": 46,
+                  "y": 192
+                },
+                "mirror": {
+                  "x": false,
+                  "y": false
+                },
+                "angle": 0
+              },
+              "right": {
+                "offset": {
+                  "x": 47,
+                  "y": 192
+                },
+                "mirror": {
+                  "x": false,
+                  "y": false
+                },
+                "angle": 0
+              },
+              "top": {
+                "offset": {
+                  "x": 48,
+                  "y": 192
+                },
+                "mirror": {
+                  "x": false,
+                  "y": false
+                },
+                "angle": 0
+              },
+              "bottom": {
+                "offset": {
+                  "x": 49,
+                  "y": 192
+                },
+                "mirror": {
+                  "x": false,
+                  "y": false
+                },
+                "angle": 0
+              }
+            },
+            "unwrapMode": "custom",
+            "visible": true,
+            "doubleSided": false,
+            "shadingMode": "standard"
+          },
+          "children": []
+        },
+        {
+          "id": "169",
+          "name": "Up_Bezel_R_5",
+          "position": {
+            "x": 2.5,
+            "y": 17.26896895966552,
+            "z": 18.95697791842522
           },
           "orientation": {
             "x": -0.6087614290087207,
@@ -7331,7 +7676,7 @@
               "front": {
                 "offset": {
                   "x": 50,
-                  "y": 188
+                  "y": 192
                 },
                 "mirror": {
                   "x": false,
@@ -7342,7 +7687,7 @@
               "back": {
                 "offset": {
                   "x": 52,
-                  "y": 188
+                  "y": 192
                 },
                 "mirror": {
                   "x": false,
@@ -7353,7 +7698,7 @@
               "left": {
                 "offset": {
                   "x": 54,
-                  "y": 188
+                  "y": 192
                 },
                 "mirror": {
                   "x": false,
@@ -7364,7 +7709,7 @@
               "right": {
                 "offset": {
                   "x": 55,
-                  "y": 188
+                  "y": 192
                 },
                 "mirror": {
                   "x": false,
@@ -7375,7 +7720,7 @@
               "top": {
                 "offset": {
                   "x": 56,
-                  "y": 188
+                  "y": 192
                 },
                 "mirror": {
                   "x": false,
@@ -7386,7 +7731,7 @@
               "bottom": {
                 "offset": {
                   "x": 58,
-                  "y": 188
+                  "y": 192
                 },
                 "mirror": {
                   "x": false,
@@ -7403,12 +7748,12 @@
           "children": []
         },
         {
-          "id": "165",
-          "name": "Up_Bezel_R_2",
+          "id": "170",
+          "name": "Up_Bezel_R_6",
           "position": {
             "x": 6.5,
-            "y": 16.49251182435796,
-            "z": 23.354755397292426
+            "y": 17.26896895966552,
+            "z": 18.95697791842522
           },
           "orientation": {
             "x": -0.6087614290087207,
@@ -7439,7 +7784,7 @@
               "front": {
                 "offset": {
                   "x": 60,
-                  "y": 188
+                  "y": 192
                 },
                 "mirror": {
                   "x": false,
@@ -7450,7 +7795,7 @@
               "back": {
                 "offset": {
                   "x": 62,
-                  "y": 188
+                  "y": 192
                 },
                 "mirror": {
                   "x": false,
@@ -7511,12 +7856,12 @@
           "children": []
         },
         {
-          "id": "166",
-          "name": "Up_Bezel_R_3",
+          "id": "171",
+          "name": "Up_Bezel_R_7",
           "position": {
-            "x": 2,
-            "y": 16.880740392011738,
-            "z": 21.905866657858823
+            "x": 4.5,
+            "y": 17.52778800476804,
+            "z": 17.99105209213615
           },
           "orientation": {
             "x": -0.6087614290087207,
@@ -7538,8 +7883,8 @@
             },
             "settings": {
               "size": {
-                "x": 1,
-                "y": 2,
+                "x": 4,
+                "y": 1,
                 "z": 1
               }
             },
@@ -7557,115 +7902,7 @@
               },
               "back": {
                 "offset": {
-                  "x": 7,
-                  "y": 194
-                },
-                "mirror": {
-                  "x": false,
-                  "y": false
-                },
-                "angle": 0
-              },
-              "left": {
-                "offset": {
-                  "x": 8,
-                  "y": 194
-                },
-                "mirror": {
-                  "x": false,
-                  "y": false
-                },
-                "angle": 0
-              },
-              "right": {
-                "offset": {
-                  "x": 9,
-                  "y": 194
-                },
-                "mirror": {
-                  "x": false,
-                  "y": false
-                },
-                "angle": 0
-              },
-              "top": {
-                "offset": {
                   "x": 10,
-                  "y": 194
-                },
-                "mirror": {
-                  "x": false,
-                  "y": false
-                },
-                "angle": 0
-              },
-              "bottom": {
-                "offset": {
-                  "x": 11,
-                  "y": 194
-                },
-                "mirror": {
-                  "x": false,
-                  "y": false
-                },
-                "angle": 0
-              }
-            },
-            "unwrapMode": "custom",
-            "visible": true,
-            "doubleSided": false,
-            "shadingMode": "standard"
-          },
-          "children": []
-        },
-        {
-          "id": "167",
-          "name": "Up_Bezel_R_4",
-          "position": {
-            "x": 7,
-            "y": 16.880740392011738,
-            "z": 21.905866657858823
-          },
-          "orientation": {
-            "x": -0.6087614290087207,
-            "y": 0,
-            "z": 0,
-            "w": 0.7933533402912352
-          },
-          "shape": {
-            "type": "box",
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "z": 0
-            },
-            "stretch": {
-              "x": 1,
-              "y": 1,
-              "z": 1
-            },
-            "settings": {
-              "size": {
-                "x": 1,
-                "y": 2,
-                "z": 1
-              }
-            },
-            "textureLayout": {
-              "front": {
-                "offset": {
-                  "x": 12,
-                  "y": 194
-                },
-                "mirror": {
-                  "x": false,
-                  "y": false
-                },
-                "angle": 0
-              },
-              "back": {
-                "offset": {
-                  "x": 13,
                   "y": 194
                 },
                 "mirror": {
@@ -7709,7 +7946,7 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 17,
+                  "x": 20,
                   "y": 194
                 },
                 "mirror": {
@@ -7727,12 +7964,12 @@
           "children": []
         },
         {
-          "id": "168",
-          "name": "Up_Bezel_R_5",
+          "id": "172",
+          "name": "Up_Lens_R_0",
           "position": {
-            "x": 2.5,
-            "y": 17.26896895966552,
-            "z": 20.45697791842522
+            "x": 4.5,
+            "y": 16.49251182435796,
+            "z": 21.854755397292426
           },
           "orientation": {
             "x": -0.6087614290087207,
@@ -7762,8 +7999,8 @@
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 18,
-                  "y": 194
+                  "x": 39,
+                  "y": 99
                 },
                 "mirror": {
                   "x": false,
@@ -7773,8 +8010,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 20,
-                  "y": 194
+                  "x": 39,
+                  "y": 99
                 },
                 "mirror": {
                   "x": false,
@@ -7783,28 +8020,6 @@
                 "angle": 0
               },
               "left": {
-                "offset": {
-                  "x": 22,
-                  "y": 194
-                },
-                "mirror": {
-                  "x": false,
-                  "y": false
-                },
-                "angle": 0
-              },
-              "right": {
-                "offset": {
-                  "x": 23,
-                  "y": 194
-                },
-                "mirror": {
-                  "x": false,
-                  "y": false
-                },
-                "angle": 0
-              },
-              "top": {
                 "offset": {
                   "x": 24,
                   "y": 194
@@ -7815,7 +8030,18 @@
                 },
                 "angle": 0
               },
-              "bottom": {
+              "right": {
+                "offset": {
+                  "x": 25,
+                  "y": 194
+                },
+                "mirror": {
+                  "x": false,
+                  "y": false
+                },
+                "angle": 0
+              },
+              "top": {
                 "offset": {
                   "x": 26,
                   "y": 194
@@ -7825,323 +8051,10 @@
                   "y": false
                 },
                 "angle": 0
-              }
-            },
-            "unwrapMode": "custom",
-            "visible": true,
-            "doubleSided": false,
-            "shadingMode": "standard"
-          },
-          "children": []
-        },
-        {
-          "id": "169",
-          "name": "Up_Bezel_R_6",
-          "position": {
-            "x": 6.5,
-            "y": 17.26896895966552,
-            "z": 20.45697791842522
-          },
-          "orientation": {
-            "x": -0.6087614290087207,
-            "y": 0,
-            "z": 0,
-            "w": 0.7933533402912352
-          },
-          "shape": {
-            "type": "box",
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "z": 0
-            },
-            "stretch": {
-              "x": 1,
-              "y": 1,
-              "z": 1
-            },
-            "settings": {
-              "size": {
-                "x": 2,
-                "y": 1,
-                "z": 1
-              }
-            },
-            "textureLayout": {
-              "front": {
+              },
+              "bottom": {
                 "offset": {
                   "x": 28,
-                  "y": 194
-                },
-                "mirror": {
-                  "x": false,
-                  "y": false
-                },
-                "angle": 0
-              },
-              "back": {
-                "offset": {
-                  "x": 30,
-                  "y": 194
-                },
-                "mirror": {
-                  "x": false,
-                  "y": false
-                },
-                "angle": 0
-              },
-              "left": {
-                "offset": {
-                  "x": 32,
-                  "y": 194
-                },
-                "mirror": {
-                  "x": false,
-                  "y": false
-                },
-                "angle": 0
-              },
-              "right": {
-                "offset": {
-                  "x": 33,
-                  "y": 194
-                },
-                "mirror": {
-                  "x": false,
-                  "y": false
-                },
-                "angle": 0
-              },
-              "top": {
-                "offset": {
-                  "x": 34,
-                  "y": 194
-                },
-                "mirror": {
-                  "x": false,
-                  "y": false
-                },
-                "angle": 0
-              },
-              "bottom": {
-                "offset": {
-                  "x": 36,
-                  "y": 194
-                },
-                "mirror": {
-                  "x": false,
-                  "y": false
-                },
-                "angle": 0
-              }
-            },
-            "unwrapMode": "custom",
-            "visible": true,
-            "doubleSided": false,
-            "shadingMode": "standard"
-          },
-          "children": []
-        },
-        {
-          "id": "170",
-          "name": "Up_Bezel_R_7",
-          "position": {
-            "x": 4.5,
-            "y": 17.52778800476804,
-            "z": 19.49105209213615
-          },
-          "orientation": {
-            "x": -0.6087614290087207,
-            "y": 0,
-            "z": 0,
-            "w": 0.7933533402912352
-          },
-          "shape": {
-            "type": "box",
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "z": 0
-            },
-            "stretch": {
-              "x": 1,
-              "y": 1,
-              "z": 1
-            },
-            "settings": {
-              "size": {
-                "x": 4,
-                "y": 1,
-                "z": 1
-              }
-            },
-            "textureLayout": {
-              "front": {
-                "offset": {
-                  "x": 38,
-                  "y": 194
-                },
-                "mirror": {
-                  "x": false,
-                  "y": false
-                },
-                "angle": 0
-              },
-              "back": {
-                "offset": {
-                  "x": 42,
-                  "y": 194
-                },
-                "mirror": {
-                  "x": false,
-                  "y": false
-                },
-                "angle": 0
-              },
-              "left": {
-                "offset": {
-                  "x": 46,
-                  "y": 194
-                },
-                "mirror": {
-                  "x": false,
-                  "y": false
-                },
-                "angle": 0
-              },
-              "right": {
-                "offset": {
-                  "x": 47,
-                  "y": 194
-                },
-                "mirror": {
-                  "x": false,
-                  "y": false
-                },
-                "angle": 0
-              },
-              "top": {
-                "offset": {
-                  "x": 48,
-                  "y": 194
-                },
-                "mirror": {
-                  "x": false,
-                  "y": false
-                },
-                "angle": 0
-              },
-              "bottom": {
-                "offset": {
-                  "x": 52,
-                  "y": 194
-                },
-                "mirror": {
-                  "x": false,
-                  "y": false
-                },
-                "angle": 0
-              }
-            },
-            "unwrapMode": "custom",
-            "visible": true,
-            "doubleSided": false,
-            "shadingMode": "standard"
-          },
-          "children": []
-        },
-        {
-          "id": "171",
-          "name": "Up_Lens_R_0",
-          "position": {
-            "x": 4.5,
-            "y": 16.49251182435796,
-            "z": 23.354755397292426
-          },
-          "orientation": {
-            "x": -0.6087614290087207,
-            "y": 0,
-            "z": 0,
-            "w": 0.7933533402912352
-          },
-          "shape": {
-            "type": "box",
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "z": 0
-            },
-            "stretch": {
-              "x": 1,
-              "y": 1,
-              "z": 1
-            },
-            "settings": {
-              "size": {
-                "x": 2,
-                "y": 1,
-                "z": 1
-              }
-            },
-            "textureLayout": {
-              "front": {
-                "offset": {
-                  "x": 39,
-                  "y": 99
-                },
-                "mirror": {
-                  "x": false,
-                  "y": false
-                },
-                "angle": 0
-              },
-              "back": {
-                "offset": {
-                  "x": 39,
-                  "y": 99
-                },
-                "mirror": {
-                  "x": false,
-                  "y": false
-                },
-                "angle": 0
-              },
-              "left": {
-                "offset": {
-                  "x": 56,
-                  "y": 194
-                },
-                "mirror": {
-                  "x": false,
-                  "y": false
-                },
-                "angle": 0
-              },
-              "right": {
-                "offset": {
-                  "x": 57,
-                  "y": 194
-                },
-                "mirror": {
-                  "x": false,
-                  "y": false
-                },
-                "angle": 0
-              },
-              "top": {
-                "offset": {
-                  "x": 58,
-                  "y": 194
-                },
-                "mirror": {
-                  "x": false,
-                  "y": false
-                },
-                "angle": 0
-              },
-              "bottom": {
-                "offset": {
-                  "x": 60,
                   "y": 194
                 },
                 "mirror": {
@@ -8159,12 +8072,12 @@
           "children": []
         },
         {
-          "id": "172",
+          "id": "173",
           "name": "Up_Lens_R_1",
           "position": {
             "x": 4.5,
             "y": 16.880740392011738,
-            "z": 21.905866657858823
+            "z": 20.405866657858823
           },
           "orientation": {
             "x": -0.6087614290087207,
@@ -8216,7 +8129,7 @@
               },
               "left": {
                 "offset": {
-                  "x": 62,
+                  "x": 30,
                   "y": 194
                 },
                 "mirror": {
@@ -8227,7 +8140,7 @@
               },
               "right": {
                 "offset": {
-                  "x": 63,
+                  "x": 31,
                   "y": 194
                 },
                 "mirror": {
@@ -8238,8 +8151,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 0,
-                  "y": 196
+                  "x": 32,
+                  "y": 194
                 },
                 "mirror": {
                   "x": false,
@@ -8249,8 +8162,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 4,
-                  "y": 196
+                  "x": 36,
+                  "y": 194
                 },
                 "mirror": {
                   "x": false,
@@ -8267,12 +8180,12 @@
           "children": []
         },
         {
-          "id": "173",
+          "id": "174",
           "name": "Up_Lens_R_2",
           "position": {
             "x": 4.5,
             "y": 17.26896895966552,
-            "z": 20.45697791842522
+            "z": 18.95697791842522
           },
           "orientation": {
             "x": -0.6087614290087207,
@@ -8324,8 +8237,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 8,
-                  "y": 196
+                  "x": 40,
+                  "y": 194
                 },
                 "mirror": {
                   "x": false,
@@ -8335,8 +8248,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 9,
-                  "y": 196
+                  "x": 41,
+                  "y": 194
                 },
                 "mirror": {
                   "x": false,
@@ -8346,8 +8259,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 10,
-                  "y": 196
+                  "x": 42,
+                  "y": 194
                 },
                 "mirror": {
                   "x": false,
@@ -8357,8 +8270,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 12,
-                  "y": 196
+                  "x": 44,
+                  "y": 194
                 },
                 "mirror": {
                   "x": false,
@@ -8375,12 +8288,12 @@
           "children": []
         },
         {
-          "id": "174",
+          "id": "175",
           "name": "Crest_1_0",
           "position": {
             "x": 0,
             "y": 13.980826633788958,
-            "z": 20.365849621436787
+            "z": 18.865849621436787
           },
           "orientation": {
             "x": 0.052335956242943835,
@@ -8410,8 +8323,8 @@
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 14,
-                  "y": 196
+                  "x": 46,
+                  "y": 194
                 },
                 "mirror": {
                   "x": false,
@@ -8421,8 +8334,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 17,
-                  "y": 196
+                  "x": 49,
+                  "y": 194
                 },
                 "mirror": {
                   "x": false,
@@ -8432,8 +8345,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 20,
-                  "y": 196
+                  "x": 52,
+                  "y": 194
                 },
                 "mirror": {
                   "x": false,
@@ -8443,8 +8356,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 23,
-                  "y": 196
+                  "x": 55,
+                  "y": 194
                 },
                 "mirror": {
                   "x": false,
@@ -8454,8 +8367,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 26,
-                  "y": 196
+                  "x": 58,
+                  "y": 194
                 },
                 "mirror": {
                   "x": false,
@@ -8465,8 +8378,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 29,
-                  "y": 196
+                  "x": 61,
+                  "y": 194
                 },
                 "mirror": {
                   "x": false,
@@ -8483,12 +8396,12 @@
           "children": []
         },
         {
-          "id": "175",
+          "id": "176",
           "name": "Crest_1_1",
           "position": {
             "x": 0,
             "y": 18.456175162946188,
-            "z": 20.836227706141226
+            "z": 19.336227706141226
           },
           "orientation": {
             "x": 0.052335956242943835,
@@ -8518,8 +8431,8 @@
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 32,
-                  "y": 196
+                  "x": 0,
+                  "y": 201
                 },
                 "mirror": {
                   "x": false,
@@ -8529,8 +8442,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 33,
-                  "y": 196
+                  "x": 1,
+                  "y": 201
                 },
                 "mirror": {
                   "x": false,
@@ -8540,8 +8453,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 34,
-                  "y": 196
+                  "x": 2,
+                  "y": 201
                 },
                 "mirror": {
                   "x": false,
@@ -8551,8 +8464,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 35,
-                  "y": 196
+                  "x": 3,
+                  "y": 201
                 },
                 "mirror": {
                   "x": false,
@@ -8562,8 +8475,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 36,
-                  "y": 196
+                  "x": 4,
+                  "y": 201
                 },
                 "mirror": {
                   "x": false,
@@ -8573,8 +8486,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 37,
-                  "y": 196
+                  "x": 5,
+                  "y": 201
                 },
                 "mirror": {
                   "x": false,
@@ -8591,12 +8504,12 @@
           "children": []
         },
         {
-          "id": "176",
+          "id": "177",
           "name": "Crest_2_0",
           "position": {
             "x": -3.118033988749895,
             "y": 12.397479580842784,
-            "z": 19.632684697816245
+            "z": 18.132684697816245
           },
           "orientation": {
             "x": 0.034469825985698664,
@@ -8626,8 +8539,8 @@
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 38,
-                  "y": 196
+                  "x": 6,
+                  "y": 201
                 },
                 "mirror": {
                   "x": false,
@@ -8637,8 +8550,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 40,
-                  "y": 196
+                  "x": 8,
+                  "y": 201
                 },
                 "mirror": {
                   "x": false,
@@ -8648,8 +8561,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 42,
-                  "y": 196
+                  "x": 10,
+                  "y": 201
                 },
                 "mirror": {
                   "x": false,
@@ -8659,8 +8572,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 44,
-                  "y": 196
+                  "x": 12,
+                  "y": 201
                 },
                 "mirror": {
                   "x": false,
@@ -8670,8 +8583,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 46,
-                  "y": 196
+                  "x": 14,
+                  "y": 201
                 },
                 "mirror": {
                   "x": false,
@@ -8681,8 +8594,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 48,
-                  "y": 196
+                  "x": 16,
+                  "y": 201
                 },
                 "mirror": {
                   "x": false,
@@ -8699,12 +8612,12 @@
           "children": []
         },
         {
-          "id": "177",
+          "id": "178",
           "name": "Crest_3_0",
           "position": {
             "x": 3.118033988749895,
             "y": 12.397479580842784,
-            "z": 19.632684697816245
+            "z": 18.132684697816245
           },
           "orientation": {
             "x": 0.034469825985698664,
@@ -8734,8 +8647,8 @@
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 50,
-                  "y": 196
+                  "x": 18,
+                  "y": 201
                 },
                 "mirror": {
                   "x": false,
@@ -8745,8 +8658,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 52,
-                  "y": 196
+                  "x": 20,
+                  "y": 201
                 },
                 "mirror": {
                   "x": false,
@@ -8756,8 +8669,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 54,
-                  "y": 196
+                  "x": 22,
+                  "y": 201
                 },
                 "mirror": {
                   "x": false,
@@ -8767,8 +8680,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 56,
-                  "y": 196
+                  "x": 24,
+                  "y": 201
                 },
                 "mirror": {
                   "x": false,
@@ -8778,8 +8691,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 58,
-                  "y": 196
+                  "x": 26,
+                  "y": 201
                 },
                 "mirror": {
                   "x": false,
@@ -8789,8 +8702,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 60,
-                  "y": 196
+                  "x": 28,
+                  "y": 201
                 },
                 "mirror": {
                   "x": false,
@@ -8807,7 +8720,7 @@
           "children": []
         },
         {
-          "id": "178",
+          "id": "179",
           "name": "Temple_Disc_L_0",
           "position": {
             "x": -15.75,
@@ -8842,8 +8755,8 @@
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 0,
-                  "y": 203
+                  "x": 30,
+                  "y": 201
                 },
                 "mirror": {
                   "x": false,
@@ -8853,8 +8766,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 4,
-                  "y": 203
+                  "x": 34,
+                  "y": 201
                 },
                 "mirror": {
                   "x": false,
@@ -8864,8 +8777,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 8,
-                  "y": 203
+                  "x": 38,
+                  "y": 201
                 },
                 "mirror": {
                   "x": false,
@@ -8875,8 +8788,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 9,
-                  "y": 203
+                  "x": 39,
+                  "y": 201
                 },
                 "mirror": {
                   "x": false,
@@ -8886,8 +8799,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 10,
-                  "y": 203
+                  "x": 40,
+                  "y": 201
                 },
                 "mirror": {
                   "x": false,
@@ -8897,8 +8810,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 14,
-                  "y": 203
+                  "x": 44,
+                  "y": 201
                 },
                 "mirror": {
                   "x": false,
@@ -8915,7 +8828,7 @@
           "children": []
         },
         {
-          "id": "179",
+          "id": "180",
           "name": "Temple_Disc_L_1",
           "position": {
             "x": -15.75,
@@ -8950,8 +8863,8 @@
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 18,
-                  "y": 203
+                  "x": 48,
+                  "y": 201
                 },
                 "mirror": {
                   "x": false,
@@ -8961,8 +8874,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 24,
-                  "y": 203
+                  "x": 54,
+                  "y": 201
                 },
                 "mirror": {
                   "x": false,
@@ -8972,8 +8885,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 30,
-                  "y": 203
+                  "x": 60,
+                  "y": 201
                 },
                 "mirror": {
                   "x": false,
@@ -8983,8 +8896,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 31,
-                  "y": 203
+                  "x": 61,
+                  "y": 201
                 },
                 "mirror": {
                   "x": false,
@@ -8994,8 +8907,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 32,
-                  "y": 203
+                  "x": 0,
+                  "y": 205
                 },
                 "mirror": {
                   "x": false,
@@ -9005,8 +8918,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 38,
-                  "y": 203
+                  "x": 6,
+                  "y": 205
                 },
                 "mirror": {
                   "x": false,
@@ -9023,7 +8936,7 @@
           "children": []
         },
         {
-          "id": "180",
+          "id": "181",
           "name": "Temple_Disc_L_2",
           "position": {
             "x": -15.75,
@@ -9058,8 +8971,8 @@
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 44,
-                  "y": 203
+                  "x": 12,
+                  "y": 205
                 },
                 "mirror": {
                   "x": false,
@@ -9069,8 +8982,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 47,
-                  "y": 203
+                  "x": 15,
+                  "y": 205
                 },
                 "mirror": {
                   "x": false,
@@ -9080,8 +8993,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 50,
-                  "y": 203
+                  "x": 18,
+                  "y": 205
                 },
                 "mirror": {
                   "x": false,
@@ -9091,8 +9004,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 51,
-                  "y": 203
+                  "x": 19,
+                  "y": 205
                 },
                 "mirror": {
                   "x": false,
@@ -9102,8 +9015,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 52,
-                  "y": 203
+                  "x": 20,
+                  "y": 205
                 },
                 "mirror": {
                   "x": false,
@@ -9113,8 +9026,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 55,
-                  "y": 203
+                  "x": 23,
+                  "y": 205
                 },
                 "mirror": {
                   "x": false,
@@ -9131,7 +9044,7 @@
           "children": []
         },
         {
-          "id": "181",
+          "id": "182",
           "name": "Temple_Disc_L_3",
           "position": {
             "x": -15.75,
@@ -9166,8 +9079,8 @@
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 58,
-                  "y": 203
+                  "x": 26,
+                  "y": 205
                 },
                 "mirror": {
                   "x": false,
@@ -9177,8 +9090,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 61,
-                  "y": 203
+                  "x": 29,
+                  "y": 205
                 },
                 "mirror": {
                   "x": false,
@@ -9188,8 +9101,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 0,
-                  "y": 204
+                  "x": 32,
+                  "y": 205
                 },
                 "mirror": {
                   "x": false,
@@ -9199,8 +9112,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 1,
-                  "y": 204
+                  "x": 33,
+                  "y": 205
                 },
                 "mirror": {
                   "x": false,
@@ -9210,8 +9123,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 2,
-                  "y": 204
+                  "x": 34,
+                  "y": 205
                 },
                 "mirror": {
                   "x": false,
@@ -9221,8 +9134,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 5,
-                  "y": 204
+                  "x": 37,
+                  "y": 205
                 },
                 "mirror": {
                   "x": false,
@@ -9239,7 +9152,7 @@
           "children": []
         },
         {
-          "id": "182",
+          "id": "183",
           "name": "Temple_Disc_L_4",
           "position": {
             "x": -15.75,
@@ -9274,8 +9187,8 @@
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 8,
-                  "y": 204
+                  "x": 40,
+                  "y": 205
                 },
                 "mirror": {
                   "x": false,
@@ -9285,8 +9198,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 10,
-                  "y": 204
+                  "x": 42,
+                  "y": 205
                 },
                 "mirror": {
                   "x": false,
@@ -9296,8 +9209,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 12,
-                  "y": 204
+                  "x": 44,
+                  "y": 205
                 },
                 "mirror": {
                   "x": false,
@@ -9307,8 +9220,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 13,
-                  "y": 204
+                  "x": 45,
+                  "y": 205
                 },
                 "mirror": {
                   "x": false,
@@ -9318,8 +9231,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 14,
-                  "y": 204
+                  "x": 46,
+                  "y": 205
                 },
                 "mirror": {
                   "x": false,
@@ -9329,8 +9242,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 16,
-                  "y": 204
+                  "x": 48,
+                  "y": 205
                 },
                 "mirror": {
                   "x": false,
@@ -9347,7 +9260,7 @@
           "children": []
         },
         {
-          "id": "183",
+          "id": "184",
           "name": "Temple_Disc_L_5",
           "position": {
             "x": -15.75,
@@ -9382,8 +9295,8 @@
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 18,
-                  "y": 204
+                  "x": 50,
+                  "y": 205
                 },
                 "mirror": {
                   "x": false,
@@ -9393,8 +9306,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 20,
-                  "y": 204
+                  "x": 52,
+                  "y": 205
                 },
                 "mirror": {
                   "x": false,
@@ -9404,8 +9317,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 22,
-                  "y": 204
+                  "x": 54,
+                  "y": 205
                 },
                 "mirror": {
                   "x": false,
@@ -9415,8 +9328,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 23,
-                  "y": 204
+                  "x": 55,
+                  "y": 205
                 },
                 "mirror": {
                   "x": false,
@@ -9426,8 +9339,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 24,
-                  "y": 204
+                  "x": 56,
+                  "y": 205
                 },
                 "mirror": {
                   "x": false,
@@ -9437,8 +9350,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 26,
-                  "y": 204
+                  "x": 58,
+                  "y": 205
                 },
                 "mirror": {
                   "x": false,
@@ -9455,7 +9368,7 @@
           "children": []
         },
         {
-          "id": "184",
+          "id": "185",
           "name": "Temple_Disc_L_6",
           "position": {
             "x": -15.75,
@@ -9490,8 +9403,8 @@
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 28,
-                  "y": 204
+                  "x": 60,
+                  "y": 205
                 },
                 "mirror": {
                   "x": false,
@@ -9501,8 +9414,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 31,
-                  "y": 204
+                  "x": 0,
+                  "y": 207
                 },
                 "mirror": {
                   "x": false,
@@ -9512,8 +9425,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 34,
-                  "y": 204
+                  "x": 3,
+                  "y": 207
                 },
                 "mirror": {
                   "x": false,
@@ -9523,8 +9436,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 35,
-                  "y": 204
+                  "x": 4,
+                  "y": 207
                 },
                 "mirror": {
                   "x": false,
@@ -9534,8 +9447,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 36,
-                  "y": 204
+                  "x": 5,
+                  "y": 207
                 },
                 "mirror": {
                   "x": false,
@@ -9545,8 +9458,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 39,
-                  "y": 204
+                  "x": 8,
+                  "y": 207
                 },
                 "mirror": {
                   "x": false,
@@ -9563,7 +9476,7 @@
           "children": []
         },
         {
-          "id": "185",
+          "id": "186",
           "name": "Temple_Disc_L_7",
           "position": {
             "x": -15.75,
@@ -9598,8 +9511,8 @@
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 42,
-                  "y": 204
+                  "x": 11,
+                  "y": 207
                 },
                 "mirror": {
                   "x": false,
@@ -9609,8 +9522,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 45,
-                  "y": 204
+                  "x": 14,
+                  "y": 207
                 },
                 "mirror": {
                   "x": false,
@@ -9620,8 +9533,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 48,
-                  "y": 204
+                  "x": 17,
+                  "y": 207
                 },
                 "mirror": {
                   "x": false,
@@ -9631,8 +9544,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 49,
-                  "y": 204
+                  "x": 18,
+                  "y": 207
                 },
                 "mirror": {
                   "x": false,
@@ -9642,8 +9555,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 50,
-                  "y": 204
+                  "x": 19,
+                  "y": 207
                 },
                 "mirror": {
                   "x": false,
@@ -9653,8 +9566,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 53,
-                  "y": 204
+                  "x": 22,
+                  "y": 207
                 },
                 "mirror": {
                   "x": false,
@@ -9671,7 +9584,7 @@
           "children": []
         },
         {
-          "id": "186",
+          "id": "187",
           "name": "Temple_Disc_L_8",
           "position": {
             "x": -15.75,
@@ -9706,8 +9619,8 @@
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 56,
-                  "y": 204
+                  "x": 25,
+                  "y": 207
                 },
                 "mirror": {
                   "x": false,
@@ -9717,8 +9630,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 0,
-                  "y": 206
+                  "x": 31,
+                  "y": 207
                 },
                 "mirror": {
                   "x": false,
@@ -9728,8 +9641,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 6,
-                  "y": 206
+                  "x": 37,
+                  "y": 207
                 },
                 "mirror": {
                   "x": false,
@@ -9739,8 +9652,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 7,
-                  "y": 206
+                  "x": 38,
+                  "y": 207
                 },
                 "mirror": {
                   "x": false,
@@ -9750,8 +9663,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 8,
-                  "y": 206
+                  "x": 39,
+                  "y": 207
                 },
                 "mirror": {
                   "x": false,
@@ -9761,8 +9674,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 14,
-                  "y": 206
+                  "x": 45,
+                  "y": 207
                 },
                 "mirror": {
                   "x": false,
@@ -9779,7 +9692,7 @@
           "children": []
         },
         {
-          "id": "187",
+          "id": "188",
           "name": "Temple_Disc_L_9",
           "position": {
             "x": -15.75,
@@ -9814,8 +9727,8 @@
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 20,
-                  "y": 206
+                  "x": 51,
+                  "y": 207
                 },
                 "mirror": {
                   "x": false,
@@ -9825,8 +9738,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 24,
-                  "y": 206
+                  "x": 55,
+                  "y": 207
                 },
                 "mirror": {
                   "x": false,
@@ -9836,8 +9749,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 28,
-                  "y": 206
+                  "x": 59,
+                  "y": 207
                 },
                 "mirror": {
                   "x": false,
@@ -9847,8 +9760,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 29,
-                  "y": 206
+                  "x": 60,
+                  "y": 207
                 },
                 "mirror": {
                   "x": false,
@@ -9858,8 +9771,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 30,
-                  "y": 206
+                  "x": 0,
+                  "y": 208
                 },
                 "mirror": {
                   "x": false,
@@ -9869,8 +9782,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 34,
-                  "y": 206
+                  "x": 4,
+                  "y": 208
                 },
                 "mirror": {
                   "x": false,
@@ -9887,7 +9800,7 @@
           "children": []
         },
         {
-          "id": "188",
+          "id": "189",
           "name": "Temple_Core_L_0",
           "position": {
             "x": -15.75,
@@ -9944,8 +9857,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 38,
-                  "y": 206
+                  "x": 8,
+                  "y": 208
                 },
                 "mirror": {
                   "x": false,
@@ -9955,8 +9868,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 39,
-                  "y": 206
+                  "x": 9,
+                  "y": 208
                 },
                 "mirror": {
                   "x": false,
@@ -9966,8 +9879,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 40,
-                  "y": 206
+                  "x": 10,
+                  "y": 208
                 },
                 "mirror": {
                   "x": false,
@@ -9977,8 +9890,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 42,
-                  "y": 206
+                  "x": 12,
+                  "y": 208
                 },
                 "mirror": {
                   "x": false,
@@ -9995,7 +9908,7 @@
           "children": []
         },
         {
-          "id": "189",
+          "id": "190",
           "name": "Temple_Core_L_1",
           "position": {
             "x": -15.75,
@@ -10052,8 +9965,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 44,
-                  "y": 206
+                  "x": 14,
+                  "y": 208
                 },
                 "mirror": {
                   "x": false,
@@ -10063,8 +9976,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 45,
-                  "y": 206
+                  "x": 15,
+                  "y": 208
                 },
                 "mirror": {
                   "x": false,
@@ -10074,8 +9987,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 46,
-                  "y": 206
+                  "x": 16,
+                  "y": 208
                 },
                 "mirror": {
                   "x": false,
@@ -10085,8 +9998,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 50,
-                  "y": 206
+                  "x": 20,
+                  "y": 208
                 },
                 "mirror": {
                   "x": false,
@@ -10103,7 +10016,7 @@
           "children": []
         },
         {
-          "id": "190",
+          "id": "191",
           "name": "Temple_Core_L_2",
           "position": {
             "x": -15.75,
@@ -10160,8 +10073,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 54,
-                  "y": 206
+                  "x": 24,
+                  "y": 208
                 },
                 "mirror": {
                   "x": false,
@@ -10171,8 +10084,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 55,
-                  "y": 206
+                  "x": 25,
+                  "y": 208
                 },
                 "mirror": {
                   "x": false,
@@ -10182,8 +10095,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 56,
-                  "y": 206
+                  "x": 26,
+                  "y": 208
                 },
                 "mirror": {
                   "x": false,
@@ -10193,8 +10106,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 58,
-                  "y": 206
+                  "x": 28,
+                  "y": 208
                 },
                 "mirror": {
                   "x": false,
@@ -10211,7 +10124,7 @@
           "children": []
         },
         {
-          "id": "191",
+          "id": "192",
           "name": "Temple_Disc_R_0",
           "position": {
             "x": 15.75,
@@ -10246,8 +10159,8 @@
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 60,
-                  "y": 206
+                  "x": 30,
+                  "y": 208
                 },
                 "mirror": {
                   "x": false,
@@ -10257,7 +10170,7 @@
               },
               "back": {
                 "offset": {
-                  "x": 0,
+                  "x": 34,
                   "y": 208
                 },
                 "mirror": {
@@ -10268,7 +10181,7 @@
               },
               "left": {
                 "offset": {
-                  "x": 4,
+                  "x": 38,
                   "y": 208
                 },
                 "mirror": {
@@ -10279,7 +10192,7 @@
               },
               "right": {
                 "offset": {
-                  "x": 5,
+                  "x": 39,
                   "y": 208
                 },
                 "mirror": {
@@ -10290,7 +10203,7 @@
               },
               "top": {
                 "offset": {
-                  "x": 6,
+                  "x": 40,
                   "y": 208
                 },
                 "mirror": {
@@ -10301,7 +10214,7 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 10,
+                  "x": 44,
                   "y": 208
                 },
                 "mirror": {
@@ -10319,7 +10232,7 @@
           "children": []
         },
         {
-          "id": "192",
+          "id": "193",
           "name": "Temple_Disc_R_1",
           "position": {
             "x": 15.75,
@@ -10354,7 +10267,7 @@
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 14,
+                  "x": 48,
                   "y": 208
                 },
                 "mirror": {
@@ -10365,7 +10278,7 @@
               },
               "back": {
                 "offset": {
-                  "x": 20,
+                  "x": 54,
                   "y": 208
                 },
                 "mirror": {
@@ -10376,7 +10289,7 @@
               },
               "left": {
                 "offset": {
-                  "x": 26,
+                  "x": 60,
                   "y": 208
                 },
                 "mirror": {
@@ -10387,7 +10300,7 @@
               },
               "right": {
                 "offset": {
-                  "x": 27,
+                  "x": 61,
                   "y": 208
                 },
                 "mirror": {
@@ -10398,8 +10311,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 28,
-                  "y": 208
+                  "x": 0,
+                  "y": 210
                 },
                 "mirror": {
                   "x": false,
@@ -10409,8 +10322,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 34,
-                  "y": 208
+                  "x": 6,
+                  "y": 210
                 },
                 "mirror": {
                   "x": false,
@@ -10427,7 +10340,7 @@
           "children": []
         },
         {
-          "id": "193",
+          "id": "194",
           "name": "Temple_Disc_R_2",
           "position": {
             "x": 15.75,
@@ -10462,8 +10375,8 @@
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 40,
-                  "y": 208
+                  "x": 12,
+                  "y": 210
                 },
                 "mirror": {
                   "x": false,
@@ -10473,8 +10386,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 43,
-                  "y": 208
+                  "x": 15,
+                  "y": 210
                 },
                 "mirror": {
                   "x": false,
@@ -10484,8 +10397,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 46,
-                  "y": 208
+                  "x": 18,
+                  "y": 210
                 },
                 "mirror": {
                   "x": false,
@@ -10495,8 +10408,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 47,
-                  "y": 208
+                  "x": 19,
+                  "y": 210
                 },
                 "mirror": {
                   "x": false,
@@ -10506,8 +10419,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 48,
-                  "y": 208
+                  "x": 20,
+                  "y": 210
                 },
                 "mirror": {
                   "x": false,
@@ -10517,8 +10430,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 51,
-                  "y": 208
+                  "x": 23,
+                  "y": 210
                 },
                 "mirror": {
                   "x": false,
@@ -10535,7 +10448,7 @@
           "children": []
         },
         {
-          "id": "194",
+          "id": "195",
           "name": "Temple_Disc_R_3",
           "position": {
             "x": 15.75,
@@ -10570,8 +10483,8 @@
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 54,
-                  "y": 208
+                  "x": 26,
+                  "y": 210
                 },
                 "mirror": {
                   "x": false,
@@ -10581,8 +10494,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 57,
-                  "y": 208
+                  "x": 29,
+                  "y": 210
                 },
                 "mirror": {
                   "x": false,
@@ -10592,8 +10505,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 60,
-                  "y": 208
+                  "x": 32,
+                  "y": 210
                 },
                 "mirror": {
                   "x": false,
@@ -10603,8 +10516,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 61,
-                  "y": 208
+                  "x": 33,
+                  "y": 210
                 },
                 "mirror": {
                   "x": false,
@@ -10614,8 +10527,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 0,
-                  "y": 209
+                  "x": 34,
+                  "y": 210
                 },
                 "mirror": {
                   "x": false,
@@ -10625,8 +10538,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 3,
-                  "y": 209
+                  "x": 37,
+                  "y": 210
                 },
                 "mirror": {
                   "x": false,
@@ -10643,7 +10556,7 @@
           "children": []
         },
         {
-          "id": "195",
+          "id": "196",
           "name": "Temple_Disc_R_4",
           "position": {
             "x": 15.75,
@@ -10678,8 +10591,8 @@
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 6,
-                  "y": 209
+                  "x": 40,
+                  "y": 210
                 },
                 "mirror": {
                   "x": false,
@@ -10689,8 +10602,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 8,
-                  "y": 209
+                  "x": 42,
+                  "y": 210
                 },
                 "mirror": {
                   "x": false,
@@ -10700,8 +10613,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 10,
-                  "y": 209
+                  "x": 44,
+                  "y": 210
                 },
                 "mirror": {
                   "x": false,
@@ -10711,8 +10624,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 11,
-                  "y": 209
+                  "x": 45,
+                  "y": 210
                 },
                 "mirror": {
                   "x": false,
@@ -10722,8 +10635,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 12,
-                  "y": 209
+                  "x": 46,
+                  "y": 210
                 },
                 "mirror": {
                   "x": false,
@@ -10733,8 +10646,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 14,
-                  "y": 209
+                  "x": 48,
+                  "y": 210
                 },
                 "mirror": {
                   "x": false,
@@ -10751,7 +10664,7 @@
           "children": []
         },
         {
-          "id": "196",
+          "id": "197",
           "name": "Temple_Disc_R_5",
           "position": {
             "x": 15.75,
@@ -10786,8 +10699,8 @@
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 16,
-                  "y": 209
+                  "x": 50,
+                  "y": 210
                 },
                 "mirror": {
                   "x": false,
@@ -10797,8 +10710,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 18,
-                  "y": 209
+                  "x": 52,
+                  "y": 210
                 },
                 "mirror": {
                   "x": false,
@@ -10808,8 +10721,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 20,
-                  "y": 209
+                  "x": 54,
+                  "y": 210
                 },
                 "mirror": {
                   "x": false,
@@ -10819,8 +10732,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 21,
-                  "y": 209
+                  "x": 55,
+                  "y": 210
                 },
                 "mirror": {
                   "x": false,
@@ -10830,8 +10743,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 22,
-                  "y": 209
+                  "x": 56,
+                  "y": 210
                 },
                 "mirror": {
                   "x": false,
@@ -10841,8 +10754,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 24,
-                  "y": 209
+                  "x": 58,
+                  "y": 210
                 },
                 "mirror": {
                   "x": false,
@@ -10859,7 +10772,7 @@
           "children": []
         },
         {
-          "id": "197",
+          "id": "198",
           "name": "Temple_Disc_R_6",
           "position": {
             "x": 15.75,
@@ -10894,8 +10807,8 @@
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 26,
-                  "y": 209
+                  "x": 60,
+                  "y": 210
                 },
                 "mirror": {
                   "x": false,
@@ -10905,8 +10818,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 29,
-                  "y": 209
+                  "x": 0,
+                  "y": 212
                 },
                 "mirror": {
                   "x": false,
@@ -10916,8 +10829,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 32,
-                  "y": 209
+                  "x": 3,
+                  "y": 212
                 },
                 "mirror": {
                   "x": false,
@@ -10927,8 +10840,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 33,
-                  "y": 209
+                  "x": 4,
+                  "y": 212
                 },
                 "mirror": {
                   "x": false,
@@ -10938,8 +10851,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 34,
-                  "y": 209
+                  "x": 5,
+                  "y": 212
                 },
                 "mirror": {
                   "x": false,
@@ -10949,8 +10862,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 37,
-                  "y": 209
+                  "x": 8,
+                  "y": 212
                 },
                 "mirror": {
                   "x": false,
@@ -10967,7 +10880,7 @@
           "children": []
         },
         {
-          "id": "198",
+          "id": "199",
           "name": "Temple_Disc_R_7",
           "position": {
             "x": 15.75,
@@ -11002,8 +10915,8 @@
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 40,
-                  "y": 209
+                  "x": 11,
+                  "y": 212
                 },
                 "mirror": {
                   "x": false,
@@ -11013,8 +10926,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 43,
-                  "y": 209
+                  "x": 14,
+                  "y": 212
                 },
                 "mirror": {
                   "x": false,
@@ -11024,8 +10937,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 46,
-                  "y": 209
+                  "x": 17,
+                  "y": 212
                 },
                 "mirror": {
                   "x": false,
@@ -11035,8 +10948,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 47,
-                  "y": 209
+                  "x": 18,
+                  "y": 212
                 },
                 "mirror": {
                   "x": false,
@@ -11046,8 +10959,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 48,
-                  "y": 209
+                  "x": 19,
+                  "y": 212
                 },
                 "mirror": {
                   "x": false,
@@ -11057,8 +10970,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 51,
-                  "y": 209
+                  "x": 22,
+                  "y": 212
                 },
                 "mirror": {
                   "x": false,
@@ -11075,7 +10988,7 @@
           "children": []
         },
         {
-          "id": "199",
+          "id": "200",
           "name": "Temple_Disc_R_8",
           "position": {
             "x": 15.75,
@@ -11110,8 +11023,8 @@
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 54,
-                  "y": 209
+                  "x": 25,
+                  "y": 212
                 },
                 "mirror": {
                   "x": false,
@@ -11121,8 +11034,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 0,
-                  "y": 211
+                  "x": 31,
+                  "y": 212
                 },
                 "mirror": {
                   "x": false,
@@ -11132,8 +11045,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 6,
-                  "y": 211
+                  "x": 37,
+                  "y": 212
                 },
                 "mirror": {
                   "x": false,
@@ -11143,8 +11056,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 7,
-                  "y": 211
+                  "x": 38,
+                  "y": 212
                 },
                 "mirror": {
                   "x": false,
@@ -11154,8 +11067,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 8,
-                  "y": 211
+                  "x": 39,
+                  "y": 212
                 },
                 "mirror": {
                   "x": false,
@@ -11165,8 +11078,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 14,
-                  "y": 211
+                  "x": 45,
+                  "y": 212
                 },
                 "mirror": {
                   "x": false,
@@ -11183,7 +11096,7 @@
           "children": []
         },
         {
-          "id": "200",
+          "id": "201",
           "name": "Temple_Disc_R_9",
           "position": {
             "x": 15.75,
@@ -11218,8 +11131,8 @@
             "textureLayout": {
               "front": {
                 "offset": {
-                  "x": 20,
-                  "y": 211
+                  "x": 51,
+                  "y": 212
                 },
                 "mirror": {
                   "x": false,
@@ -11229,8 +11142,8 @@
               },
               "back": {
                 "offset": {
-                  "x": 24,
-                  "y": 211
+                  "x": 55,
+                  "y": 212
                 },
                 "mirror": {
                   "x": false,
@@ -11240,8 +11153,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 28,
-                  "y": 211
+                  "x": 59,
+                  "y": 212
                 },
                 "mirror": {
                   "x": false,
@@ -11251,8 +11164,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 29,
-                  "y": 211
+                  "x": 60,
+                  "y": 212
                 },
                 "mirror": {
                   "x": false,
@@ -11262,8 +11175,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 30,
-                  "y": 211
+                  "x": 0,
+                  "y": 213
                 },
                 "mirror": {
                   "x": false,
@@ -11273,8 +11186,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 34,
-                  "y": 211
+                  "x": 4,
+                  "y": 213
                 },
                 "mirror": {
                   "x": false,
@@ -11291,7 +11204,7 @@
           "children": []
         },
         {
-          "id": "201",
+          "id": "202",
           "name": "Temple_Core_R_0",
           "position": {
             "x": 15.75,
@@ -11348,8 +11261,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 38,
-                  "y": 211
+                  "x": 8,
+                  "y": 213
                 },
                 "mirror": {
                   "x": false,
@@ -11359,8 +11272,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 39,
-                  "y": 211
+                  "x": 9,
+                  "y": 213
                 },
                 "mirror": {
                   "x": false,
@@ -11370,8 +11283,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 40,
-                  "y": 211
+                  "x": 10,
+                  "y": 213
                 },
                 "mirror": {
                   "x": false,
@@ -11381,8 +11294,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 42,
-                  "y": 211
+                  "x": 12,
+                  "y": 213
                 },
                 "mirror": {
                   "x": false,
@@ -11399,7 +11312,7 @@
           "children": []
         },
         {
-          "id": "202",
+          "id": "203",
           "name": "Temple_Core_R_1",
           "position": {
             "x": 15.75,
@@ -11456,8 +11369,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 44,
-                  "y": 211
+                  "x": 14,
+                  "y": 213
                 },
                 "mirror": {
                   "x": false,
@@ -11467,8 +11380,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 45,
-                  "y": 211
+                  "x": 15,
+                  "y": 213
                 },
                 "mirror": {
                   "x": false,
@@ -11478,8 +11391,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 46,
-                  "y": 211
+                  "x": 16,
+                  "y": 213
                 },
                 "mirror": {
                   "x": false,
@@ -11489,8 +11402,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 50,
-                  "y": 211
+                  "x": 20,
+                  "y": 213
                 },
                 "mirror": {
                   "x": false,
@@ -11507,7 +11420,7 @@
           "children": []
         },
         {
-          "id": "203",
+          "id": "204",
           "name": "Temple_Core_R_2",
           "position": {
             "x": 15.75,
@@ -11564,8 +11477,8 @@
               },
               "left": {
                 "offset": {
-                  "x": 54,
-                  "y": 211
+                  "x": 24,
+                  "y": 213
                 },
                 "mirror": {
                   "x": false,
@@ -11575,8 +11488,8 @@
               },
               "right": {
                 "offset": {
-                  "x": 55,
-                  "y": 211
+                  "x": 25,
+                  "y": 213
                 },
                 "mirror": {
                   "x": false,
@@ -11586,8 +11499,8 @@
               },
               "top": {
                 "offset": {
-                  "x": 56,
-                  "y": 211
+                  "x": 26,
+                  "y": 213
                 },
                 "mirror": {
                   "x": false,
@@ -11597,8 +11510,8 @@
               },
               "bottom": {
                 "offset": {
-                  "x": 58,
-                  "y": 211
+                  "x": 28,
+                  "y": 213
                 },
                 "mirror": {
                   "x": false,

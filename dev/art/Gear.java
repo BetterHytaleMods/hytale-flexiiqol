@@ -298,6 +298,11 @@ final class Gear {
         m.add(new Art.Box("Visor_Top", 0, LENS_Y + 4.5, f + 2, (int) w, 2, 3, GOLD));
         m.add(new Art.Box("Visor_Bottom", 0, LENS_Y - 4.5, f + 2, (int) w, 2, 3, GOLD));
         m.pair("Visor_Side", w / 2 - 1.5, LENS_Y, f + 2, 3, 7, 3, GOLD);
+        // where a helmet's ridge comes through the middle of the visor, a divider of the frame covers it
+        double fc = front.applyAsDouble(0, LENS_Y);
+        if (fc > f + 0.25) {
+            m.add(new Art.Box("Visor_Divider", 0, LENS_Y, fc + 0.75, 7, 7, 1, GOLD));
+        }
         // the scope over the right eye
         double x = lx + 1;
         disc(m, "Scope_Base", x, LENS_Y, f + 5.5, 9, 4, GOLD);
