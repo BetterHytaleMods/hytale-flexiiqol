@@ -30,6 +30,10 @@
         "Quantity": 1
       },
       {
+        "ItemId": "Flexii_Lumenite",
+        "Quantity": 3
+      },
+      {
         "ItemId": "Ingredient_Bar_Adamantite",
         "Quantity": 10
       }
@@ -41,7 +45,7 @@
         "Categories": [
           "Flexii_Optician_Ultra"
         ],
-        "RequiredTierLevel": 4
+        "RequiredTierLevel": 5
       }
     ],
     "KnowledgeRequired": false,

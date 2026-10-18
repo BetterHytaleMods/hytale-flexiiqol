@@ -96,9 +96,9 @@ public final class Art {
                     }
                     case CRYSTAL -> {
                         double t = (double) x / Math.max(1, w - 1);
-                        c = mix(shade(mat.rgb(), 1.15), shade(mat.rgb(), 0.85), t);
-                        if (x == w / 3 && !edge) c = mix(c, 0xffffff, 0.6);
-                        if (edge) c = shade(mat.rgb(), 0.78);
+                        c = mix(mix(mat.rgb(), 0xffffff, 0.25), shade(mat.rgb(), 0.95), t);
+                        if (!edge && (x == w / 3 || (w > 4 && x == 2 * w / 3 && n > 0.5))) c = mix(c, 0xffffff, 0.7);
+                        if (edge) c = shade(mat.rgb(), 0.86);
                     }
                     case PLAIN -> c = shade(c, 0.97 + n * 0.06);
                 }
@@ -172,6 +172,26 @@ public final class Art {
         void pair(String name, double x, double y, double z, int sx, int sy, int sz, Mat mat) {
             this.add(new Box(name + "_L", -x, y, z, sx, sy, sz, mat));
             this.add(new Box(name + "_R", x, y, z, sx, sy, sz, mat));
+        }
+
+        /**
+         * A pointed crystal standing on (x, y, z): a prism {@code w} wide and {@code h} long with a
+         * stepped tip, its axis turned from +y by the angles.
+         */
+        void crystal(String name, double x, double y, double z, int w, int h, double rx, double ry, double rz, Mat mat, boolean glow) {
+            double[] q = quaternion(rx, ry, rz);
+            int[][] layers = {{w, h}, {w - 2, Math.max(2, w / 2)}, {w - 4, 2}};
+            double along = 0;
+            for (int i = 0; i < layers.length && layers[i][0] >= 1; i++) {
+                int lw = layers[i][0], lh = layers[i][1];
+                double[] off = rotate(new double[]{0, along + lh / 2.0, 0}, q);
+                Mat m = i == 0 ? mat : new Mat(shade(mat.rgb(), 1.0 + 0.08 * i), mat.style());
+                Box box = this.add(new Box(name + "_" + i, x + off[0], y + off[1], z + off[2], lw, lh, lw, m).rot(rx, ry, rz));
+                if (glow) {
+                    box.glow();
+                }
+                along += lh;
+            }
         }
 
         /** Shelf-packs every face into a texture whose sides are multiples of 32. */
@@ -579,13 +599,13 @@ public final class Art {
 
         static void all() throws IOException {
             String dir = "Resources/FlexiisGoggles/";
-            // raw quartz: a small crystal cluster
+            // raw quartz: a cluster of pointed crystals
             Model quartz = new Model(dir + "Quartz", false);
-            quartz.add(new Box("Base", 0, 4, 0, 18, 8, 14, Mat.of("#8d8a87", Style.STONE)));
-            quartz.add(new Box("Crystal_1", -2, 16, 0, 6, 20, 6, QUARTZ).rot(0, 0, 12));
-            quartz.add(new Box("Crystal_2", 5, 13, 2, 6, 14, 6, QUARTZ_PINK).rot(10, 0, -18));
-            quartz.add(new Box("Crystal_3", -6, 11, -3, 4, 12, 4, QUARTZ).rot(-14, 0, 24));
-            single(quartz, dir + "Quartz_Texture.png", "Flexii_Quartz", 35, 20);
+            quartz.crystal("Crystal_1", 0, 0, 0, 8, 22, 0, 0, 6, QUARTZ, false);
+            quartz.crystal("Crystal_2", 6, 0, 2, 6, 14, 8, 0, -22, QUARTZ_PINK, false);
+            quartz.crystal("Crystal_3", -6, 0, -2, 6, 11, -10, 0, 26, QUARTZ, false);
+            quartz.crystal("Crystal_4", 2, 0, -6, 4, 8, -25, 0, -8, QUARTZ_PINK, false);
+            single(quartz, dir + "Quartz_Texture.png", "Flexii_Quartz", 30, 15);
 
             // glass: a thick pane
             Model glass = new Model(dir + "Glass", false);
@@ -604,21 +624,50 @@ public final class Art {
             variants(p -> lens(dir + "Lens", p), lenses, dir + "Lens_",
                     new String[]{"Flexii_Lens_Glass", "Flexii_Lens_Polished", "Flexii_Lens_Crystal", "Flexii_Lens_Void"}, 20, 25);
 
-            // quartz ore: crystals breaking out of the stone, drawn over the stone cube
+            // quartz ore: clusters of pointed crystals growing out of the stone
             Model ore = new Model(dir + "Ore_Quartz", false);
-            double[][] spots = {{-9, 30, -6, 0, 0, 18}, {6, 31, 8, 12, 0, -10}, {10, 18, 15, -70, 0, 6}, {-12, 12, 15, -75, 20, 0},
-                    {15, 22, -5, 0, 0, -75}, {-15, 8, 4, 10, 0, 72}, {2, 9, -15, 75, 0, 10}, {-4, 31, 10, -8, 30, 8}};
+            outcrops(ore, QUARTZ, QUARTZ_PINK, false, 1.0);
+            single(ore, dir + "Ore_Quartz_Texture.png", null, 35, 25);
+            oreIcon(ore, "Flexii_Ore_Quartz_Stone");
+
+            // lumenite: glowing crystals, seen only through strong night vision
+            Model lumenite = new Model(dir + "Lumenite", false);
+            lumenite.crystal("Crystal_1", 0, 0, 0, 8, 20, 0, 0, -8, LUMENITE, true);
+            lumenite.crystal("Crystal_2", -6, 0, 1, 6, 13, 6, 0, 24, LUMENITE_VIOLET, true);
+            lumenite.crystal("Crystal_3", 6, 0, -2, 6, 10, -8, 0, -26, LUMENITE, true);
+            single(lumenite, dir + "Lumenite_Texture.png", "Flexii_Lumenite", 30, 15);
+            Model revealed = new Model(dir + "Ore_Lumenite", false);
+            outcrops(revealed, LUMENITE, LUMENITE_VIOLET, true, 0.8);
+            single(revealed, dir + "Ore_Lumenite_Texture.png", null, 35, 25);
+            oreIcon(revealed, "Flexii_Ore_Lumenite_Stone");
+        }
+
+        static final Mat LUMENITE = Mat.of("#3fe6d6", Style.CRYSTAL);
+        static final Mat LUMENITE_VIOLET = Mat.of("#9c84ff", Style.CRYSTAL);
+
+        /** Crystals growing out of the top and the four sides of a block (32 units, origin at the bottom centre). */
+        static void outcrops(Model m, Mat a, Mat b, boolean glow, double scale) {
+            // x, y, z of the base, axis angles, width, length
+            double[][] spots = {
+                    {-7, 29, -5, 0, 0, 12, 8, 16}, {5, 29, 6, 10, 0, -14, 7, 13}, {8, 29, -8, -12, 0, -8, 6, 10}, {-6, 29, 8, 8, 0, 18, 5, 8},
+                    {-6, 22, 13, 90, 0, 10, 7, 13}, {7, 10, 13, 78, 0, -14, 6, 10}, {-8, 6, 13, 100, 0, 6, 5, 7},
+                    {-7, 12, -13, -90, 0, 12, 7, 12}, {6, 24, -13, -78, 0, -10, 6, 10},
+                    {13, 18, 5, 10, 0, -90, 7, 14}, {13, 7, -7, 0, 0, -76, 6, 9},
+                    {-13, 20, -4, -8, 0, 90, 7, 13}, {-13, 8, 8, 0, 0, 80, 6, 9}};
             for (int i = 0; i < spots.length; i++) {
                 double[] s = spots[i];
-                ore.add(new Box("Crystal_" + i, s[0], s[1], s[2], 5, 11, 5, i % 3 == 1 ? QUARTZ_PINK : QUARTZ).rot(s[3], s[4], s[5]));
+                m.crystal("Crystal_" + i, s[0], s[1], s[2], (int) Math.max(3, Math.round(s[6] * scale)), (int) Math.max(5, Math.round(s[7] * scale)),
+                        s[3], s[4], s[5], i % 3 == 1 ? b : a, glow);
             }
-            single(ore, dir + "Ore_Quartz_Texture.png", null, 35, 25);
-            // the ore's icon: the overlay on a stone cube
-            Model oreIcon = new Model(dir + "Ore_Quartz_Icon", false);
-            oreIcon.add(new Box("Stone", 0, 16, 0, 32, 32, 32, Mat.of("#7d7a76", Style.STONE)));
-            ore.boxes.forEach(oreIcon.boxes::add);
-            oreIcon.pack();
-            png(icon(oreIcon, oreIcon.texture(5), 35, 25), "Icons/ItemsGenerated/Flexii_Ore_Quartz_Stone.png");
+        }
+
+        /** The ore block's icon: the overlay on a stone cube. */
+        static void oreIcon(Model overlay, String iconId) throws IOException {
+            Model icon = new Model(overlay.path + "_Icon", false);
+            icon.add(new Box("Stone", 0, 16, 0, 32, 32, 32, Mat.of("#7d7a76", Style.STONE)));
+            overlay.boxes.forEach(icon.boxes::add);
+            icon.pack();
+            png(icon(icon, icon.texture(5), 35, 25), "Icons/ItemsGenerated/" + iconId + ".png");
         }
 
         static Model lens(String path, Palette p) {
@@ -651,9 +700,10 @@ public final class Art {
                     new Palette("Tier1", COPPER, Mat.of("#cfe3ea", Style.GLASS), wood, darkWood),
                     new Palette("Tier2", IRON, Mat.of("#9fd3ff", Style.GLASS), wood, darkWood),
                     new Palette("Tier3", GOLD, Mat.of("#ffd36b", Style.GLASS), wood, Mat.of("#3e5c8a", Style.WOOD)),
-                    new Palette("Tier4", VOID, Mat.of("#b98cff", Style.GLOW), Mat.of("#3a2a3e", Style.WOOD), Mat.of("#24182c", Style.WOOD))};
+                    new Palette("Tier4", VOID, Mat.of("#b98cff", Style.GLOW), Mat.of("#3a2a3e", Style.WOOD), Mat.of("#24182c", Style.WOOD)),
+                    new Palette("Tier5", Mat.of("#2fbfb4", Style.METAL), Mat.of("#3fe6d6", Style.GLOW), Mat.of("#26343a", Style.WOOD), Mat.of("#18232a", Style.WOOD))};
             variants(p -> desk(dir + "Optician_Bench", p, stone), tiers, dir + "Optician_Bench_",
-                    new String[]{"Flexii_Bench_Optician", null, null, null}, 35, 25);
+                    new String[]{"Flexii_Bench_Optician", null, null, null, null}, 35, 25);
             // category icons: lenses, zoom, night vision, ultra
             Files.createDirectories(COMMON.resolve("Icons/CraftingCategories/FlexiisGoggles"));
             copyIcon("Flexii_Lens_Polished", "Materials");

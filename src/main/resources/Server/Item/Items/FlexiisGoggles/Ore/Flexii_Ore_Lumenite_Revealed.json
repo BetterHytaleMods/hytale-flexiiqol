@@ -1,0 +1,78 @@
+{
+  "TranslationProperties": {
+    "Name": "flexiisgoggles.items.Flexii_Ore_Lumenite_Revealed.name"
+  },
+  "Icon": "Icons/ItemsGenerated/Flexii_Ore_Lumenite_Stone.png",
+  "PlayerAnimationsId": "Block",
+  "BlockType": {
+    "Material": "Solid",
+    "DrawType": "CubeWithModel",
+    "Group": "Stone",
+    "Flags": {},
+    "Gathering": {
+      "Breaking": {
+        "GatherType": "Rocks",
+        "DropList": {
+          "Container": {
+            "Type": "Multiple",
+            "Containers": [
+              {
+                "Type": "Single",
+                "Item": {
+                  "ItemId": "Flexii_Lumenite"
+                }
+              },
+              {
+                "Type": "Single",
+                "Item": {
+                  "ItemId": "Rock_Stone_Cobble"
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "BlockParticleSetId": "Stone",
+    "Textures": [
+      {
+        "All": "BlockTextures/Rock_Stone.png",
+        "Weight": 2
+      },
+      {
+        "All": "BlockTextures/Rock_Stone_2.png",
+        "Weight": 1
+      },
+      {
+        "All": "BlockTextures/Rock_Stone_3.png",
+        "Weight": 1
+      }
+    ],
+    "ParticleColor": "#3fe6d6",
+    "BlockSoundSetId": "Stone",
+    "PhysicalMaterialId": "Stone",
+    "BlockBreakingDecalId": "Breaking_Decals_Rock",
+    "TextureComputedColor": "#79785A",
+    "CustomModel": "Resources/FlexiisGoggles/Ore_Lumenite.blockymodel",
+    "CustomModelTexture": [
+      {
+        "Texture": "Resources/FlexiisGoggles/Ore_Lumenite_Texture.png",
+        "Weight": 1
+      }
+    ],
+    "Light": {
+      "Color": "#2aa",
+      "Radius": 0
+    }
+  },
+  "Tags": {
+    "Type": [
+      "Ore"
+    ],
+    "Family": [
+      "Lumenite"
+    ]
+  },
+  "MaxStack": 25,
+  "ItemSoundSetId": "ISS_Blocks_Stone"
+}

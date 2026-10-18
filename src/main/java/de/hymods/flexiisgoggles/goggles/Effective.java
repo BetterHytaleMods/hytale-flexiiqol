@@ -17,12 +17,14 @@ import javax.annotation.Nullable;
  * @param nightVision   whether night vision is on
  * @param brightness    the night vision level picked, 0 without night vision
  * @param brightnessCap the most the player can pick, 0 without night vision
+ * @param revealsLumenite whether lumenite ore shows instead of looking like stone
  */
-public record Effective(float zoom, float zoomCap, int glide, boolean nightVision, int brightness, int brightnessCap) {
+public record Effective(float zoom, float zoomCap, int glide, boolean nightVision, int brightness, int brightnessCap,
+                        boolean revealsLumenite) {
 
     /** What the worn goggles, or the server without the requirement, allow. 0 means none. */
-    public record Ability(float zoomCap, int nightVisionCap) {
-        public static final Ability NONE = new Ability(0f, 0);
+    public record Ability(float zoomCap, int nightVisionCap, boolean revealsLumenite) {
+        public static final Ability NONE = new Ability(0f, 0, false);
 
         public static Ability of(GogglesConfig config, @Nullable Goggles worn) {
             float zoom;
@@ -37,7 +39,8 @@ public record Effective(float zoom, float zoomCap, int glide, boolean nightVisio
                 zoom = 0f;
                 nightVision = 0;
             }
-            return new Ability(config.zoom.enabled ? zoom : 0f, config.nightVision.enabled ? nightVision : 0);
+            boolean reveals = config.nightVision.enabled && worn != null && worn.revealsLumenite();
+            return new Ability(config.zoom.enabled ? zoom : 0f, config.nightVision.enabled ? nightVision : 0, reveals);
         }
 
         public boolean any() {
@@ -56,7 +59,7 @@ public record Effective(float zoom, float zoomCap, int glide, boolean nightVisio
         int cap = ability.nightVisionCap();
         boolean on = cap > 0 && (choice.nightVision() != null ? choice.nightVision() : !free);
         int brightness = cap == 0 ? 0 : Math.min(choice.brightness() != null ? choice.brightness() : free ? config.nightVision.level : cap, cap);
-        return new Effective(zoom, ability.zoomCap(), glide, on, brightness, cap);
+        return new Effective(zoom, ability.zoomCap(), glide, on, brightness, cap, on && ability.revealsLumenite());
     }
 
     /** The light level of air for this player, 0 for the game's own light. */

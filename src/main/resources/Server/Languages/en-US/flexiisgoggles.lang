@@ -46,3 +46,6 @@ benchCategories.materials = Materials
 benchCategories.zoom = Zoom Goggles
 benchCategories.nightVision = Night Vision Goggles
 benchCategories.ultra = UltraGoggles
+items.Flexii_Lumenite.name = Lumenite
+items.Flexii_Ore_Lumenite_Stone.name = Lumenite Ore
+items.Flexii_Ore_Lumenite_Revealed.name = Lumenite Ore

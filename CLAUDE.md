@@ -42,7 +42,11 @@
 - Brillenhelme: je Brille einer (Scout, Nightwatch, Overseer), Rezept an der Rüstungswerkbank mit
   Vanilla-Helm der passenden Stufe (Kupfer, Eisen, Thorium, Adamantit); Rüstungswerte per `Parent`.
 - Zoom fest auf R („Use Ability 3“), keine Tastenwahl im Mod.
-- **Quarz nur durch Abbauen des neuen Erzes**, kein Weg über Quarzit.
+- **Quarz nur durch Abbauen des neuen Erzes**, kein Weg über Quarzit. Quarz sieht aus wie Kristall,
+  das Erz kristallig (Felix nach dem ersten Blick).
+- **Lumenite** (Felix, 18.10.): seltenes Optik-Material, sieht für alle aus wie Stein. Sichtbar nur mit
+  Night Vision IV oder Ultra (auch als Helm) bei aktivierter Night Vision. Die UltraGoggles brauchen es
+  (3 Stück) und die 5. Bankstufe.
 - Werte, Materialien und Namen sind Vorschläge aus dem Plan; Felix prüft sie im Spiel.
 
 ## Aufbau
@@ -56,10 +60,10 @@
 | `settings/PlayerSettings` | Eigene Wahl je Spieler in `players.json` |
 | `ui/SettingsPage` + `Common/UI/Custom/FlexiisGoggles/Settings.ui` | Seite `/goggles`, Regler enden beim Brillenmaximum |
 | `zoom/*` | R auf die Zoom-Root der Stufe (`Root_FlexiisGoggles_Zoom_<n>x`, Stufen in `ZoomSteps`), Gleiten, Schutz gegen „R auf anderen Spieler“ |
-| `nightvision/NightVisionSystem`, `AirLight` | Licht der Luft je Spieler, Änderung nach 300 ms Ruhe |
+| `nightvision/NightVisionSystem`, `ClientBlocks` | Je Spieler Luft-Licht und Lumenite-Optik in einem `UpdateBlockTypes`, Änderung nach 300 ms Ruhe |
 | `command/GogglesCommand`, `NightVisionCommand` | `/goggles` (+ `status`, `reload`), `/nightvision` (`/nv`) |
 | `Server/Item/Items/FlexiisGoggles/` | Brillen (über `Flexii_Goggles_Template`), Helme (`Parent` = Vanilla-Helm), Quarz, Glas, Linsen, Erz, Werkbank |
-| `Server/WorldGen/Modifier/Flexii_Quartz.json` | Quarzerz in den Höhlen der Zonen 1–3 |
+| `Server/WorldGen/Modifier/Flexii_Quartz.json`, `Flexii_Lumenite.json` | Quarz- und Lumenite-Erz in den Höhlen der Zonen 1–3 |
 | `dev/art/Art.java` | Alle Modelle, Texturen und Icons |
 
 ## Hytale 0.7.1/0.7.2: geprüfte API-Fakten
@@ -133,7 +137,13 @@ Fakten aus `../hytale-gifchat/CLAUDE.md` (World-Thread, Client-Log, Asset-Pack-P
   HeightRange, BlockMask, Generator: {Type: OreCluster}}}]` greift (Test 18.10.). Enums in Codecs in
   Pascal-Schreibweise (`CaveType`, nicht `CAVE_TYPE`). `{Type: Log, ContentType: CaveType}` loggt die
   getroffenen Dateien. `PointGrid.Scale` = Abstand in Blöcken; Scale 3 ergab etwa 60 Quarzblöcke je
-  Chunk, Kupfer etwa 370. Nur neu erzeugte Chunks; von der Konsole erzeugt `chunk load <x> <z>` einen.
+  Chunk, Kupfer etwa 370. Lumenite (Scale 14, y 20–75, kleine Cluster): in 2 von 12 Chunks, 7 und 25
+  Blöcke. Nur neu erzeugte Chunks; von der Konsole erzeugt `chunk load <x> <z>` einen.
+- **Verstecktes Erz:** Der Blocktyp im Spiel sieht aus wie Stein (gleiche drei Texturen, Sounds,
+  Partikel wie `Rock_Stone`). Die leuchtende Optik steckt in einem nie platzierten Vorlage-Blocktyp
+  (`Flexii_Ore_Lumenite_Revealed`), damit Client und Server Modell und Textur kennen. Für die
+  Enthüllung kopiert `ClientBlocks` dessen Optik-Felder (`drawType`, `model`, `modelTexture`,
+  `cubeTextures`, `light` …) in eine Kopie des Erz-Pakets und schickt sie nur an den einen Spieler.
 - `HytaleServer.SCHEDULED_EXECUTOR` ist ein einzelner Thread für den ganzen Server: nur kurze Aufgaben.
 - Die Warnung „Skipping pack at de.hymods_FlexiisGoggles: missing or invalid manifest.json“ beim Start ist
   harmlos: Der Server sucht in `mods/` nach Asset-Packs und findet dort unseren Datenordner.
@@ -144,6 +154,10 @@ Fakten aus `../hytale-gifchat/CLAUDE.md` (World-Thread, Client-Log, Asset-Pack-P
 `127.0.0.1:5521` (`BIND=0.0.0.0 dev/server.sh restart` öffnet ihn fürs Heimnetz), Debugger 5006, damit der GifChat-Testserver (5520/5005) parallel laufen kann. Konsole
 über eine FIFO. `reload` (= `plugin reload`) lädt nur Code; Änderungen am Asset-Pack (auch an
 `flexiisgoggles.lang`) brauchen `restart`. Felix ist auf dem Testserver Operator (`run/permissions.json`).
+
+**Vor jedem `restart` prüfen, ob Felix verbunden ist** (Log: letztes „joined world“ ohne
+„left“/„Disconnecting“). Er testet oft aus dem Heimnetz; ein Neustart wirft ihn raus. Reine
+Code-Änderungen über `reload`, das trennt niemanden.
 
 Bildschirmfotos macht Felix selbst (⇧⌘3, `~/Ablage/Screenshots`). Client-Fehler stehen in
 `~/Library/Application Support/Hytale/UserData/Logs/*_client.log` („Disconnecting with error …“).

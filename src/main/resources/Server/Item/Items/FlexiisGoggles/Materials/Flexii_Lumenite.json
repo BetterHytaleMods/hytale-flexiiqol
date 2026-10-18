@@ -1,0 +1,21 @@
+{
+  "TranslationProperties": {
+    "Name": "flexiisgoggles.items.Flexii_Lumenite.name"
+  },
+  "Quality": "Epic",
+  "ItemLevel": 45,
+  "Categories": [
+    "Items.Ingredients"
+  ],
+  "Icon": "Icons/ItemsGenerated/Flexii_Lumenite.png",
+  "Model": "Resources/FlexiisGoggles/Lumenite.blockymodel",
+  "Texture": "Resources/FlexiisGoggles/Lumenite_Texture.png",
+  "PlayerAnimationsId": "Item",
+  "ItemSoundSetId": "ISS_Items_Gems",
+  "Tags": {
+    "Type": [
+      "Ingredient"
+    ]
+  },
+  "DropOnDeath": true
+}

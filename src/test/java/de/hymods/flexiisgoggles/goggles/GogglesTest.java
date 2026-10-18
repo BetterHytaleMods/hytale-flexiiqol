@@ -31,6 +31,14 @@ class GogglesTest {
         }
         assertEquals(0, Goggles.ZOOM_4.maxNightVision());
         assertEquals(0f, Goggles.NIGHT_VISION_4.maxZoom());
+        assertEquals(5, Goggles.ULTRA.tier(), "the ultragoggles need the bench's fifth tier");
+    }
+
+    @Test
+    void onlyTheStrongestNightVisionShowsLumenite() {
+        for (Goggles goggles : Goggles.values()) {
+            assertEquals(goggles == Goggles.NIGHT_VISION_4 || goggles == Goggles.ULTRA, goggles.revealsLumenite(), goggles.name());
+        }
     }
 
     @Test

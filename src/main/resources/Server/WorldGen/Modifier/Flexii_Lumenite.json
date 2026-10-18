@@ -1,0 +1,48 @@
+{
+  "Target": {
+    "Root": "Default",
+    "Rules": [
+      "Zones.Zone1_*.Cave.Caves",
+      "Zones.Zone2_Tier*.Cave.Caves",
+      "Zones.Zone3_Tier*.Cave.Caves"
+    ]
+  },
+  "Operations": [
+    {
+      "Type": "Add",
+      "Content": {
+        "Type": "CaveType",
+        "Name": "Flexii_Lumenite",
+        "PointGrid": {
+          "Seed": "Flexii_Lumenite",
+          "Scale": 14,
+          "Jitter": 0.8
+        },
+        "HeightRange": {
+          "Min": 20,
+          "Max": 75
+        },
+        "BlockMask": {
+          "Include": {
+            "Blocks": ["Rock_Stone"]
+          },
+          "Exclude": {
+            "Empty": true
+          }
+        },
+        "Generator": {
+          "Type": "OreCluster",
+          "Blocks": [
+            {
+              "Block": "Flexii_Ore_Lumenite_Stone",
+              "Weight": 1
+            }
+          ],
+          "Radius": {"Min": 1, "Max": 1},
+          "Length": {"Min": 1, "Max": 2},
+          "Repetitions": {"Min": 1, "Max": 1}
+        }
+      }
+    }
+  ]
+}

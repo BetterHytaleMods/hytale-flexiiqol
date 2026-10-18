@@ -19,7 +19,7 @@ public enum Goggles {
     NIGHT_VISION_2("NightVision_2", 2, 0f, 2),
     NIGHT_VISION_3("NightVision_3", 3, 0f, 3),
     NIGHT_VISION_4("NightVision_4", 4, 0f, 5),
-    ULTRA("Ultra", 4, 12f, 6);
+    ULTRA("Ultra", 5, 12f, 6);
 
     private static final Map<String, Goggles> BY_ITEM = new HashMap<>();
 
@@ -47,7 +47,7 @@ public enum Goggles {
         return this.key;
     }
 
-    /** The optician's bench tier that makes them, 1 to 4. */
+    /** The optician's bench tier that makes them, 1 to 5. */
     public int tier() {
         return this.tier;
     }
@@ -60,6 +60,11 @@ public enum Goggles {
     /** 0 if they have no night vision. */
     public int maxNightVision() {
         return this.maxNightVision;
+    }
+
+    /** Whether these goggles show lumenite ore while their night vision is on; elsewhere it looks like stone. */
+    public boolean revealsLumenite() {
+        return this == NIGHT_VISION_4 || this == ULTRA;
     }
 
     public String itemId() {

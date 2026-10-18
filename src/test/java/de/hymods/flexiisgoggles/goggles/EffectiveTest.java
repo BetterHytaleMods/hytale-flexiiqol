@@ -57,6 +57,18 @@ class EffectiveTest {
     }
 
     @Test
+    void lumeniteShowsOnlyWithStrongNightVisionSwitchedOn() {
+        GogglesConfig config = config();
+        assertTrue(Effective.of(config, Choice.NONE, Effective.Ability.of(config, Goggles.NIGHT_VISION_4)).revealsLumenite());
+        assertTrue(Effective.of(config, Choice.NONE, Effective.Ability.of(config, Goggles.ULTRA)).revealsLumenite());
+        assertFalse(Effective.of(config, Choice.NONE, Effective.Ability.of(config, Goggles.NIGHT_VISION_3)).revealsLumenite());
+        assertFalse(Effective.of(config, Choice.NONE.withNightVision(false), Effective.Ability.of(config, Goggles.NIGHT_VISION_4)).revealsLumenite());
+        config.requireGoggles = false;
+        assertFalse(Effective.of(config, Choice.NONE.withNightVision(true), Effective.Ability.of(config, null)).revealsLumenite(),
+                "without goggles nobody sees it, even when night vision is free");
+    }
+
+    @Test
     void theConfigCanLowerGoggles() {
         GogglesConfig config = config();
         GogglesConfig.Limits limits = new GogglesConfig.Limits();

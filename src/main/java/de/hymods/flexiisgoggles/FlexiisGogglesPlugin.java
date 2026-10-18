@@ -60,7 +60,10 @@ public class FlexiisGogglesPlugin extends JavaPlugin {
         this.players = new PlayerSettings(this.getDataDirectory().resolve("players.json"));
         this.worn = new WornGoggles();
         this.glide = new Glide();
-        this.nightVision = new NightVisionSystem(player -> this.effective(player).nightVisionLevel());
+        this.nightVision = new NightVisionSystem(player -> {
+            Effective effective = this.effective(player);
+            return new NightVisionSystem.Sight(effective.nightVisionLevel(), effective.revealsLumenite());
+        });
         this.getEntityStoreRegistry().registerSystem(this.worn);
         this.getEntityStoreRegistry().registerSystem(new ZoomBindingSystem(this::zoomRoot));
         this.getEntityStoreRegistry().registerSystem(new UseEntityGuard());

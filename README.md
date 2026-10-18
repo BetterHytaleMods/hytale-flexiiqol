@@ -12,12 +12,14 @@ crafting bench and its own ore.
 - **Night Vision Goggles I–IV:** caves and nights light up for you alone. Torches, lava and the sun
   still light up more, so the world keeps its depth. Nobody else sees it, and mob spawning and plant
   growth keep using the real light.
-- **UltraGoggles:** both at full strength. A late-game item.
+- **UltraGoggles:** both at full strength. A late-game item that needs lumenite.
 - **Helms:** mount goggles on a helmet at the armor bench to wear both: Scout Helm (zoom), Nightwatch
   Helm (night vision), Overseer Helm (ultra).
-- **Optician's Bench:** a cheap bench that upgrades through four tiers; each tier unlocks stronger
+- **Optician's Bench:** a cheap bench that upgrades through five tiers; each tier unlocks stronger
   goggles. Glass and lenses are made there too.
-- **Quartz:** a new ore in the stone of zones 1–3 (in newly generated chunks).
+- **Quartz:** a new crystal ore in the stone of zones 1–3 (in newly generated chunks).
+- **Lumenite:** a rare crystal deep in the stone that looks like plain stone to everyone. Only Night
+  Vision Goggles IV and UltraGoggles (also mounted on a helm) show it, while their night vision is on.
 - **Settings page:** `/goggles` lets players pick their zoom strength and night vision brightness, up to
   what their goggles allow, and how much the camera glides. The choices are saved per player.
 
@@ -31,7 +33,7 @@ FlexiisGoggles is a server plugin. Players need nothing but the normal Hytale cl
 |---|---|---|---|
 | Zoom Goggles I / II / III / IV | 1 / 2 / 3 / 4 | 1.5x / 3x / 5x / 8x | – |
 | Night Vision Goggles I / II / III / IV | 1 / 2 / 3 / 4 | – | 1 / 2 / 3 / 5 |
-| UltraGoggles | 4 | 12x | 6 |
+| UltraGoggles | 5 | 12x | 6 |
 
 Helms count like the goggles mounted on them. They need a vanilla helmet of the matching tier
 (copper, iron, thorium, adamantite) and keep its armor values.
