@@ -7,7 +7,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
-import de.hymods.flexiisgoggles.GogglesConfig;
+import de.hymods.flexiisgoggles.zoom.ZoomSteps;
 
 import javax.annotation.Nullable;
 import java.io.IOException;
@@ -23,12 +23,10 @@ import java.util.function.UnaryOperator;
 
 /**
  * What each player picked on {@code /goggles}, kept in {@code players.json} in the data folder, so it
- * survives a relog and a restart. A setting the player never touched stays empty and follows the
- * server's default, so a changed config reaches them too.
+ * survives a relog and a restart. A setting the player never touched stays empty and follows their
+ * goggles or the server's default.
  */
 public final class PlayerSettings {
-    public static final int ZOOM_MIN = 2;
-    public static final int ZOOM_MAX = 12;
     /** Glide in tenths: 0 is off, 18 trails the most. */
     public static final int GLIDE_MAX = 18;
     public static final int BRIGHTNESS_MIN = 1;
@@ -36,50 +34,34 @@ public final class PlayerSettings {
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
-    /** One player's own picks; null follows the server's default. Values out of range are clamped. */
-    public record Choice(@Nullable Integer zoom, @Nullable Integer glide, @Nullable Boolean fullbright, @Nullable Integer brightness) {
+    /** One player's own picks; null follows the default. Values out of range are clamped. */
+    public record Choice(@Nullable Float zoom, @Nullable Integer glide, @Nullable Boolean nightVision, @Nullable Integer brightness) {
         public static final Choice NONE = new Choice(null, null, null, null);
 
         public Choice {
-            zoom = zoom == null ? null : Math.clamp(zoom, ZOOM_MIN, ZOOM_MAX);
+            zoom = zoom == null || !Float.isFinite(zoom) ? null : ZoomSteps.snap(zoom);
             glide = glide == null ? null : Math.clamp(glide, 0, GLIDE_MAX);
             brightness = brightness == null ? null : Math.clamp(brightness, BRIGHTNESS_MIN, BRIGHTNESS_MAX);
         }
 
-        public Choice withZoom(int zoom) {
-            return new Choice(zoom, this.glide, this.fullbright, this.brightness);
+        public Choice withZoom(float zoom) {
+            return new Choice(zoom, this.glide, this.nightVision, this.brightness);
         }
 
         public Choice withGlide(int glide) {
-            return new Choice(this.zoom, glide, this.fullbright, this.brightness);
+            return new Choice(this.zoom, glide, this.nightVision, this.brightness);
         }
 
-        public Choice withFullbright(boolean on) {
+        public Choice withNightVision(boolean on) {
             return new Choice(this.zoom, this.glide, on, this.brightness);
         }
 
         public Choice withBrightness(int brightness) {
-            return new Choice(this.zoom, this.glide, this.fullbright, brightness);
+            return new Choice(this.zoom, this.glide, this.nightVision, brightness);
         }
 
         public boolean isEmpty() {
-            return this.zoom == null && this.glide == null && this.fullbright == null && this.brightness == null;
-        }
-    }
-
-    /** What applies to a player: their own picks, and the server's defaults for the rest. Fullbright starts off. */
-    public record Values(int zoom, int glide, boolean fullbright, int brightness) {
-        public static Values of(GogglesConfig config, Choice choice) {
-            return new Values(
-                    choice.zoom() != null ? choice.zoom() : config.zoom.magnification,
-                    choice.glide() != null ? choice.glide() : Math.round(config.zoom.glide * 10f),
-                    choice.fullbright() != null && choice.fullbright(),
-                    choice.brightness() != null ? choice.brightness() : config.fullbright.level);
-        }
-
-        /** Glide as the camera takes it: 0 is off, up to 1.8. */
-        public float glideAmount() {
-            return this.glide / 10f;
+            return this.zoom == null && this.glide == null && this.nightVision == null && this.brightness == null;
         }
     }
 
@@ -118,7 +100,11 @@ public final class PlayerSettings {
                     continue;
                 }
                 JsonObject fields = entry.getValue().getAsJsonObject();
-                Choice choice = new Choice(number(fields, "zoom"), number(fields, "glide"), flag(fields, "fullbright"), number(fields, "brightness"));
+                Double zoom = number(fields, "zoom");
+                Double glide = number(fields, "glide");
+                Double brightness = number(fields, "brightness");
+                Choice choice = new Choice(zoom == null ? null : zoom.floatValue(), glide == null ? null : (int) Math.round(glide),
+                        flag(fields, "nightVision"), brightness == null ? null : (int) Math.round(brightness));
                 if (!choice.isEmpty()) {
                     this.choices.put(player, choice);
                 }
@@ -160,8 +146,8 @@ public final class PlayerSettings {
             if (choice.glide() != null) {
                 fields.addProperty("glide", choice.glide());
             }
-            if (choice.fullbright() != null) {
-                fields.addProperty("fullbright", choice.fullbright());
+            if (choice.nightVision() != null) {
+                fields.addProperty("nightVision", choice.nightVision());
             }
             if (choice.brightness() != null) {
                 fields.addProperty("brightness", choice.brightness());
@@ -177,11 +163,11 @@ public final class PlayerSettings {
     }
 
     @Nullable
-    private static Integer number(JsonObject fields, String name) {
+    private static Double number(JsonObject fields, String name) {
         JsonElement value = fields.get(name);
         if (value instanceof JsonPrimitive primitive && primitive.isNumber()) {
             double number = primitive.getAsDouble();
-            return Double.isFinite(number) ? (int) Math.round(number) : null;
+            return Double.isFinite(number) ? number : null;
         }
         return null;
     }

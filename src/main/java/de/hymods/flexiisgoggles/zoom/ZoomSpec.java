@@ -13,12 +13,12 @@ import java.util.Locale;
  * without a {@code Next} entry ends the chain, and with it the zoom, the moment the key is released.
  * The view goes to first person, the held item is hidden, and a click ends the zoom.
  */
-public record ZoomSpec(int magnification, float sensitivity, float inLerp, float outLerp) {
+public record ZoomSpec(float magnification, float sensitivity, float inLerp, float outLerp) {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
     public ZoomSpec {
-        if (magnification < 2 || magnification > 32) {
-            throw new IllegalArgumentException("magnification must be 2 to 32");
+        if (!(magnification > 1f && magnification <= 32f)) {
+            throw new IllegalArgumentException("magnification must be above 1 and at most 32");
         }
         if (!(sensitivity > 0f && sensitivity <= 1f)) {
             throw new IllegalArgumentException("sensitivity must be above 0 and at most 1");
@@ -66,7 +66,7 @@ public record ZoomSpec(int magnification, float sensitivity, float inLerp, float
     }
 
     public String describe() {
-        return String.format(Locale.ROOT, "%dx, sens %.2f, in %s, out %s", magnification, sensitivity, trim(inLerp), trim(outLerp));
+        return String.format(Locale.ROOT, "%sx, sens %.2f, in %s, out %s", trim(magnification), sensitivity, trim(inLerp), trim(outLerp));
     }
 
     private static String trim(float value) {

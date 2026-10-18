@@ -5,9 +5,11 @@ import com.hypixel.hytale.server.core.event.events.player.PlayerDisconnectEvent;
 import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import com.hypixel.hytale.server.core.universe.Universe;
-import de.hymods.flexiisgoggles.command.FullbrightCommand;
 import de.hymods.flexiisgoggles.command.GogglesCommand;
-import de.hymods.flexiisgoggles.fullbright.FullbrightSystem;
+import de.hymods.flexiisgoggles.command.NightVisionCommand;
+import de.hymods.flexiisgoggles.goggles.Effective;
+import de.hymods.flexiisgoggles.goggles.WornGoggles;
+import de.hymods.flexiisgoggles.nightvision.NightVisionSystem;
 import de.hymods.flexiisgoggles.settings.PlayerSettings;
 import de.hymods.flexiisgoggles.zoom.Glide;
 import de.hymods.flexiisgoggles.zoom.GlideSystem;
@@ -15,6 +17,7 @@ import de.hymods.flexiisgoggles.zoom.UseEntityGuard;
 import de.hymods.flexiisgoggles.zoom.ZoomAssets;
 import de.hymods.flexiisgoggles.zoom.ZoomBindingSystem;
 import de.hymods.flexiisgoggles.zoom.ZoomSpec;
+import de.hymods.flexiisgoggles.zoom.ZoomSteps;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -38,8 +41,9 @@ public class FlexiisGogglesPlugin extends JavaPlugin {
     private volatile boolean zoomLoaded;
     private ZoomAssets zoomAssets;
     private PlayerSettings players;
+    private WornGoggles worn;
     private Glide glide;
-    private FullbrightSystem fullbright;
+    private NightVisionSystem nightVision;
 
     public FlexiisGogglesPlugin(@Nonnull JavaPluginInit init) {
         super(init);
@@ -54,19 +58,22 @@ public class FlexiisGogglesPlugin extends JavaPlugin {
         }
         this.zoomAssets = new ZoomAssets(this.getIdentifier().toString(), this.getDataDirectory().resolve("generated"));
         this.players = new PlayerSettings(this.getDataDirectory().resolve("players.json"));
+        this.worn = new WornGoggles();
         this.glide = new Glide();
-        this.fullbright = new FullbrightSystem(this::brightness);
+        this.nightVision = new NightVisionSystem(player -> this.effective(player).nightVisionLevel());
+        this.getEntityStoreRegistry().registerSystem(this.worn);
         this.getEntityStoreRegistry().registerSystem(new ZoomBindingSystem(this::zoomRoot));
         this.getEntityStoreRegistry().registerSystem(new UseEntityGuard());
-        this.getEntityStoreRegistry().registerSystem(new GlideSystem(this.glide, this::glideLerp));
-        this.getEntityStoreRegistry().registerSystem(this.fullbright);
+        this.getEntityStoreRegistry().registerSystem(new GlideSystem(this.glide, player -> Glide.lerp(this.effective(player).glideAmount())));
+        this.getEntityStoreRegistry().registerSystem(this.nightVision);
         this.getEventRegistry().register(PlayerDisconnectEvent.class, event -> {
             UUID player = event.getPlayerRef().getUuid();
+            this.worn.forget(player);
             this.glide.forget(player);
-            this.fullbright.forget(player);
+            this.nightVision.forget(player);
         });
         this.getCommandRegistry().registerCommand(new GogglesCommand(this));
-        this.getCommandRegistry().registerCommand(new FullbrightCommand(this));
+        this.getCommandRegistry().registerCommand(new NightVisionCommand(this));
     }
 
     @Override
@@ -86,8 +93,8 @@ public class FlexiisGogglesPlugin extends JavaPlugin {
         if (this.glide != null) {
             this.glide.resetAll(Universe.get().getPlayers());
         }
-        if (this.fullbright != null) {
-            this.fullbright.resetAll(Universe.get().getPlayers());
+        if (this.nightVision != null) {
+            this.nightVision.resetAll(Universe.get().getPlayers());
         }
         if (this.players != null && this.saveQueued.getAndSet(false)) {
             this.save();
@@ -106,17 +113,26 @@ public class FlexiisGogglesPlugin extends JavaPlugin {
         return this.players;
     }
 
-    public FullbrightSystem fullbright() {
-        return this.fullbright;
+    public WornGoggles worn() {
+        return this.worn;
+    }
+
+    public NightVisionSystem nightVision() {
+        return this.nightVision;
     }
 
     public Path configFile() {
         return this.getDataDirectory().resolve("config.json");
     }
 
-    /** What applies to a player now: their own picks, the config's defaults for the rest. */
-    public PlayerSettings.Values values(@Nonnull UUID player) {
-        return PlayerSettings.Values.of(this.config(), this.players.get(player));
+    /** What the player's goggles allow right now (everything, if the server doesn't require goggles). */
+    public Effective.Ability ability(@Nonnull UUID player) {
+        return Effective.Ability.of(this.config(), this.worn.worn(player));
+    }
+
+    /** What applies to a player now: their goggles, and their own picks within them. */
+    public Effective effective(@Nonnull UUID player) {
+        return Effective.of(this.config(), this.players.get(player), this.ability(player));
     }
 
     /** Changes a player's picks; they apply on the next tick and are saved a moment later. */
@@ -132,8 +148,8 @@ public class FlexiisGogglesPlugin extends JavaPlugin {
     }
 
     /**
-     * Reads {@code config.json} again and applies it. Defaults, glide and fullbright change at once,
-     * the zoom steps once the returned future completes.
+     * Reads {@code config.json} again and applies it. Limits and defaults change at once, the zoom
+     * steps once the returned future completes.
      */
     public CompletableFuture<Void> reload() throws IOException {
         GogglesConfig fresh = GogglesConfig.load(this.configFile());
@@ -149,24 +165,15 @@ public class FlexiisGogglesPlugin extends JavaPlugin {
 
     /** Writes and loads every zoom step; the server sends them to everyone online right away. */
     private void loadZoom(GogglesConfig config) throws IOException {
-        List<ZoomSpec> steps = IntStream.rangeClosed(PlayerSettings.ZOOM_MIN, PlayerSettings.ZOOM_MAX).mapToObj(config.zoom::spec).toList();
+        List<ZoomSpec> steps = IntStream.range(0, ZoomSteps.count()).mapToObj(i -> config.zoom.spec(ZoomSteps.value(i))).toList();
         this.zoomAssets.load(steps);
         this.zoomLoaded = true;
     }
 
     @Nullable
     private String zoomRoot(UUID player) {
-        return this.config().zoom.enabled && this.zoomLoaded ? ZoomAssets.root(this.values(player).zoom()) : null;
-    }
-
-    @Nullable
-    private Float glideLerp(UUID player) {
-        return Glide.lerp(this.values(player).glideAmount());
-    }
-
-    private int brightness(UUID player) {
-        PlayerSettings.Values values = this.values(player);
-        return this.config().fullbright.enabled && values.fullbright() ? values.brightness() : 0;
+        float zoom = this.effective(player).zoom();
+        return this.zoomLoaded && zoom > 0f ? ZoomAssets.root(zoom) : null;
     }
 
     private void save() {

@@ -15,8 +15,9 @@ import com.hypixel.hytale.server.core.ui.builder.UIEventBuilder;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import de.hymods.flexiisgoggles.FlexiisGogglesPlugin;
-import de.hymods.flexiisgoggles.GogglesConfig;
+import de.hymods.flexiisgoggles.goggles.Effective;
 import de.hymods.flexiisgoggles.settings.PlayerSettings;
+import de.hymods.flexiisgoggles.zoom.ZoomSteps;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -26,9 +27,10 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * {@code /goggles}: zoom strength, glide and fullbright, each player for themselves. A change applies at
- * once and is saved; the systems pick it up on their next tick. The labels next to the sliders follow
- * them. While a page update is unconfirmed, the server drops the player's input, so releasing a slider
+ * {@code /goggles}: zoom strength, glide and night vision, each player for themselves and as far as
+ * the goggles they wear allow. The sliders end at the goggles' strength, sections the goggles don't
+ * have stay hidden. A change applies at once and is saved; the systems pick it up on their next tick.
+ * While a page update is unconfirmed, the server drops the player's input, so releasing a slider
  * sends its value once more.
  */
 public final class SettingsPage extends InteractiveCustomUIPage<SettingsPage.Event> {
@@ -42,7 +44,7 @@ public final class SettingsPage extends InteractiveCustomUIPage<SettingsPage.Eve
                 .append(new KeyedCodec<>("@On", Codec.BOOLEAN), (event, v) -> event.on = v, event -> event.on)
                 .add()
                 .build();
-        /** Zoom, Glide, Brightness or Fullbright. */
+        /** Zoom, Glide, Brightness or NightVision. */
         private String type;
         private Float value;
         private Boolean on;
@@ -61,36 +63,56 @@ public final class SettingsPage extends InteractiveCustomUIPage<SettingsPage.Eve
     public void build(@Nonnull Ref<EntityStore> ref, @Nonnull UICommandBuilder commands, @Nonnull UIEventBuilder events,
                       @Nonnull Store<EntityStore> store) {
         commands.append("FlexiisGoggles/Settings.ui");
-        GogglesConfig config = this.plugin.config();
-        PlayerSettings.Values values = this.plugin.values(this.playerRef.getUuid());
-        commands.set("#ZoomSection.Visible", config.zoom.enabled);
-        commands.set("#FullbrightSection.Visible", config.fullbright.enabled);
-        commands.set("#Zoom.Value", values.zoom());
-        commands.set("#Glide.Value", values.glide());
-        commands.set("#Fullbright #CheckBox.Value", values.fullbright());
-        commands.set("#Brightness.Value", values.brightness());
-        this.zoomLabel(commands, values.zoom());
-        this.glideLabel(commands, values.glide());
-        this.brightnessLabel(commands, values.brightness());
+        Effective effective = this.plugin.effective(this.playerRef.getUuid());
+
+        int zoomMax = effective.zoomCap() > 0f ? ZoomSteps.maxIndex(effective.zoomCap()) : 0;
+        commands.set("#ZoomSection.Visible", effective.zoomCap() > 0f);
+        // A slider needs a range; with a single strength the row stays hidden.
+        commands.set("#ZoomStrengthRow.Visible", zoomMax > 0);
+        if (zoomMax > 0) {
+            commands.set("#Zoom.Max", zoomMax);
+            commands.set("#Zoom.Value", ZoomSteps.index(effective.zoom()));
+        }
+        commands.set("#Glide.Value", effective.glide());
+        this.zoomLabel(commands, effective.zoom());
+        this.glideLabel(commands, effective.glide());
+
+        int brightnessMax = effective.brightnessCap();
+        commands.set("#NightVisionSection.Visible", brightnessMax > 0);
+        commands.set("#BrightnessRow.Visible", brightnessMax > PlayerSettings.BRIGHTNESS_MIN);
+        commands.set("#NightVision #CheckBox.Value", effective.nightVision());
+        if (brightnessMax > PlayerSettings.BRIGHTNESS_MIN) {
+            commands.set("#Brightness.Max", brightnessMax);
+            commands.set("#Brightness.Value", effective.brightness());
+        }
+        this.brightnessLabel(commands, effective.brightness());
+
         slider(events, "#Zoom", "Zoom");
         slider(events, "#Glide", "Glide");
         slider(events, "#Brightness", "Brightness");
-        events.addEventBinding(CustomUIEventBindingType.ValueChanged, "#Fullbright #CheckBox",
-                new EventData().append("Type", "Fullbright").append("@On", "#Fullbright #CheckBox.Value"), false);
+        events.addEventBinding(CustomUIEventBindingType.ValueChanged, "#NightVision #CheckBox",
+                new EventData().append("Type", "NightVision").append("@On", "#NightVision #CheckBox.Value"), false);
     }
 
     @Override
     public void handleDataEvent(@Nonnull Ref<EntityStore> ref, @Nonnull Store<EntityStore> store, @Nonnull Event event) {
         UUID player = this.playerRef.getUuid();
+        Effective now = this.plugin.effective(player);
         UICommandBuilder commands = new UICommandBuilder();
         boolean changed = switch (event.type == null ? "" : event.type) {
             case "Zoom" -> {
-                int zoom = step(event.value, PlayerSettings.ZOOM_MIN, PlayerSettings.ZOOM_MAX);
-                if (zoom < 0) {
+                if (event.value == null || !Float.isFinite(event.value) || now.zoomCap() <= 0f) {
                     yield false;
                 }
+                int max = ZoomSteps.maxIndex(now.zoomCap());
+                int index = Math.clamp(Math.round(event.value), 0, max);
+                boolean snapped = Math.round(event.value) > max;
+                if (snapped) {
+                    commands.set("#Zoom.Value", index);
+                }
+                float zoom = ZoomSteps.value(index);
                 this.plugin.choose(player, choice -> choice.withZoom(zoom));
-                yield this.zoomLabel(commands, zoom);
+                yield this.zoomLabel(commands, zoom) || snapped;
             }
             case "Glide" -> {
                 int glide = step(event.value, 0, PlayerSettings.GLIDE_MAX);
@@ -101,17 +123,22 @@ public final class SettingsPage extends InteractiveCustomUIPage<SettingsPage.Eve
                 yield this.glideLabel(commands, glide);
             }
             case "Brightness" -> {
-                int brightness = step(event.value, PlayerSettings.BRIGHTNESS_MIN, PlayerSettings.BRIGHTNESS_MAX);
-                if (brightness < 0) {
+                int cap = now.brightnessCap();
+                int brightness = step(event.value, PlayerSettings.BRIGHTNESS_MIN, Math.max(cap, PlayerSettings.BRIGHTNESS_MIN));
+                if (brightness < 0 || cap <= 0) {
                     yield false;
                 }
+                boolean snapped = Math.round(event.value) > cap;
+                if (snapped) {
+                    commands.set("#Brightness.Value", brightness);
+                }
                 this.plugin.choose(player, choice -> choice.withBrightness(brightness));
-                yield this.brightnessLabel(commands, brightness);
+                yield this.brightnessLabel(commands, brightness) || snapped;
             }
-            case "Fullbright" -> {
+            case "NightVision" -> {
                 if (event.on != null) {
                     boolean on = event.on;
-                    this.plugin.choose(player, choice -> choice.withFullbright(on));
+                    this.plugin.choose(player, choice -> choice.withNightVision(on));
                 }
                 yield false;
             }
@@ -137,15 +164,17 @@ public final class SettingsPage extends InteractiveCustomUIPage<SettingsPage.Eve
         return Math.clamp(Math.round(value), min, max);
     }
 
-    private boolean zoomLabel(UICommandBuilder commands, int zoom) {
-        String text = zoom + "x";
+    private boolean zoomLabel(UICommandBuilder commands, float zoom) {
+        String text = ZoomSteps.label(zoom) + "x";
         return this.label(commands, "#ZoomValue", text, Message.raw(text));
     }
 
     private boolean glideLabel(UICommandBuilder commands, int glide) {
-        return glide == 0
-                ? this.label(commands, "#GlideValue", "off", Message.translation("flexiisgoggles.settings.off"))
-                : this.label(commands, "#GlideValue", String.format(Locale.ROOT, "%.1f", glide / 10f), Message.raw(String.format(Locale.ROOT, "%.1f", glide / 10f)));
+        if (glide == 0) {
+            return this.label(commands, "#GlideValue", "off", Message.translation("flexiisgoggles.settings.off"));
+        }
+        String text = String.format(Locale.ROOT, "%.1f", glide / 10f);
+        return this.label(commands, "#GlideValue", text, Message.raw(text));
     }
 
     private boolean brightnessLabel(UICommandBuilder commands, int brightness) {

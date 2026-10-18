@@ -1,0 +1,11 @@
+{
+  "Parent": "Flexii_Goggles_Template",
+  "TranslationProperties": {
+    "Name": "flexiisgoggles.items.Flexii_Goggles_Ultra.name"
+  },
+  "Quality": "Legendary",
+  "ItemLevel": 50,
+  "Categories": [
+    "Items.Armors"
+  ]
+}

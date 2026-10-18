@@ -1,0 +1,42 @@
+{
+  "TranslationProperties": {
+    "Name": "flexiisgoggles.items.Flexii_Goggles_Template.name"
+  },
+  "Quality": "Common",
+  "ItemLevel": 10,
+  "PlayerAnimationsId": "Block",
+  "ItemSoundSetId": "ISS_Armor_Leather",
+  "Icon": "Icons/ItemsGenerated/Armor_Diving_Crude_Head.png",
+  "Model": "Items/Armors/Diving_Crude/Head.blockymodel",
+  "Texture": "Items/Armors/Diving_Crude/Head_Texture.png",
+  "Interactions": {
+    "Primary": {
+      "Interactions": [
+        {
+          "Type": "EquipItem"
+        }
+      ]
+    },
+    "Secondary": {
+      "Interactions": [
+        {
+          "Type": "EquipItem"
+        }
+      ]
+    }
+  },
+  "Armor": {
+    "ArmorSlot": "Head",
+    "CosmeticsToHide": [
+      "FaceAccessory"
+    ]
+  },
+  "Tags": {
+    "Type": [
+      "Armor"
+    ],
+    "Family": [
+      "Goggles"
+    ]
+  }
+}

@@ -36,9 +36,9 @@ public final class ZoomAssets {
         this.dir = dir;
     }
 
-    /** The root interaction of the zoom step {@code magnification}. */
-    public static String root(int magnification) {
-        return PREFIX + "_" + magnification + "x";
+    /** The root interaction of the zoom step {@code magnification}, e.g. {@code Root_FlexiisGoggles_Zoom_1_5x}. */
+    public static String root(float magnification) {
+        return PREFIX + "_" + ZoomSteps.label(magnification).replace('.', '_') + "x";
     }
 
     /** Writes every step and loads them in one go; files of steps that are gone are deleted. */

@@ -12,15 +12,16 @@ import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import de.hymods.flexiisgoggles.FlexiisGogglesPlugin;
 import de.hymods.flexiisgoggles.GogglesConfig;
-import de.hymods.flexiisgoggles.settings.PlayerSettings;
 import de.hymods.flexiisgoggles.ui.SettingsPage;
+import de.hymods.flexiisgoggles.zoom.ZoomSteps;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
 
 /**
- * {@code /goggles} opens the settings page, for every player. {@code /goggles status} and {@code /goggles reload}
- * keep the permission every command needs by default, so they are for operators and the console.
+ * {@code /goggles} opens the settings page, for every player wearing goggles. {@code /goggles status}
+ * and {@code /goggles reload} keep the permission every command needs by default, so they are for
+ * operators and the console.
  */
 public final class GogglesCommand extends AbstractPlayerCommand {
     private final FlexiisGogglesPlugin plugin;
@@ -36,23 +37,28 @@ public final class GogglesCommand extends AbstractPlayerCommand {
     @Override
     protected void execute(@Nonnull CommandContext context, @Nonnull Store<EntityStore> store, @Nonnull Ref<EntityStore> ref,
                            @Nonnull PlayerRef playerRef, @Nonnull World world) {
+        if (!this.plugin.ability(playerRef.getUuid()).any()) {
+            context.sendMessage(Message.translation("flexiisgoggles.goggles.none").color(NightVisionCommand.HINT_COLOR));
+            return;
+        }
         Player player = store.getComponent(ref, Player.getComponentType());
         if (player != null) {
             player.getPageManager().openCustomPage(ref, store, new SettingsPage(playerRef, this.plugin));
         }
     }
 
-    /** One line each for the zoom and fullbright. */
+    /** A few lines on the settings and who uses them. */
     public static String[] describe(FlexiisGogglesPlugin plugin) {
         GogglesConfig config = plugin.config();
         return new String[]{
-                "FlexiisGoggles zoom %s: %s, default %dx (%s), glide default %s".formatted(
+                "FlexiisGoggles: goggles %s, %d player(s) online wearing goggles, %d player(s) with own settings".formatted(
+                        config.requireGoggles ? "required" : "not required", plugin.worn().count(), plugin.players().size()),
+                "zoom %s: %s, %s, glide default %s".formatted(
                         config.zoom.enabled ? "on" : "off",
-                        plugin.zoomLoaded() ? "steps %d-%dx loaded".formatted(PlayerSettings.ZOOM_MIN, PlayerSettings.ZOOM_MAX) : "roots not loaded",
-                        config.zoom.magnification, config.zoom.spec(config.zoom.magnification).describe(), config.zoom.glide),
-                "FlexiisGoggles fullbright %s: default brightness %d, on for %d player(s) online; %d player(s) with own settings".formatted(
-                        config.fullbright.enabled ? "on" : "off", config.fullbright.level, plugin.fullbright().active(),
-                        plugin.players().size())
+                        plugin.zoomLoaded() ? "%d steps %s-%sx loaded".formatted(ZoomSteps.count(), ZoomSteps.label(ZoomSteps.MIN), ZoomSteps.label(ZoomSteps.MAX)) : "roots not loaded",
+                        config.zoom.spec(4f).describe(), config.zoom.glide),
+                "night vision %s: on for %d player(s) online".formatted(
+                        config.nightVision.enabled ? "on" : "off", plugin.nightVision().active())
         };
     }
 

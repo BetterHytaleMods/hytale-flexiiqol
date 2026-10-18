@@ -1,4 +1,4 @@
-package de.hymods.flexiisgoggles.fullbright;
+package de.hymods.flexiisgoggles.nightvision;
 
 import com.hypixel.hytale.assetstore.map.BlockTypeAssetMap;
 import com.hypixel.hytale.protocol.ColorLight;

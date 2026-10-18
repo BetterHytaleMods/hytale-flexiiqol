@@ -1,0 +1,11 @@
+{
+  "Parent": "Flexii_Goggles_Template",
+  "TranslationProperties": {
+    "Name": "flexiisgoggles.items.Flexii_Goggles_NightVision_4.name"
+  },
+  "Quality": "Epic",
+  "ItemLevel": 40,
+  "Categories": [
+    "Items.Armors"
+  ]
+}

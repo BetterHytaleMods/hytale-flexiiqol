@@ -23,9 +23,10 @@ $C.@PageOverlay {
           @Text = %flexiisgoggles.settings.zoom;
         }
 
-        Group {
+        Group #ZoomStrengthRow {
           LayoutMode: Left;
           Padding: (Horizontal: 15);
+          Anchor: (Bottom: 20);
 
           Label {
             Anchor: (Width: 110);
@@ -39,10 +40,10 @@ $C.@PageOverlay {
               ...$C.@DefaultSliderStyle,
               Background: (Color: #333333)
             );
-            Min: 2;
-            Max: 12;
+            Min: 0;
+            Max: 11;
             Step: 1;
-            Value: 4;
+            Value: 3;
           }
 
           Label #ZoomValue {
@@ -53,7 +54,6 @@ $C.@PageOverlay {
         }
 
         Group {
-          Anchor: (Top: 20);
           LayoutMode: Left;
           Padding: (Horizontal: 15);
 
@@ -83,24 +83,24 @@ $C.@PageOverlay {
         }
       }
 
-      Group #FullbrightSection {
+      Group #NightVisionSection {
         Anchor: (Top: 28);
         LayoutMode: Top;
 
         $C.@Subtitle {
-          @Text = %flexiisgoggles.settings.fullbright;
+          @Text = %flexiisgoggles.settings.nightvision;
         }
 
         Group {
           Padding: (Horizontal: 15);
 
-          $C.@CheckBoxWithLabel #Fullbright {
+          $C.@CheckBoxWithLabel #NightVision {
             @Text = %flexiisgoggles.settings.on;
             @Checked = false;
           }
         }
 
-        Group {
+        Group #BrightnessRow {
           Anchor: (Top: 20);
           LayoutMode: Left;
           Padding: (Horizontal: 15);
