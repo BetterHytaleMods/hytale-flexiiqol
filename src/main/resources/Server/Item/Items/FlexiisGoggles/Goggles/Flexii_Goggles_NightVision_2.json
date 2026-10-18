@@ -9,8 +9,8 @@
     "Items.Armors"
   ],
   "Icon": "Icons/ItemsGenerated/Flexii_Goggles_NightVision_2.png",
-  "Model": "Items/FlexiisGoggles/Goggles_NightVision.blockymodel",
-  "Texture": "Items/FlexiisGoggles/Goggles_NightVision_2.png",
+  "Model": "Items/FlexiisGoggles/Goggles_NightVision_2.blockymodel",
+  "Texture": "Items/FlexiisGoggles/Goggles_NightVision_2_Texture.png",
   "Recipe": {
     "Input": [
       {

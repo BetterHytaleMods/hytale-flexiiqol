@@ -13,8 +13,8 @@ crafting bench and its own ore.
   still light up more, so the world keeps its depth. Nobody else sees it, and mob spawning and plant
   growth keep using the real light.
 - **UltraGoggles:** both at full strength. A late-game item that needs lumenite.
-- **Helms:** mount goggles on a helmet at the armor bench to wear both: Scout Helm (zoom), Nightwatch
-  Helm (night vision), Overseer Helm (ultra).
+- **Helms:** mount goggles on a helmet at the armor bench to wear both: Scout Helms (zoom), Nightwatch
+  Helms (night vision), the Overseer Helm (ultra).
 - **Optician's Bench:** a cheap bench that upgrades through five tiers; each tier unlocks stronger
   goggles and visibly grows, from a trestle table with a grindstone to a gold-trimmed desk with a
   floating lumenite crystal. Glass and lenses are made there too.
@@ -36,8 +36,9 @@ FlexiisGoggles is a server plugin. Players need nothing but the normal Hytale cl
 | Night Vision Goggles I / II / III / IV | 1 / 2 / 3 / 4 | – | 1 / 2 / 3 / 5 |
 | UltraGoggles | 5 | 16x (starts at 12x) | 6 |
 
-Helms count like the goggles mounted on them. They need a vanilla helmet of the matching tier
-(copper, iron, thorium, adamantite) and keep its armor values.
+Helms count like the goggles mounted on them. They need a vanilla helmet of the matching tier and keep
+its armor values: copper for I, iron for II, thorium or cobalt for III, adamantite for IV and the
+UltraGoggles (e.g. Cobalt Scout Helm).
 
 ## Install
 

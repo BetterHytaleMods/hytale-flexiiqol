@@ -1,0 +1,34 @@
+{
+  "Parent": "Armor_Cobalt_Head",
+  "TranslationProperties": {
+    "Name": "flexiisgoggles.items.Flexii_Helm_Nightwatch_Cobalt.name"
+  },
+  "Quality": "Rare",
+  "Icon": "Icons/ItemsGenerated/Flexii_Helm_Nightwatch_Cobalt.png",
+  "Model": "Items/FlexiisGoggles/Helm_Nightwatch_Cobalt.blockymodel",
+  "Texture": "Items/FlexiisGoggles/Helm_Nightwatch_Cobalt_Texture.png",
+  "Recipe": {
+    "Input": [
+      {
+        "ItemId": "Flexii_Goggles_NightVision_3",
+        "Quantity": 1
+      },
+      {
+        "ItemId": "Armor_Cobalt_Head",
+        "Quantity": 1
+      }
+    ],
+    "BenchRequirement": [
+      {
+        "Type": "Crafting",
+        "Id": "Armor_Bench",
+        "Categories": [
+          "Armor_Head"
+        ],
+        "RequiredTierLevel": 2
+      }
+    ],
+    "KnowledgeRequired": false,
+    "TimeSeconds": 3
+  }
+}

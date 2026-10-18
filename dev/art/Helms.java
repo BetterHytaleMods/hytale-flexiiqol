@@ -15,14 +15,24 @@ import java.util.zip.ZipFile;
 
 /**
  * The helms with goggles: each starts from the game's own helmet of its tier (model and texture from
- * Assets.zip; Hypixel allows mod creators to use the game's assets) and gets our goggles fitted onto its
- * face, beside the helmet's centre ridge. The helmet texture keeps its place, the goggles' texture goes
- * below it.
+ * Assets.zip; Hypixel allows mod creators to use the game's assets) and gets the goggles of that tier
+ * fitted onto its face, beside the helmet's centre ridge and in front of whatever the helmet has there.
+ * The helmet texture keeps its place, the goggles' texture goes below it. Thorium and cobalt are the
+ * two helmets of the third tier, so both get a pair.
  */
 final class Helms {
     /** Lens centres, in head-centre coordinates (the eyes are at x +-7.5, y -1.8). */
     static final double LENS_X = 10.5;
-    static final double LENS_Y = -2;
+
+    record Helmet(String metal, String vanillaItem, int tier) {
+    }
+
+    static final List<Helmet> HELMETS = List.of(
+            new Helmet("Copper", "Armor_Copper_Head", 1),
+            new Helmet("Iron", "Armor_Iron_Head", 2),
+            new Helmet("Thorium", "Armor_Thorium_Head", 3),
+            new Helmet("Cobalt", "Armor_Cobalt_Head", 3),
+            new Helmet("Adamantite", "Armor_Adamantite_Head", 4));
 
     private Helms() {
     }
@@ -33,18 +43,17 @@ final class Helms {
                 : Path.of(System.getProperty("user.home"), "Library/Application Support/Hytale/install/release/package/game/latest/Assets.zip");
     }
 
-    static void all(Art.Palette[] zoom, Art.Palette[] night, Art.Palette ultra) throws IOException {
-        String[] vanilla = {"Armor_Copper_Head", "Armor_Iron_Head", "Armor_Thorium_Head", "Armor_Adamantite_Head"};
+    static void all() throws IOException {
         try (ZipFile zip = new ZipFile(assets().toFile())) {
-            for (int t = 0; t < 4; t++) {
-                build(zip, "Flexii_Helm_Scout_" + (t + 1), "Helm_Scout_" + (t + 1), vanilla[t], "Zoom", zoom[t]);
-                build(zip, "Flexii_Helm_Nightwatch_" + (t + 1), "Helm_Nightwatch_" + (t + 1), vanilla[t], "NightVision", night[t]);
+            for (Helmet helmet : HELMETS) {
+                build(zip, "Flexii_Helm_Scout_" + helmet.metal(), "Helm_Scout_" + helmet.metal(), helmet.vanillaItem(), Gear.Kind.ZOOM, helmet.tier());
+                build(zip, "Flexii_Helm_Nightwatch_" + helmet.metal(), "Helm_Nightwatch_" + helmet.metal(), helmet.vanillaItem(), Gear.Kind.NIGHT, helmet.tier());
             }
-            build(zip, "Flexii_Helm_Overseer", "Helm_Overseer", vanilla[3], "Ultra", ultra);
+            build(zip, "Flexii_Helm_Overseer", "Helm_Overseer", "Armor_Adamantite_Head", Gear.Kind.ULTRA, 5);
         }
     }
 
-    private static void build(ZipFile zip, String itemId, String file, String vanillaItem, String kind, Art.Palette palette) throws IOException {
+    private static void build(ZipFile zip, String itemId, String file, String vanillaItem, Gear.Kind kind, int tier) throws IOException {
         String modelPath = itemField(zip, vanillaItem, "Model");
         String texturePath = itemField(zip, vanillaItem, "Texture");
         Map<String, Object> model = Json.object(Json.parse(text(zip, "Common/" + modelPath)));
@@ -54,9 +63,12 @@ final class Helms {
         }
         Map<String, Object> root = Json.object(Json.array(model.get("nodes")).get(0));
         double[] rootOffset = Blocky.vec(Json.object(root.get("shape")).get("offset"), 0);
-        double front = frontAt(model, LENS_X, LENS_Y);
+        List<Blocky.Face> faces = Blocky.faces(model);
 
-        Art.Model goggles = goggles(kind, palette, front);
+        Art.Model goggles = Gear.build(kind, tier, (x, y) -> frontAt(faces, x, y), LENS_X, false);
+        for (String pair : goggles.flicker()) {
+            System.out.println("flickers in " + file + ": " + pair);
+        }
         goggles.pack();
         BufferedImage gogglesTexture = goggles.texture(itemId.hashCode());
         int width = Math.max(helmet.getWidth(), gogglesTexture.getWidth());
@@ -83,43 +95,11 @@ final class Helms {
         Art.png(Blocky.render(Blocky.faces(model), texture, -40, 20), "Icons/ItemsGenerated/" + itemId + ".png");
     }
 
-    /** The goggles on a helmet whose face is at {@code front} (z, head-centre coordinates) at the lenses. */
-    static Art.Model goggles(String kind, Art.Palette p, double front) {
-        Art.Model m = new Art.Model("unused", true);
-        Art.Mat bright = new Art.Mat(Art.shade(p.frame().rgb(), 1.12), Art.Style.METAL);
-        m.pair("Goggle_Frame", LENS_X, LENS_Y, front + 1, 9, 8, 2, p.frame());
-        switch (kind) {
-            case "Zoom" -> {
-                m.pair("Goggle_Tube", LENS_X, LENS_Y, front + 4, 6, 6, 4, p.frame());
-                m.pair("Goggle_Ring", LENS_X, LENS_Y, front + 6.5, 7, 7, 1, bright);
-                m.pair("Goggle_Lens", LENS_X, LENS_Y, front + 7.25, 4, 4, 1, p.lens());
-            }
-            case "NightVision" -> {
-                m.pair("Goggle_Hood", LENS_X, LENS_Y, front + 2.5, 8, 7, 1, p.accent());
-                for (Art.Box lens : List.of(
-                        new Art.Box("Goggle_Lens_L", -LENS_X, LENS_Y, front + 3.25, 6, 5, 1, p.lens()),
-                        new Art.Box("Goggle_Lens_R", LENS_X, LENS_Y, front + 3.25, 6, 5, 1, p.lens()))) {
-                    m.add(lens).glow();
-                }
-            }
-            default -> {
-                for (Art.Box lens : List.of(
-                        new Art.Box("Goggle_Lens_L", -LENS_X, LENS_Y, front + 2.25, 7, 6, 1, p.lens()),
-                        new Art.Box("Goggle_Lens_R", LENS_X, LENS_Y, front + 2.25, 7, 6, 1, p.lens()))) {
-                    m.add(lens).glow();
-                }
-                m.add(new Art.Box("Goggle_Scope", LENS_X, LENS_Y, front + 4.75, 6, 6, 4, p.accent()));
-                m.add(new Art.Box("Goggle_Scope_Lens", LENS_X, LENS_Y, front + 7.25, 4, 4, 1, Art.Mat.of("#ffe28a", Art.Style.GLOW))).glow();
-            }
-        }
-        return m;
-    }
-
     /** How far forward the helmet reaches at (x, y), in head-centre coordinates: its face there. */
-    static double frontAt(Map<String, Object> model, double x, double y) {
+    static double frontAt(List<Blocky.Face> faces, double x, double y) {
         double bx = x, by = y + 20;
         double front = 14;
-        for (Blocky.Face face : Blocky.faces(model)) {
+        for (Blocky.Face face : faces) {
             double minX = Double.MAX_VALUE, maxX = -Double.MAX_VALUE, minY = Double.MAX_VALUE, maxY = -Double.MAX_VALUE, maxZ = -Double.MAX_VALUE;
             for (double[] c : face.corners()) {
                 minX = Math.min(minX, c[0]);

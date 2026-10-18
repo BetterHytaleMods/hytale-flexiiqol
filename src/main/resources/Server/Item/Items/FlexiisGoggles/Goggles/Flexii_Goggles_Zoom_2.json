@@ -9,8 +9,8 @@
     "Items.Armors"
   ],
   "Icon": "Icons/ItemsGenerated/Flexii_Goggles_Zoom_2.png",
-  "Model": "Items/FlexiisGoggles/Goggles_Zoom.blockymodel",
-  "Texture": "Items/FlexiisGoggles/Goggles_Zoom_2.png",
+  "Model": "Items/FlexiisGoggles/Goggles_Zoom_2.blockymodel",
+  "Texture": "Items/FlexiisGoggles/Goggles_Zoom_2_Texture.png",
   "Recipe": {
     "Input": [
       {

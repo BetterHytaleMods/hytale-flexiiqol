@@ -31,7 +31,7 @@ public final class Art {
 
     // ---------------------------------------------------------------- colours and materials
 
-    enum Style { METAL, LEATHER, GLASS, PANE, GLOW, WOOD, STONE, CRYSTAL, PLAIN, TEXTURE, CHART }
+    enum Style { METAL, LEATHER, GLASS, PANE, GLOW, WOOD, STONE, CRYSTAL, PLAIN, TEXTURE, TINT, CHART }
 
     /** A colour and how to paint it; {@code TEXTURE} copies a game block texture (Common/ path) instead. */
     record Mat(int rgb, Style style, String texture) {
@@ -46,6 +46,11 @@ public final class Art {
         /** One of the game's block textures, 32 texels per block like our models. */
         static Mat tex(String path) {
             return new Mat(0xffffff, Style.TEXTURE, path);
+        }
+
+        /** A game texture's light and shade in another colour: iron's surface as thorium, cobalt, adamantite. */
+        static Mat tint(String path, String hex) {
+            return new Mat(Integer.parseInt(hex.substring(1), 16), Style.TINT, path);
         }
     }
 
@@ -83,9 +88,19 @@ public final class Art {
         return (r << 16) | (g << 8) | bl;
     }
 
+    /** A texel of a TEXTURE or TINT material's game texture, tinted for TINT. */
+    static int sample(Mat mat, BufferedImage source, int x, int y) {
+        int c = source.getRGB(Math.floorMod(x, source.getWidth()), Math.floorMod(y, source.getHeight())) & 0xffffff;
+        if (mat.style() != Style.TINT) {
+            return c;
+        }
+        double light = (0.3 * ((c >> 16) & 0xff) + 0.59 * ((c >> 8) & 0xff) + 0.11 * (c & 0xff)) / 255.0;
+        return shade(mat.rgb(), 0.35 + 1.05 * light);
+    }
+
     /** Paints one face of {@code w} x {@code h} texels in the material's style. */
     static void paint(BufferedImage img, int u, int v, int w, int h, Mat mat, Random rnd) {
-        if (mat.style() == Style.TEXTURE) {
+        if (mat.style() == Style.TEXTURE || mat.style() == Style.TINT) {
             BufferedImage source = gameTexture(mat.texture());
             int sw = source.getWidth(), sh = source.getHeight();
             int ox = rnd.nextInt(sw), oy = rnd.nextInt(sh);
@@ -93,7 +108,7 @@ public final class Art {
             boolean turned = h > w;
             for (int y = 0; y < h; y++) {
                 for (int x = 0; x < w; x++) {
-                    int c = (turned ? source.getRGB((ox + y) % sw, (oy + x) % sh) : source.getRGB((ox + x) % sw, (oy + y) % sh)) & 0xffffff;
+                    int c = turned ? sample(mat, source, ox + y, oy + x) : sample(mat, source, ox + x, oy + y);
                     img.setRGB(u + x, v + y, 0xff000000 | bevel(c, x, y, w, h));
                 }
             }
@@ -260,7 +275,7 @@ public final class Art {
         int d = decal.size();
         Mat mat = decal.mat();
         double r = d / 2.0;
-        BufferedImage source = mat.style() == Style.TEXTURE ? gameTexture(mat.texture()) : null;
+        BufferedImage source = mat.texture() != null ? gameTexture(mat.texture()) : null;
         int ox = source != null ? rnd.nextInt(source.getWidth()) : 0, oy = source != null ? rnd.nextInt(source.getHeight()) : 0;
         for (int y = 0; y < d; y++) {
             for (int x = 0; x < d; x++) {
@@ -268,8 +283,8 @@ public final class Art {
                 double t = Math.hypot(dx, dy) / r;
                 int c;
                 switch (mat.style()) {
-                    case TEXTURE -> {
-                        c = source.getRGB((ox + x) % source.getWidth(), (oy + y) % source.getHeight()) & 0xffffff;
+                    case TEXTURE, TINT -> {
+                        c = sample(mat, source, ox + x, oy + y);
                         if (t > 0.84) {
                             c = shade(c, dx + dy < 0 ? 0.92 : 0.7);
                         } else if (Math.abs(t - 0.6) < 0.07 || (d >= 10 && Math.abs(t - 0.32) < 0.06)) {
@@ -573,8 +588,61 @@ public final class Art {
             }
         }
 
+        /**
+         * Faces of two boxes that lie in the same plane, face the same way and overlap: the game draws them
+         * flickering into each other. Only boxes turned the same way are compared.
+         */
+        List<String> flicker() {
+            List<String> found = new ArrayList<>();
+            String[] names = {"front", "back", "left", "right", "top", "bottom"};
+            for (int i = 0; i < this.boxes.size(); i++) {
+                for (int j = i + 1; j < this.boxes.size(); j++) {
+                    Box a = this.boxes.get(i), b = this.boxes.get(j);
+                    double[] qa = a.rotation(), qb = b.rotation();
+                    double same = Math.abs(qa[0] * qb[0] + qa[1] * qb[1] + qa[2] * qb[2] + qa[3] * qb[3]);
+                    if (same < 0.99999) {
+                        continue;
+                    }
+                    // b's centre in a's frame; both boxes share the frame's axes
+                    double[] inverse = {-qa[0], -qa[1], -qa[2], qa[3]};
+                    double[] d = rotate(new double[]{b.x - a.x, b.y - a.y, b.z - a.z}, inverse);
+                    double[] ha = {a.sx / 2.0, a.sy / 2.0, a.sz / 2.0}, hb = {b.sx / 2.0, b.sy / 2.0, b.sz / 2.0};
+                    for (int axis = 0; axis < 3; axis++) {
+                        for (int sign = -1; sign <= 1; sign += 2) {
+                            double planeA = sign * ha[axis], planeB = d[axis] + sign * hb[axis];
+                            if (Math.abs(planeA - planeB) > 1e-6) {
+                                continue;
+                            }
+                            boolean overlap = true;
+                            for (int other = 0; other < 3 && overlap; other++) {
+                                if (other != axis) {
+                                    double lo = Math.max(-ha[other], d[other] - hb[other]), hi = Math.min(ha[other], d[other] + hb[other]);
+                                    overlap = hi - lo > 1e-6;
+                                }
+                            }
+                            // undersides resting on the ground nobody sees
+                            boolean floor = !this.head && axis == 1 && sign < 0 && a.q == null && a.rx == 0 && a.ry == 0 && a.rz == 0
+                                    && a.y - ha[1] <= 1e-6;
+                            if (overlap && !floor) {
+                                int face = switch (axis) {
+                                    case 0 -> sign > 0 ? 3 : 2;
+                                    case 1 -> sign > 0 ? 4 : 5;
+                                    default -> sign > 0 ? 0 : 1;
+                                };
+                                found.add(a.name + " / " + b.name + " (" + names[face] + ")");
+                            }
+                        }
+                    }
+                }
+            }
+            return found;
+        }
+
         /** Packs the textures and writes the model file. */
         void write() throws IOException {
+            for (String pair : this.flicker()) {
+                System.out.println("flickers in " + this.path + ": " + pair);
+            }
             this.pack();
             Path model = COMMON.resolve(this.path + ".blockymodel");
             Files.createDirectories(model.getParent());
@@ -777,120 +845,8 @@ public final class Art {
         ImageIO.write(img, "png", file.toFile());
     }
 
-    /** A model drawn once per palette: same shape and layout, its own texture and icon each. */
-    static void variants(java.util.function.Function<Palette, Model> shape, Palette[] palettes, String texturePrefix,
-                         String[] iconIds, double yaw, double pitch) throws IOException {
-        variants(shape, palettes, texturePrefix, iconIds, yaw, pitch, box -> true);
-    }
-
-    /** As above; the icon shows only the boxes {@code inIcon} accepts. */
-    static void variants(java.util.function.Function<Palette, Model> shape, Palette[] palettes, String texturePrefix,
-                         String[] iconIds, double yaw, double pitch, java.util.function.Predicate<Box> inIcon) throws IOException {
-        Model first = shape.apply(palettes[0]);
-        first.write();
-        for (int i = 0; i < palettes.length; i++) {
-            Model model = shape.apply(palettes[i]);
-            model.pack();
-            BufferedImage texture = model.texture(31L * i + 7);
-            png(texture, texturePrefix + palettes[i].name() + ".png");
-            if (iconIds[i] != null) {
-                Model shown = new Model(model.path, model.head);
-                model.boxes.stream().filter(inIcon).forEach(shown.boxes::add);
-                png(icon(shown, texture, yaw, pitch), "Icons/ItemsGenerated/" + iconIds[i] + ".png");
-            }
-        }
-    }
-
-    record Palette(String name, Mat frame, Mat lens, Mat strap, Mat accent) {
-    }
 
     // ---------------------------------------------------------------- the art
-
-    static final Mat LEATHER = Mat.of("#5a3a22", Style.LEATHER);
-    static final Mat COPPER = Mat.of("#c06a35", Style.METAL);
-    static final Mat IRON = Mat.of("#9aa3ab", Style.METAL);
-    static final Mat THORIUM = Mat.of("#6f9a5a", Style.METAL);
-    static final Mat ADAMANTITE = Mat.of("#b23a3a", Style.METAL);
-    static final Mat GOLD = Mat.of("#d4af37", Style.METAL);
-    static final Mat VOID = Mat.of("#6a2c91", Style.METAL);
-
-    /** Goggles and helms: zoom tiers, night vision tiers, ultra. */
-    static final class Gear {
-        static final Mat[] FRAMES = {COPPER, IRON, THORIUM, ADAMANTITE};
-        static final Mat[] ZOOM_LENSES = {
-                Mat.of("#cfe3ea", Style.GLASS), Mat.of("#9fd3ff", Style.GLASS), Mat.of("#ffd36b", Style.GLASS), Mat.of("#b98cff", Style.GLASS)};
-        static final Mat NIGHT_LENS = Mat.of("#5cff6a", Style.GLOW);
-        static final Mat ULTRA_LENS = Mat.of("#57f0ff", Style.GLOW);
-
-        static void all() throws IOException {
-            Palette[] zoom = new Palette[4];
-            Palette[] night = new Palette[4];
-            for (int t = 0; t < 4; t++) {
-                zoom[t] = new Palette("Zoom_" + (t + 1), FRAMES[t], ZOOM_LENSES[t], LEATHER, FRAMES[t]);
-                night[t] = new Palette("NightVision_" + (t + 1), FRAMES[t], NIGHT_LENS, LEATHER, Mat.of("#2b2f33", Style.METAL));
-            }
-            Palette ultra = new Palette("Ultra", GOLD, ULTRA_LENS, Mat.of("#2a1838", Style.LEATHER), VOID);
-            String dir = "Items/FlexiisGoggles/";
-            java.util.function.Predicate<Box> front = box -> !box.name.startsWith("Strap_Side") && !box.name.startsWith("Strap_Back");
-            variants(p -> zoomGoggles(dir + "Goggles_Zoom", p), zoom, dir + "Goggles_",
-                    ids("Flexii_Goggles_Zoom_"), 28, 14, front);
-            variants(p -> nightGoggles(dir + "Goggles_NightVision", p), night, dir + "Goggles_",
-                    ids("Flexii_Goggles_NightVision_"), 28, 14, front);
-            variants(p -> ultraGoggles(dir + "Goggles_Ultra", p), new Palette[]{ultra}, dir + "Goggles_",
-                    new String[]{"Flexii_Goggles_Ultra"}, 28, 14, front);
-            // helms: the game's helmet of each tier with the goggles fitted in
-            Helms.all(zoom, night, ultra);
-        }
-
-        static String[] ids(String prefix) {
-            return new String[]{prefix + 1, prefix + 2, prefix + 3, prefix + 4};
-        }
-
-        /** The strap around the head, open at the lenses. */
-        static void strap(Model m, Palette p) {
-            m.pair("Strap_Side", 15.5, -1, 1, 1, 4, 26, p.strap());
-            m.add(new Box("Strap_Back", 0, -1, -14.5, 32, 4, 1, p.strap()));
-            m.pair("Strap_Front", 13.5, -1, 14.5, 3, 4, 1, p.strap());
-        }
-
-        static Model zoomGoggles(String path, Palette p) {
-            Model m = new Model(path, true);
-            strap(m, p);
-            m.pair("Frame", 7.5, -2, 15.5, 10, 9, 2, p.frame());
-            m.add(new Box("Bridge", 0, -1, 15.5, 5, 2, 2, p.frame()));
-            m.pair("Tube", 7.5, -2, 19, 7, 7, 5, p.frame());
-            m.pair("Ring", 7.5, -2, 21.75, 8, 8, 1, new Mat(shade(p.frame().rgb(), 1.12), Style.METAL));
-            m.pair("Lens", 7.5, -2, 22.5, 5, 5, 1, p.lens());
-            return m;
-        }
-
-        static Model nightGoggles(String path, Palette p) {
-            Model m = new Model(path, true);
-            strap(m, p);
-            m.pair("Frame", 7.5, -2, 15.5, 10, 9, 2, p.frame());
-            m.add(new Box("Bridge", 0, -1, 15.5, 5, 2, 2, p.frame()));
-            m.pair("Hood", 7.5, -2, 17.5, 9, 8, 2, p.accent());
-            for (Box lens : List.of(new Box("Lens_L", -7.5, -2, 18.75, 6, 6, 1, p.lens()), new Box("Lens_R", 7.5, -2, 18.75, 6, 6, 1, p.lens()))) {
-                m.add(lens).glow();
-            }
-            m.add(new Box("Emitter", 0, 3.5, 16, 4, 3, 3, p.accent()));
-            m.add(new Box("Emitter_Light", 0, 3.5, 17.75, 2, 2, 1, p.lens())).glow();
-            return m;
-        }
-
-        static Model ultraGoggles(String path, Palette p) {
-            Model m = new Model(path, true);
-            strap(m, p);
-            m.add(new Box("Visor_Frame", 0, -2, 15.5, 28, 10, 2, p.frame()));
-            m.add(new Box("Visor", 0, -2, 16.75, 24, 6, 1, p.lens())).glow();
-            m.add(new Box("Scope", 9.5, -2, 19.5, 6, 6, 5, p.accent()));
-            m.add(new Box("Scope_Lens", 9.5, -2, 22.25, 4, 4, 1, Mat.of("#ffe28a", Style.GLOW))).glow();
-            m.add(new Box("Emitter", -9, 4.5, 16, 4, 3, 3, p.accent()));
-            m.add(new Box("Emitter_Light", -9, 4.5, 17.75, 2, 2, 1, p.lens())).glow();
-            m.add(new Box("Crest_Gem", 0, 4, 16.25, 3, 3, 1, p.accent()));
-            return m;
-        }
-    }
 
     /** Quartz, glass, lenses and the quartz ore overlay. */
     static final class Materials {
@@ -913,16 +869,12 @@ public final class Art {
             glass.add(new Box("Bubble", 4, 6.5, -4, 6, 1, 6, Mat.of("#e9f6fa", Style.GLASS)));
             single(glass, dir + "Glass_Texture.png", "Flexii_Glass", 35, 35);
 
-            // lenses: a ring with a glass disc, tinted by tier
-            Mat[] rings = {Mat.of("#b9b2a5", Style.METAL), IRON, GOLD, VOID};
-            Mat[] discs = {Mat.of("#cfe3ea", Style.GLASS), Mat.of("#9fd3ff", Style.GLASS), Mat.of("#ffd36b", Style.GLASS), Mat.of("#b98cff", Style.GLASS)};
+            // lenses: round and thicker in the middle, each tier in a finer setting
             String[] names = {"Glass", "Polished", "Crystal", "Void"};
-            Palette[] lenses = new Palette[4];
-            for (int i = 0; i < 4; i++) {
-                lenses[i] = new Palette(names[i], rings[i], discs[i], rings[i], rings[i]);
+            for (int tier = 1; tier <= 4; tier++) {
+                String name = dir + "Lens_" + names[tier - 1];
+                single(lens(name, tier), name + "_Texture.png", "Flexii_Lens_" + names[tier - 1], 25, 18);
             }
-            variants(p -> lens(dir + "Lens", p), lenses, dir + "Lens_",
-                    new String[]{"Flexii_Lens_Glass", "Flexii_Lens_Polished", "Flexii_Lens_Crystal", "Flexii_Lens_Void"}, 20, 25);
 
             // quartz ore: clusters of pointed crystals growing out of the stone
             Model ore = new Model(dir + "Ore_Quartz", false);
@@ -970,12 +922,40 @@ public final class Art {
             png(icon(icon, icon.texture(5), 35, 25), "Icons/ItemsGenerated/" + iconId + ".png");
         }
 
-        static Model lens(String path, Palette p) {
+        /**
+         * A lens standing on its edge: I is raw glass, II sits in an iron rim, III in a gold rim with
+         * rivets and a crystal, IV in a dark rim with a violet glow and splinters of void around it.
+         */
+        static Model lens(String path, int tier) {
             Model m = new Model(path, false);
-            m.add(new Box("Ring_Top", 0, 21, 0, 20, 4, 4, p.frame()));
-            m.add(new Box("Ring_Bottom", 0, 3, 0, 20, 4, 4, p.frame()));
-            m.pair("Ring_Side", 8, 12, 0, 4, 14, 4, p.frame());
-            m.add(new Box("Disc", 0, 12, 0, 12, 14, 2, p.lens()));
+            double[] c = {0, 12, 0};
+            double[] facing = quaternion(0, 0, 0);
+            if (tier == 1) {
+                Mat raw = Mat.of("#e2f6fb", Style.GLASS);
+                Shapes.disc(m, "Glass", c, 18, 0, 2, facing, raw, false);
+                Shapes.disc(m, "Bulge", c, 11, 0, 4, facing, raw, false);
+                return m;
+            }
+            Mat glass = tier == 2 ? Gear.BLUE : tier == 3 ? Gear.AMBER : Gear.VOID;
+            boolean glow = tier == 4;
+            Mat rim = tier == 2 ? Gear.IRON : tier == 3 ? Gear.GOLD : Gear.STEEL;
+            Shapes.disc(m, "Rim", c, 20, 14, 3, facing, rim, false);
+            Shapes.disc(m, "Glass", c, 14, 0, 2, facing, glass, glow);
+            Shapes.disc(m, "Bulge", c, 9, 0, 3, facing, tier == 4 ? Mat.of("#e8d6ff", Style.GLOW) : glass, glow);
+            switch (tier) {
+                case 2 -> m.add(new Box("Tab", 0, c[1] + 10.75, 0, 4, 3, 2, rim));
+                case 3 -> {
+                    Gear.rivets(m, "Rivet_Front", 0, c[1], 2, 8.5, Gear.STEEL);
+                    Gear.rivets(m, "Rivet_Back", 0, c[1], -2, 8.5, Gear.STEEL);
+                    m.crystal("Gem", 0, c[1] + 9.5, 0.25, 3, 5, 0, 0, 0, Gear.CRYSTAL, true);
+                }
+                default -> {
+                    Shapes.disc(m, "Halo", new double[]{c[0], c[1], 2}, 16, 14, 1, facing, Gear.VOID, true);
+                    m.crystal("Shard_1", -11, c[1] + 6, 0, 2, 4, 0, 0, 35, Gear.VOID, true);
+                    m.crystal("Shard_2", 11.5, c[1] + 3, 0, 2, 3, 0, 0, -50, Gear.VOID, true);
+                    m.crystal("Shard_3", 2, c[1] + 11, 0, 2, 3, 0, 0, -10, Gear.VOID, true);
+                }
+            }
             return m;
         }
 

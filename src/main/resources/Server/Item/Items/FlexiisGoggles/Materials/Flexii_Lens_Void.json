@@ -8,8 +8,8 @@
     "Items.Ingredients"
   ],
   "Icon": "Icons/ItemsGenerated/Flexii_Lens_Void.png",
-  "Model": "Resources/FlexiisGoggles/Lens.blockymodel",
-  "Texture": "Resources/FlexiisGoggles/Lens_Void.png",
+  "Model": "Resources/FlexiisGoggles/Lens_Void.blockymodel",
+  "Texture": "Resources/FlexiisGoggles/Lens_Void_Texture.png",
   "PlayerAnimationsId": "Item",
   "ItemSoundSetId": "ISS_Items_Gems",
   "Tags": {

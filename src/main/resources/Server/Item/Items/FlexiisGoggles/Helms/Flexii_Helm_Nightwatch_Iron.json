@@ -1,0 +1,34 @@
+{
+  "Parent": "Armor_Iron_Head",
+  "TranslationProperties": {
+    "Name": "flexiisgoggles.items.Flexii_Helm_Nightwatch_Iron.name"
+  },
+  "Quality": "Uncommon",
+  "Icon": "Icons/ItemsGenerated/Flexii_Helm_Nightwatch_Iron.png",
+  "Model": "Items/FlexiisGoggles/Helm_Nightwatch_Iron.blockymodel",
+  "Texture": "Items/FlexiisGoggles/Helm_Nightwatch_Iron_Texture.png",
+  "Recipe": {
+    "Input": [
+      {
+        "ItemId": "Flexii_Goggles_NightVision_2",
+        "Quantity": 1
+      },
+      {
+        "ItemId": "Armor_Iron_Head",
+        "Quantity": 1
+      }
+    ],
+    "BenchRequirement": [
+      {
+        "Type": "Crafting",
+        "Id": "Armor_Bench",
+        "Categories": [
+          "Armor_Head"
+        ],
+        "RequiredTierLevel": 1
+      }
+    ],
+    "KnowledgeRequired": false,
+    "TimeSeconds": 3
+  }
+}

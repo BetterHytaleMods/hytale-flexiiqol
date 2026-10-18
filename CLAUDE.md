@@ -21,8 +21,12 @@
   gleich. Die Brillenhelme liest `dev/art/Helms.java` aus dem Vanilla-Helm der Stufe in `Assets.zip`
   (Pfad per `HYTALE_ASSETS` änderbar) und setzt die Brille ein. Die Werkbank baut `dev/art/Optician.java`:
   je Stufe ein Modell, runde Teile aus Pixelzeilen mit einem gemeinsamen Bild (`Decal`), drehende Teile
-  als eigene Knoten (`Model.group`) und die `.blockyanim` dazu. `dev/art/Blocky.java` rendert beliebige
-  Blockymodelle. Danach Server neu starten.
+  als eigene Knoten (`Model.group`) und die `.blockyanim` dazu. Die Brillen baut `dev/art/Gear.java`
+  (Stufe für Stufe, dieselben Bausteine setzen sie auf die Helme), runde Teile `dev/art/Shapes.java`.
+  `dev/art/Blocky.java` rendert beliebige Blockymodelle. Danach Server neu starten.
+- **Kein Flackern:** Das Werkzeug meldet „flickers in …“, wenn zwei Boxen eine Fläche in derselben Ebene
+  und Richtung teilen (Z-Fighting im Spiel). Solche Meldungen vor dem Commit beheben: Teile um 0,25
+  versetzen, Scheiben, die ineinander liegen, mit ungleicher Parität bauen.
 
 ## Stand (18.10.2026)
 
@@ -35,8 +39,10 @@
   - Wie wirken Optik und Icons?
   - Klappen Werkbank-Stufen, Rezepte und Kategorien?
   - Neue Werkbank (18.10. abends, nach Felix' „sehr 0815“): zwei Blöcke breit, je Stufe ein eigenes
-    Modell, Licht ab Stufe 3, Animation beim Craften, ab Stufe 5 dauerhaft. Liegt das Modell über der
-    Hitbox, dreht es mit (NESW), laufen die Animationen?
+    Modell, Licht ab Stufe 3, Animation beim Craften, ab Stufe 5 dauerhaft. Felix im Spiel: „sieht mega
+    aus“; das Flackern des Läufers auf Stufe 4/5 ist behoben.
+  - Neue Brillen II–IV und Ultra, runde Linsen, Helme mit Metallnamen und Cobalt (18.10. abends) im Spiel
+    ansehen.
   - Geht das Regler-Maximum (`#Zoom.Max`)?
   - Wirkt `CosmeticsToHide`?
 - Noch kein Release, nichts auf AWS.
@@ -49,8 +55,12 @@
   Config kann je Brille nur senken.
 - Spielerseite: Regler bis zum Maximum der getragenen Brille, Gleiten frei (0–1,8), Night Vision an/aus.
   Night Vision ist beim Aufsetzen an.
-- Brillenhelme: je Brille einer (Scout, Nightwatch, Overseer), Rezept an der Rüstungswerkbank mit
-  Vanilla-Helm der passenden Stufe (Kupfer, Eisen, Thorium, Adamantit); Rüstungswerte per `Parent`.
+- Brillenhelme: je Brille und Vanilla-Helm der passenden Stufe einer, Rezept an der Rüstungswerkbank;
+  Rüstungswerte per `Parent`. Stufe III gibt es mit Thorium und mit Cobalt (parallele Vanilla-Helme,
+  Felix 18.10.). Namen nach dem Metall wie bei Vanilla: „Copper Scout Helm“ … „Adamantite Nightwatch
+  Helm“, dazu der Overseer Helm (Felix 18.10.); IDs `Flexii_Helm_<Scout|Nightwatch>_<Metall>`.
+- Brillen (Felix 18.10. abends): Stufe I darf schlicht bleiben, jede weitere Stufe deutlich
+  aufwendiger. Linsen-Items je Stufe eigenes Modell.
 - Zoom fest auf R („Use Ability 3“), keine Tastenwahl im Mod.
 - **Quarz nur durch Abbauen des neuen Erzes**, kein Weg über Quarzit. Quarz sieht aus wie Kristall,
   das Erz kristallig (Felix nach dem ersten Blick).
@@ -74,7 +84,7 @@
 | `command/GogglesCommand`, `NightVisionCommand` | `/goggles` (+ `status`, `reload`), `/nightvision` (`/nv`) |
 | `Server/Item/Items/FlexiisGoggles/` | Brillen (über `Flexii_Goggles_Template`), Helme (`Parent` = Vanilla-Helm), Quarz, Glas, Linsen, Erz, Werkbank |
 | `Server/WorldGen/Modifier/Flexii_Quartz.json`, `Flexii_Lumenite.json` | Quarz- und Lumenite-Erz in den Höhlen der Zonen 1–3 |
-| `dev/art/Art.java` | Alle Modelle, Texturen und Icons (dazu `Helms.java`, `Optician.java`, `Blocky.java`, `Json.java`) |
+| `dev/art/Art.java` | Alle Modelle, Texturen und Icons (dazu `Gear.java`, `Helms.java`, `Optician.java`, `Shapes.java`, `Blocky.java`, `Json.java`) |
 
 ## Hytale 0.7.1/0.7.2: geprüfte API-Fakten
 

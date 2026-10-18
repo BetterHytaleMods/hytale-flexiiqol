@@ -2,12 +2,13 @@ package de.hymods.flexiisgoggles.goggles;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 /**
- * Every pair of goggles and the most it can do. Each one also comes as a helm with the goggles
- * mounted, crafted at the armor bench, which counts the same. The config can lower these values,
+ * Every pair of goggles and the most it can do. Each one also comes mounted on the game's helmets of
+ * its tier, crafted at the armor bench, which count the same. The config can lower these values,
  * never raise them.
  */
 public enum Goggles {
@@ -21,12 +22,18 @@ public enum Goggles {
     NIGHT_VISION_4("NightVision_4", 4, 0f, 5),
     ULTRA("Ultra", 5, 16f, 6);
 
+    /** The helmet metals of each tier; thorium and cobalt are both third-tier helmets. */
+    private static final List<List<String>> HELMET_METALS = List.of(
+            List.of("Copper"), List.of("Iron"), List.of("Thorium", "Cobalt"), List.of("Adamantite"));
+
     private static final Map<String, Goggles> BY_ITEM = new HashMap<>();
 
     static {
         for (Goggles goggles : values()) {
             BY_ITEM.put(goggles.itemId().toLowerCase(Locale.ROOT), goggles);
-            BY_ITEM.put(goggles.helmId().toLowerCase(Locale.ROOT), goggles);
+            for (String helm : goggles.helmIds()) {
+                BY_ITEM.put(helm.toLowerCase(Locale.ROOT), goggles);
+            }
         }
     }
 
@@ -76,12 +83,13 @@ public enum Goggles {
         return "Flexii_Goggles_" + this.key;
     }
 
-    /** The helm with these goggles mounted. */
-    public String helmId() {
+    /** The helms with these goggles mounted, one per helmet metal of their tier. */
+    public List<String> helmIds() {
         if (this == ULTRA) {
-            return "Flexii_Helm_Overseer";
+            return List.of("Flexii_Helm_Overseer");
         }
-        return (this.maxZoom > 0f ? "Flexii_Helm_Scout_" : "Flexii_Helm_Nightwatch_") + this.tier;
+        String kind = this.maxZoom > 0f ? "Flexii_Helm_Scout_" : "Flexii_Helm_Nightwatch_";
+        return HELMET_METALS.get(this.tier - 1).stream().map(metal -> kind + metal).toList();
     }
 
     /** The goggles an item is or carries, or null. Item ids are case-insensitive in Hytale. */

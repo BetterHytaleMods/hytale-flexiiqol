@@ -166,7 +166,7 @@ final class Optician {
         m.add(new Art.Box("Stretcher", 0, 12, 0, 50, 3, 3, DRYWOOD));
         m.add(new Art.Box("Sack", -12, 4.5, 7, 9, 9, 7, BURLAP));
         m.add(new Art.Box("Sack_Neck", -12, 10, 7, 4, 2, 4, BURLAP));
-        m.add(new Art.Box("Sack_Tie", -12, 9.5, 7, 5, 1, 5, ROPE));
+        m.add(new Art.Box("Sack_Tie", -12, 9.75, 7, 5, 1, 5, ROPE));
         m.add(new Art.Box("Crate", 13, 4, 6, 11, 8, 9, DRYWOOD));
         m.add(new Art.Box("Crate_Glass_1", 11, 8, 3.5, 6, 6, 1, CLEAR).rot(0, 0, -6));
         m.add(new Art.Box("Crate_Glass_2", 14, 8.5, 6, 6, 7, 1, BLUE).rot(0, 0, 5));
@@ -238,8 +238,8 @@ final class Optician {
         };
         for (int i = 0; i < 4; i++) {
             double[] at = {8 + i * 6, 47, -11.5};
-            disc(m, "Shelf_Rim_" + i, at, 6, 4, 1, Art.quaternion(0, 0, 0), instrument(tier), false);
-            disc(m, "Shelf_Lens_" + i, at, 4, 0, 1, Art.quaternion(0, 0, 0), lenses[i], lenses[i].style() == Art.Style.GLOW);
+            Shapes.disc(m, "Shelf_Rim_" + i, at, 6, 4, 1, Art.quaternion(0, 0, 0), instrument(tier), false);
+            Shapes.disc(m, "Shelf_Lens_" + i, at, 4, 0, 1, Art.quaternion(0, 0, 0), lenses[i], lenses[i].style() == Art.Style.GLOW);
         }
     }
 
@@ -247,9 +247,9 @@ final class Optician {
     static void easel(Art.Model m) {
         m.add(new Art.Box("Easel_L", -19, 40, -11, 2, 28, 2, DRYWOOD));
         m.add(new Art.Box("Easel_R", -5, 40, -11, 2, 28, 2, DRYWOOD));
-        m.add(new Art.Box("Easel_Top", -12, 54, -11, 16, 2, 2, DRYWOOD));
-        m.add(new Art.Box("Easel_Ledge", -12, 34.5, -10.5, 16, 1, 3, DRYWOOD));
-        m.add(new Art.Box("Chart", -12, 44, -10.5, 14, 18, 1, DRYWOOD).face(0, CHART));
+        m.add(new Art.Box("Easel_Top", -12, 54, -11, 17, 2, 3, DRYWOOD));
+        m.add(new Art.Box("Easel_Ledge", -12, 34.5, -10, 17, 1, 3, DRYWOOD));
+        m.add(new Art.Box("Chart", -12, 44, -10.25, 14, 18, 1, DRYWOOD).face(0, CHART));
     }
 
     // ---------------------------------------------------------------- the lens-grinding lathe
@@ -266,25 +266,25 @@ final class Optician {
         m.add(new Art.Box("Lathe_Bed", 14, 27, 0, 12, 2, 16, wood));
         m.add(new Art.Box("Lathe_Upright_Back", 14, 34, -6, 3, 12, 2, wood));
         m.add(new Art.Box("Lathe_Upright_Front", 14, 34, 6, 3, 12, 2, wood));
-        m.add(new Art.Box("Lathe_Axle", 14, 37, 0, 2, 2, 14, metal));
+        m.add(new Art.Box("Lathe_Axle", 14, 37, 0, 2, 2, 13, metal));
         int mark = m.boxes.size();
-        disc(m, "Grindstone_Stone", stone, 14, 0, 4, front, GRINDSTONE, false);
-        disc(m, "Grindstone_Hub", stone, 4, 0, 6, front, metal, false);
+        Shapes.disc(m, "Grindstone_Stone", stone, 14, 0, 4, front, GRINDSTONE, false);
+        Shapes.disc(m, "Grindstone_Hub", stone, 7, 0, 6, front, metal, false);
         m.group("Grindstone", mark, stone[0], stone[1], stone[2]);
         mark = m.boxes.size();
         m.add(new Art.Box("Crank_Arm", 14, 34, 7.5, 2, 8, 1, metal));
         m.add(new Art.Box("Crank_Grip", 14, 31, 9.5, 2, 2, 3, wood));
         m.group("Crank", mark, stone[0], stone[1], stone[2]);
         if (tier >= 2) {
-            m.add(new Art.Box("Trough", 14, 28.5, 0, 16, 5, 7, metal).face(4, WATER));
+            m.add(new Art.Box("Trough", 14, 28.25, 0, 16, 5, 7, metal).face(4, WATER));
             double[] felt = {27, 35, 0};
             m.add(new Art.Box("Polisher_Bed", 27, 27, 0, 8, 2, 10, wood));
-            m.add(new Art.Box("Polisher_Post_Back", 27, 32, -3.5, 2, 8, 2, wood));
-            m.add(new Art.Box("Polisher_Post_Front", 27, 32, 3.5, 2, 8, 2, wood));
-            m.add(new Art.Box("Polisher_Axle", 27, 35, 0, 2, 2, 9, metal));
+            m.add(new Art.Box("Polisher_Post_Back", 27, 32.5, -3.5, 3, 9, 2, wood));
+            m.add(new Art.Box("Polisher_Post_Front", 27, 32.5, 3.5, 3, 9, 2, wood));
+            m.add(new Art.Box("Polisher_Axle", 27, 35, 0, 2, 2, 8, metal));
             mark = m.boxes.size();
-            disc(m, "Polisher_Felt", felt, 10, 0, 3, front, FELT, false);
-            disc(m, "Polisher_Hub", felt, 2, 0, 5, front, metal, false);
+            Shapes.disc(m, "Polisher_Felt", felt, 10, 0, 3, front, FELT, false);
+            Shapes.disc(m, "Polisher_Hub", felt, 3, 0, 5, front, metal, false);
             m.group("Polisher", mark, felt[0], felt[1], felt[2]);
         }
     }
@@ -296,7 +296,7 @@ final class Optician {
         double table = 26;
         // spectacles, open, facing the front
         Art.Mat specLens = tier >= 5 ? LUMENITE : tier == 4 ? VOID : BLUE;
-        spectacles(m, 1, table, 10, tier == 1 ? DRYWOOD : metal, specLens, specLens.style() == Art.Style.GLOW);
+        spectacles(m, 1, tier >= 4 ? table + 1 : table, 10, tier == 1 ? DRYWOOD : metal, specLens, specLens.style() == Art.Style.GLOW);
         double[] flat = Art.quaternion(-90, 0, 0);
         if (tier <= 2) {
             // a magnifier on a stand, tipped back towards whoever works here
@@ -304,14 +304,14 @@ final class Optician {
             double[] lens = {-23, table + 13, 8};
             m.add(new Art.Box("Magnifier_Foot", -23, table + 1, 8, 6, 2, 6, tier == 1 ? DRYWOOD : metal));
             m.add(new Art.Box("Magnifier_Stem", -23, table + 5, 8, 2, 6, 2, metal));
-            disc(m, "Magnifier_Ring", lens, 10, 8, 1, tipped, metal, false);
-            disc(m, "Magnifier_Glass", lens, 8, 0, 1, tipped, CLEAR, false);
+            Shapes.disc(m, "Magnifier_Ring", lens, 10, 8, 1, tipped, metal, false);
+            Shapes.disc(m, "Magnifier_Glass", lens, 8, 0, 1, tipped, CLEAR, false);
         } else {
             // a magnifying glass lying in front of the telescope
             double[] glass = {-22, table + 0.5, 9};
-            disc(m, "Magnifier_Ring", glass, 8, 6, 1, flat, metal, false);
-            disc(m, "Magnifier_Glass", glass, 6, 0, 1, flat, CLEAR, false);
-            beam(m, "Magnifier_Handle", new double[]{-18.5, table + 0.5, 11}, new double[]{-13, table + 0.5, 14}, 2, LEATHER);
+            Shapes.disc(m, "Magnifier_Ring", glass, 8, 6, 1, flat, metal, false);
+            Shapes.disc(m, "Magnifier_Glass", glass, 6, 0, 1, flat, CLEAR, false);
+            Shapes.beam(m, "Magnifier_Handle", new double[]{-18.5, table + 0.5, 11}, new double[]{-13, table + 0.5, 14}, 2, LEATHER);
         }
         if (tier == 1) {
             // a candle at the back and three glass blanks
@@ -320,7 +320,7 @@ final class Optician {
             m.add(new Art.Box("Candle_Flame", -27, table + 7, -8, 1, 2, 1, FLAME)).glow();
             for (int i = 0; i < 3; i++) {
                 double[] at = {20 + i * 5, table + 0.5 + (i == 1 ? 1 : 0), 12 + (i == 1 ? -0.5 : 0)};
-                disc(m, "Blank_" + i, at, 4, 0, 1, flat, i == 1 ? BLUE : CLEAR, false);
+                Shapes.disc(m, "Blank_" + i, at, 4, 0, 1, flat, i == 1 ? BLUE : CLEAR, false);
             }
             return;
         }
@@ -328,12 +328,12 @@ final class Optician {
         m.add(new Art.Box("Tray", 22, table + 0.5, 12.5, 17, 1, 5, tier >= 4 ? BLACKWOOD : DARKWOOD));
         Art.Mat[] tray = tier >= 5 ? new Art.Mat[]{AMBER, LUMENITE, BLUE} : tier == 4 ? new Art.Mat[]{AMBER, VOID, BLUE} : new Art.Mat[]{AMBER, CLEAR, BLUE};
         for (int i = 0; i < 3; i++) {
-            disc(m, "Tray_Lens_" + i, new double[]{16.5 + i * 5.5, table + 1.5, 12.5}, 4, 0, 1, flat, tray[i], tray[i].style() == Art.Style.GLOW);
+            Shapes.disc(m, "Tray_Lens_" + i, new double[]{16.5 + i * 5.5, table + 1.5, 12.5}, 4, 0, 1, flat, tray[i], tray[i].style() == Art.Style.GLOW);
         }
         // a leather tool roll
         double roll = tier >= 4 ? table + 1 : table;
         m.add(new Art.Box("Tool_Roll", -10, roll + 0.5, 10, 11, 1, 6, LEATHER));
-        m.add(new Art.Box("Tool_Roll_Rolled", -16, roll + 1, 10, 2, 2, 6, LEATHER));
+        m.add(new Art.Box("Tool_Roll_Rolled", -16, roll + 1.25, 10, 2, 2, 7, LEATHER));
         m.add(new Art.Box("Tool_File", -11.5, roll + 1.5, 10, 1, 1, 5, IRON).rot(0, 8, 0));
         m.add(new Art.Box("Tool_Pick", -9, roll + 1.5, 10, 1, 1, 5, metal).rot(0, -5, 0));
         m.add(new Art.Box("Tool_Handle", -6.5, roll + 1.5, 9, 2, 1, 3, HARDWOOD));
@@ -348,9 +348,9 @@ final class Optician {
         for (int side = -1; side <= 1; side += 2) {
             double[] at = {x + 3 * side, table + 2.5, z};
             String s = side < 0 ? "_L" : "_R";
-            disc(m, "Spectacles_Rim" + s, at, 5, 3, 1, facing, frame, false);
-            disc(m, "Spectacles_Lens" + s, at, 3, 0, 1, facing, lens, glow);
-            beam(m, "Spectacles_Temple" + s, new double[]{x + 5.5 * side, table + 3.5, z - 0.5}, new double[]{x + 5.5 * side, table + 0.5, z - 6.5}, 1, frame);
+            Shapes.disc(m, "Spectacles_Rim" + s, at, 5, 3, 1, facing, frame, false);
+            Shapes.disc(m, "Spectacles_Lens" + s, at, 3, 0, 1, facing, lens, glow);
+            Shapes.beam(m, "Spectacles_Temple" + s, new double[]{x + 5.5 * side, table + 3.5, z - 0.5}, new double[]{x + 5.5 * side, table + 0.5, z - 6.5}, 1, frame);
         }
         m.add(new Art.Box("Spectacles_Bridge", x, table + 3.5, z, 1, 1, 1, frame));
     }
@@ -363,38 +363,38 @@ final class Optician {
         Art.Mat band = instrument(tier);
         Art.Mat lens = tier >= 5 ? LUMENITE : tier == 4 ? VOID : BLUE;
         double[] head = {-19, 38.5, -2};
-        beam(m, "Tripod_1", head, new double[]{-25, 26, 2}, 2, band);
-        beam(m, "Tripod_2", head, new double[]{-13, 26, 1}, 2, band);
-        beam(m, "Tripod_3", head, new double[]{-20, 26, -9}, 2, band);
+        Shapes.beam(m, "Tripod_1", head, new double[]{-25, 26, 2}, 2, band);
+        Shapes.beam(m, "Tripod_2", head, new double[]{-13, 26, 1}, 2, band);
+        Shapes.beam(m, "Tripod_3", head, new double[]{-20, 26, -9}, 2, band);
         m.add(new Art.Box("Tripod_Head", head[0], head[1], head[2], 4, 3, 4, band));
         double[] pivot = {-19, 41, -2};
-        double[] q = towards(new double[]{0, 1, 0}, Art.norm(new double[]{-0.74, 0.6, 0.3}));
-        segment(m, "Scope_Eyepiece", pivot, q, -12, -9, 3, band);
-        segment(m, "Scope_Drawtube", pivot, q, -9, -2, 4, band);
-        segment(m, "Scope_Tube", pivot, q, -2, 10, 6, tube);
-        segment(m, "Scope_Band_1", pivot, q, 0, 1, 7, band);
-        segment(m, "Scope_Band_2", pivot, q, 7, 8, 7, band);
-        segment(m, "Scope_Hood", pivot, q, 10, 13, 8, band);
+        double[] q = Shapes.towards(new double[]{0, 1, 0}, Art.norm(new double[]{-0.74, 0.6, 0.3}));
+        Shapes.segment(m, "Scope_Eyepiece", pivot, q, -12, -9, 3, band);
+        Shapes.segment(m, "Scope_Drawtube", pivot, q, -9, -2, 4, band);
+        Shapes.segment(m, "Scope_Tube", pivot, q, -2, 10, 6, tube);
+        Shapes.segment(m, "Scope_Band_1", pivot, q, 0, 1, 7, band);
+        Shapes.segment(m, "Scope_Band_2", pivot, q, 7, 8, 7, band);
+        Shapes.segment(m, "Scope_Hood", pivot, q, 10, 13, 8, band);
         double[] lensAt = Blocky.add(pivot, Art.rotate(new double[]{0, 13, 0}, q));
-        disc(m, "Scope_Lens", lensAt, 6, 0, 1, Blocky.mul(q, Art.quaternion(-90, 0, 0)), lens, lens.style() == Art.Style.GLOW);
+        Shapes.disc(m, "Scope_Lens", lensAt, 6, 0, 1, Blocky.mul(q, Art.quaternion(-90, 0, 0)), lens, lens.style() == Art.Style.GLOW);
     }
 
     /** Tiers 3 and 4: a lamp on an arm from the right post, a crystal glowing over the grindstone. */
     static void lamp(Art.Model m, int tier) {
         Art.Mat band = instrument(tier);
-        beam(m, "Lamp_Arm", new double[]{29, 53, -12}, new double[]{14, 53, 1}, 2, band);
+        Shapes.beam(m, "Lamp_Arm", new double[]{29, 53, -12}, new double[]{14, 53, 1}, 2, band);
         m.add(new Art.Box("Lamp_Hood", 14, 52, 1, 7, 3, 7, band));
         m.add(new Art.Box("Lamp_Crystal", 14, 48.5, 1, 3, 4, 3, tier >= 4 ? VOID : LAMP).rot(0, 45, 0)).glow();
     }
 
     /** Tiers 4 and 5: a purple runner, void crystals on the board, a voidheart in a jar on the shelf. */
     static void voidTouched(Art.Model m, int tier) {
-        m.add(new Art.Box("Runner", -10, 26.5, 0, 14, 1, 30, RUNNER));
-        m.add(new Art.Box("Runner_Drape", -10, 21, 15.5, 14, 12, 1, RUNNER));
-        m.add(new Art.Box("Runner_Hem", -10, 15.5, 15.5, 14, 1, 2, fitting(tier)));
-        m.crystal("Void_1", -23, 57, -13.5, 4, 10, 0, 0, 10, VOID, true);
-        m.crystal("Void_2", -18, 57, -13, 3, 6, 8, 0, -18, VOID, true);
-        m.crystal("Void_3", -26.5, 57, -14, 3, 5, -6, 0, 28, VOID, true);
+        m.add(new Art.Box("Runner", -10, 26.5, 1, 14, 1, 28, RUNNER));
+        m.add(new Art.Box("Runner_Drape", -10, 21, 16.25, 14, 12, 2, RUNNER));
+        m.add(new Art.Box("Runner_Hem", -10, 15.25, 16, 15, 1, 3, fitting(tier)));
+        m.crystal("Void_1", -23, 57, -13.5, 4, 5, 0, 0, 10, VOID, true);
+        m.crystal("Void_2", -18.5, 57, -13, 3, 3, 8, 0, -22, VOID, true);
+        m.crystal("Void_3", -27, 57, -14, 3, 3, -6, 0, 30, VOID, true);
         m.add(new Art.Box("Jar", -18, 12.5, 3, 6, 9, 6, JAR));
         m.add(new Art.Box("Jar_Lid", -18, 17.5, 3, 7, 1, 7, fitting(tier)));
         m.add(new Art.Box("Voidheart", -18, 12.5, 3, 3, 3, 3, VOID).rot(45, 0, 45)).glow();
@@ -404,19 +404,19 @@ final class Optician {
     static void lumenite(Art.Model m) {
         double[] c = {14, 53, 1};
         int mark = m.boxes.size();
-        disc(m, "Orbit_1_Ring", c, 14, 12, 1, Art.quaternion(20, 0, 0), GOLD, false);
+        Shapes.disc(m, "Orbit_1_Ring", c, 14, 12, 1, Art.quaternion(20, 0, 0), GOLD, false);
         m.group("Orbit_1", mark, c[0], c[1], c[2]);
         mark = m.boxes.size();
-        disc(m, "Orbit_2_Ring", c, 14, 12, 1, Art.quaternion(0, 70, 0), GOLD, false);
+        Shapes.disc(m, "Orbit_2_Ring", c, 14, 12, 1, Art.quaternion(0, 70, 0), GOLD, false);
         m.group("Orbit_2", mark, c[0], c[1], c[2]);
         mark = m.boxes.size();
         m.add(new Art.Box("Lumenite_Core", c[0], c[1], c[2], 4, 7, 4, LUMENITE).rot(0, 45, 0)).glow();
         m.add(new Art.Box("Lumenite_Tip_Top", c[0], c[1] + 4.5, c[2], 2, 2, 2, LUMENITE).rot(0, 45, 0)).glow();
         m.add(new Art.Box("Lumenite_Tip_Bottom", c[0], c[1] - 4.5, c[2], 2, 2, 2, LUMENITE).rot(0, 45, 0)).glow();
         m.group("Lumenite", mark, c[0], c[1], c[2]);
-        m.crystal("Lumenite_1", 23, 57, -13.5, 4, 10, 0, 0, -10, LUMENITE, true);
-        m.crystal("Lumenite_2", 18, 57, -13, 3, 6, 8, 0, 18, LUMENITE, true);
-        m.crystal("Lumenite_3", 26.5, 57, -14, 3, 5, -6, 0, -28, LUMENITE, true);
+        m.crystal("Lumenite_1", 23, 57, -13.5, 4, 5, 0, 0, -10, LUMENITE, true);
+        m.crystal("Lumenite_2", 18.5, 57, -13, 3, 3, 8, 0, 22, LUMENITE, true);
+        m.crystal("Lumenite_3", 27, 57, -14, 3, 3, -6, 0, -30, LUMENITE, true);
     }
 
     // ---------------------------------------------------------------- animations
@@ -472,97 +472,5 @@ final class Optician {
             m.put((String) keysAndValues[i], keysAndValues[i + 1]);
         }
         return m;
-    }
-
-    // ---------------------------------------------------------------- shapes
-
-    /**
-     * A round disc of diameter {@code d} (a ring if {@code inner} > 0, same parity as d), {@code t} thick,
-     * built from pixel rows like the game's round parts: lying in the x-y plane facing +z, then turned by q.
-     */
-    static void disc(Art.Model m, String name, double[] c, int d, int inner, int t, double[] q, Art.Mat mat, boolean glow) {
-        int[][] rows = new int[d][];
-        for (int r = 0; r < d; r++) {
-            double v = -d / 2.0 + r + 0.5;
-            rows[r] = new int[]{span(d, v), inner > 0 ? span(inner, v) : 0};
-        }
-        // a solid disc shows one round picture on its two faces; a ring is plain
-        Art.Decal decal = inner == 0 ? new Art.Decal(name, d, mat) : null;
-        int part = 0;
-        for (int r = 0; r < d; ) {
-            int end = r;
-            while (end + 1 < d && rows[end + 1][0] == rows[r][0] && rows[end + 1][1] == rows[r][1]) {
-                end++;
-            }
-            int w = rows[r][0], wi = rows[r][1], h = end - r + 1;
-            // rows run from the bottom (r = 0) up; the picture's rows run down from the top
-            int top = d - (end + 1);
-            if (wi == 0) {
-                place(m, name + "_" + part++, c, q, 0, h, w, top, d, t, mat, glow, decal);
-            } else {
-                int side = (w - wi) / 2;
-                double u = wi / 2.0 + side / 2.0;
-                place(m, name + "_" + part++, c, q, -u, h, side, top, d, t, mat, glow, null);
-                place(m, name + "_" + part++, c, q, u, h, side, top, d, t, mat, glow, null);
-            }
-            r = end + 1;
-        }
-    }
-
-    /** Width of a pixel circle of diameter d at height v from its centre: 0 outside, else d's parity. */
-    static int span(int d, double v) {
-        double half = d / 2.0;
-        if (Math.abs(v) >= half) {
-            return 0;
-        }
-        double exact = 2 * Math.sqrt(half * half - v * v);
-        int w = (int) Math.round(exact);
-        if ((w & 1) != (d & 1)) {
-            w += exact > w ? 1 : -1;
-        }
-        return Math.clamp(w, d & 1, d);
-    }
-
-    /** One piece of a disc: w x h at u across the centre, its top {@code top} rows below the disc's top. */
-    private static void place(Art.Model m, String name, double[] c, double[] q, double u, int h, int w, int top, int d, int t,
-                              Art.Mat mat, boolean glow, Art.Decal decal) {
-        double v = d / 2.0 - top - h / 2.0;
-        double[] at = Blocky.add(c, Art.rotate(new double[]{u, v, 0}, q));
-        Art.Box box = m.add(new Art.Box(name, at[0], at[1], at[2], w, h, t, mat).orient(q));
-        if (glow) {
-            box.glow();
-        }
-        if (decal != null) {
-            int left = (int) Math.round(u - w / 2.0 + d / 2.0);
-            box.decal(0, decal, left, top);
-            box.decal(1, decal, d - left - w, top);
-        }
-    }
-
-    /** A square rod from a to b. */
-    static Art.Box beam(Art.Model m, String name, double[] a, double[] b, int width, Art.Mat mat) {
-        double[] d = Art.sub(b, a);
-        double length = Math.sqrt(Art.dot(d, d));
-        double[] q = towards(new double[]{0, 1, 0}, Art.norm(d));
-        return m.add(new Art.Box(name, (a[0] + b[0]) / 2, (a[1] + b[1]) / 2, (a[2] + b[2]) / 2,
-                width, (int) Math.max(1, Math.round(length)), width, mat).orient(q));
-    }
-
-    /** A square piece along the local y axis of q, from {@code from} to {@code to} past the pivot. */
-    static Art.Box segment(Art.Model m, String name, double[] pivot, double[] q, double from, double to, int width, Art.Mat mat) {
-        double[] at = Blocky.add(pivot, Art.rotate(new double[]{0, (from + to) / 2, 0}, q));
-        return m.add(new Art.Box(name, at[0], at[1], at[2], width, (int) Math.round(to - from), width, mat).orient(q));
-    }
-
-    /** The shortest rotation turning unit vector a onto unit vector b. */
-    static double[] towards(double[] a, double[] b) {
-        double dot = Art.dot(a, b);
-        if (dot < -0.9999) {
-            return new double[]{1, 0, 0, 0};
-        }
-        double[] axis = Art.cross(a, b);
-        double[] q = {axis[0], axis[1], axis[2], 1 + dot};
-        double n = Math.sqrt(q[0] * q[0] + q[1] * q[1] + q[2] * q[2] + q[3] * q[3]);
-        return new double[]{q[0] / n, q[1] / n, q[2] / n, q[3] / n};
     }
 }

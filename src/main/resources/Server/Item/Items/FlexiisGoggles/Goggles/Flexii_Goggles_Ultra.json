@@ -10,7 +10,7 @@
   ],
   "Icon": "Icons/ItemsGenerated/Flexii_Goggles_Ultra.png",
   "Model": "Items/FlexiisGoggles/Goggles_Ultra.blockymodel",
-  "Texture": "Items/FlexiisGoggles/Goggles_Ultra.png",
+  "Texture": "Items/FlexiisGoggles/Goggles_Ultra_Texture.png",
   "Recipe": {
     "Input": [
       {
