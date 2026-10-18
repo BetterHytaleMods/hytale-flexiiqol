@@ -26,7 +26,19 @@ crafting bench and its own ore.
 
 FlexiisGoggles is a server plugin. Players need nothing but the normal Hytale client.
 
-**Status:** in development, nothing released yet.
+**Status:** 0.1.0, the first release, for Hytale 0.7 servers (tested with 0.7.2). See the
+[changelog](CHANGELOG.md).
+
+## Getting started
+
+1. Craft the **Optician's Bench** at the Workbench: 4 copper bars, 10 logs, 5 rock.
+2. Mine **quartz ore** in the stone of zones 1–3. At the bench, 2 sand and 1 quartz make glass, glass
+   makes lenses, lenses make goggles.
+3. Upgrade the bench for stronger goggles: iron, quartz and light leather for tier 2, then thorium, gold
+   and crystal shards, then adamantite, void crystals and voidhearts.
+4. Night Vision Goggles IV show **lumenite**, which looks like plain stone to everyone else. Three of it
+   go into the UltraGoggles at bench tier 5.
+5. At the armor bench, goggles and a vanilla helmet of their tier make a helm.
 
 ## Goggles
 
@@ -43,6 +55,10 @@ UltraGoggles (e.g. Cobalt Scout Helm).
 ## Install
 
 Put `FlexiisGoggles-<version>.jar` into the server's `mods/` folder and restart.
+
+- Quartz and lumenite ore only appear in chunks generated after the mod was installed; in an existing
+  world, explore new land.
+- Removing the mod later leaves its blocks (ores, benches) in the world as unknown blocks.
 
 ## Settings
 
