@@ -25,7 +25,7 @@
   Linsen, Rezepte und Welt-Generierung. Serverseitig ist alles geprüft (alle Assets laden, Quarz entsteht
   in neuen Chunks), **im Spiel noch nicht**. Felix hatte keine Zeit.
 - Offen im Spiel:
-  - Sitzen Brillen und Helme richtig auf dem Kopf? Der Versatz (0, 20, 2) ist nur abgeleitet.
+  - Helme am Kopf (die Brillen sitzen laut Felix ordentlich, Versatz (0, 20, 2) bestätigt).
   - Wie wirken Optik und Icons?
   - Klappen Werkbank-Stufen, Rezepte und Kategorien?
   - Geht das Regler-Maximum (`#Zoom.Max`)?
@@ -129,7 +129,7 @@ Fakten aus `../hytale-gifchat/CLAUDE.md` (World-Thread, Client-Log, Asset-Pack-P
   außer `Quality` und `Recipe`. Items gibt man sich mit `/give <item>`, von der Konsole
   `give <spieler> <item>`.
 - **Modelle am Kopf:** Teile hängen relativ zu Kopfknochen (am Hals) plus Versatz des Wurzelknotens
-  `Head`. Kopfmitte = (0, 20, 2) (Spielerfigur: Kopf-Box 30×28×28 mit diesem Versatz). Vanilla nutzt
+  `Head`. Kopfmitte = (0, 20, 2) (Spielerfigur: Kopf-Box 30×28×28 mit diesem Versatz; im Spiel bestätigt). Vanilla nutzt
   (0, 0, 0), (0, 15, 3) oder (0, 20, 2); die Position des Wurzelknotens zählt nicht. Item- und
   Blockmodelle: 32 Einheiten je Block, ein Barren ist 26 lang.
 - **Welt-Generierung:** `Server/WorldGen/Modifier/<Id>.json` mit `Target {Root: Default, Rules: [Glob
