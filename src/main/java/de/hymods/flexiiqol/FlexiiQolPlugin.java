@@ -7,9 +7,8 @@ import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import com.hypixel.hytale.server.core.universe.Universe;
 import de.hymods.flexiiqol.command.FullbrightCommand;
 import de.hymods.flexiiqol.command.QolCommand;
-import de.hymods.flexiiqol.fullbright.Fullbright;
-import de.hymods.flexiiqol.spike.Probe;
-import de.hymods.flexiiqol.spike.ProbeChainSystem;
+import de.hymods.flexiiqol.fullbright.FullbrightSystem;
+import de.hymods.flexiiqol.settings.PlayerSettings;
 import de.hymods.flexiiqol.zoom.Glide;
 import de.hymods.flexiiqol.zoom.GlideSystem;
 import de.hymods.flexiiqol.zoom.UseEntityGuard;
@@ -18,23 +17,29 @@ import de.hymods.flexiiqol.zoom.ZoomBindingSystem;
 import de.hymods.flexiiqol.zoom.ZoomSpec;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.UnaryOperator;
 import java.util.logging.Level;
+import java.util.stream.IntStream;
 
 public class FlexiiQolPlugin extends JavaPlugin {
     private final AtomicReference<QolConfig> config = new AtomicReference<>(new QolConfig());
-    /** The zoom R carries, once its root interaction has loaded. */
-    private volatile ZoomSpec zoom;
+    private final AtomicBoolean saveQueued = new AtomicBoolean();
+    /** Whether the zoom roots have loaded. */
+    private volatile boolean zoomLoaded;
     private ZoomAssets zoomAssets;
-    private ZoomBindingSystem zoomBindings;
+    private PlayerSettings players;
     private Glide glide;
-    private Fullbright fullbright;
-    private Probe probe;
+    private FullbrightSystem fullbright;
 
     public FlexiiQolPlugin(@Nonnull JavaPluginInit init) {
         super(init);
@@ -48,48 +53,44 @@ public class FlexiiQolPlugin extends JavaPlugin {
             this.getLogger().at(Level.WARNING).withCause(e).log("Cannot read %s, using the defaults", this.configFile());
         }
         this.zoomAssets = new ZoomAssets(this.getIdentifier().toString(), this.getDataDirectory().resolve("generated"));
-        this.zoomBindings = new ZoomBindingSystem(() -> this.config().zoom.enabled && this.zoom != null);
+        this.players = new PlayerSettings(this.getDataDirectory().resolve("players.json"));
         this.glide = new Glide();
-        this.glide.set(Glide.Setting.of(this.config().zoom.glide, false));
-        this.fullbright = new Fullbright(this.getLogger(), this.getDataDirectory().resolve("fullbright.json"));
-        this.probe = new Probe(this.getLogger());
-        this.getEntityStoreRegistry().registerSystem(this.zoomBindings);
+        this.fullbright = new FullbrightSystem(this::brightness);
+        this.getEntityStoreRegistry().registerSystem(new ZoomBindingSystem(this::zoomRoot));
         this.getEntityStoreRegistry().registerSystem(new UseEntityGuard());
-        this.getEntityStoreRegistry().registerSystem(new GlideSystem(this.glide));
-        this.getEntityStoreRegistry().registerSystem(new ProbeChainSystem(this.probe));
+        this.getEntityStoreRegistry().registerSystem(new GlideSystem(this.glide, this::glideLerp));
+        this.getEntityStoreRegistry().registerSystem(this.fullbright);
         this.getEventRegistry().register(PlayerDisconnectEvent.class, event -> {
             UUID player = event.getPlayerRef().getUuid();
-            this.zoomBindings.forget(player);
             this.glide.forget(player);
             this.fullbright.forget(player);
-            this.probe.watch(player, false);
         });
         this.getCommandRegistry().registerCommand(new QolCommand(this));
-        this.getCommandRegistry().registerCommand(new FullbrightCommand(this.fullbright));
+        this.getCommandRegistry().registerCommand(new FullbrightCommand(this));
     }
 
     @Override
     protected void start() {
-        try {
-            this.loadZoom(this.config().zoom.spec());
-        } catch (IOException | RuntimeException e) {
-            this.getLogger().at(Level.WARNING).withCause(e).log("Zoom root did not load, R stays as it is");
+        if (!this.players.load()) {
+            this.getLogger().at(Level.WARNING).log("Cannot read players.json, everyone starts with the defaults");
         }
-        this.fullbright.start();
-        this.fullbright.configure(this.config().fullbright.enabled, this.config().fullbright.level);
-        this.probe.register();
+        try {
+            this.loadZoom(this.config());
+        } catch (IOException | RuntimeException e) {
+            this.getLogger().at(Level.WARNING).withCause(e).log("Zoom roots did not load, R stays as it is");
+        }
     }
 
     @Override
     protected void shutdown() {
-        if (this.fullbright != null) {
-            this.fullbright.stop();
-        }
-        if (this.probe != null) {
-            this.probe.close();
-        }
         if (this.glide != null) {
             this.glide.resetAll(Universe.get().getPlayers());
+        }
+        if (this.fullbright != null) {
+            this.fullbright.resetAll(Universe.get().getPlayers());
+        }
+        if (this.players != null && this.saveQueued.getAndSet(false)) {
+            this.save();
         }
     }
 
@@ -97,58 +98,82 @@ public class FlexiiQolPlugin extends JavaPlugin {
         return this.config.get();
     }
 
-    /** The zoom R carries, or null if its root interaction did not load. */
-    public ZoomSpec zoom() {
-        return this.zoom;
+    public boolean zoomLoaded() {
+        return this.zoomLoaded;
     }
 
-    public ZoomBindingSystem zoomBindings() {
-        return this.zoomBindings;
+    public PlayerSettings players() {
+        return this.players;
     }
 
-    public Glide glide() {
-        return this.glide;
-    }
-
-    public Fullbright fullbright() {
+    public FullbrightSystem fullbright() {
         return this.fullbright;
-    }
-
-    public Probe probe() {
-        return this.probe;
     }
 
     public Path configFile() {
         return this.getDataDirectory().resolve("config.json");
     }
 
-    /** Writes and loads the zoom R carries; the server sends it to everyone online right away. */
-    public void loadZoom(ZoomSpec spec) throws IOException {
-        this.zoomAssets.load(ZoomAssets.ROOT, spec);
-        this.zoom = spec;
+    /** What applies to a player now: their own picks, the config's defaults for the rest. */
+    public PlayerSettings.Values values(@Nonnull UUID player) {
+        return PlayerSettings.Values.of(this.config(), this.players.get(player));
     }
 
-    /** {@link #loadZoom} on the scheduler, away from the world and command threads. */
-    public CompletableFuture<ZoomSpec> loadZoomLater(ZoomSpec spec) {
-        return CompletableFuture.supplyAsync(() -> {
+    /** Changes a player's picks; they apply on the next tick and are saved a moment later. */
+    public void choose(@Nonnull UUID player, @Nonnull UnaryOperator<PlayerSettings.Choice> change) {
+        this.players.update(player, change);
+        if (this.saveQueued.compareAndSet(false, true)) {
+            // Sliders change a lot at once; one save a second later covers them all.
+            HytaleServer.SCHEDULED_EXECUTOR.schedule(() -> {
+                this.saveQueued.set(false);
+                this.save();
+            }, 1, TimeUnit.SECONDS);
+        }
+    }
+
+    /**
+     * Reads {@code config.json} again and applies it. Defaults, glide and fullbright change at once,
+     * the zoom steps once the returned future completes.
+     */
+    public CompletableFuture<Void> reload() throws IOException {
+        QolConfig fresh = QolConfig.load(this.configFile());
+        this.config.set(fresh);
+        return CompletableFuture.runAsync(() -> {
             try {
-                this.loadZoom(spec);
-                return spec;
+                this.loadZoom(fresh);
             } catch (IOException e) {
                 throw new UncheckedIOException(e);
             }
         }, HytaleServer.SCHEDULED_EXECUTOR);
     }
 
-    /**
-     * Reads {@code config.json} again and applies it. Glide and fullbright change at once, the zoom
-     * once the returned future completes.
-     */
-    public CompletableFuture<ZoomSpec> reload() throws IOException {
-        QolConfig fresh = QolConfig.load(this.configFile());
-        this.config.set(fresh);
-        this.glide.set(Glide.Setting.of(fresh.zoom.glide, false));
-        this.fullbright.configure(fresh.fullbright.enabled, fresh.fullbright.level);
-        return this.loadZoomLater(fresh.zoom.spec());
+    /** Writes and loads every zoom step; the server sends them to everyone online right away. */
+    private void loadZoom(QolConfig config) throws IOException {
+        List<ZoomSpec> steps = IntStream.rangeClosed(PlayerSettings.ZOOM_MIN, PlayerSettings.ZOOM_MAX).mapToObj(config.zoom::spec).toList();
+        this.zoomAssets.load(steps);
+        this.zoomLoaded = true;
+    }
+
+    @Nullable
+    private String zoomRoot(UUID player) {
+        return this.config().zoom.enabled && this.zoomLoaded ? ZoomAssets.root(this.values(player).zoom()) : null;
+    }
+
+    @Nullable
+    private Float glideLerp(UUID player) {
+        return Glide.lerp(this.values(player).glideAmount());
+    }
+
+    private int brightness(UUID player) {
+        PlayerSettings.Values values = this.values(player);
+        return this.config().fullbright.enabled && values.fullbright() ? values.brightness() : 0;
+    }
+
+    private void save() {
+        try {
+            this.players.save();
+        } catch (IOException e) {
+            this.getLogger().at(Level.WARNING).withCause(e).log("Cannot save players.json");
+        }
     }
 }

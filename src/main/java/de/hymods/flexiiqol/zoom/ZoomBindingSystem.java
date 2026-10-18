@@ -17,14 +17,13 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.BooleanSupplier;
+import java.util.function.Function;
 
 /**
- * Keeps the zoom on R for every player, except while the game needs R ({@link ZoomRules}). Checking
- * every tick covers joining, respawning, switching items and changing game modes alike.
+ * Keeps each player's zoom step on R, except while the game needs R ({@link ZoomRules}). Checking
+ * every tick covers joining, respawning, switching items, changing game modes and picking another
+ * step on {@code /qol} alike.
  */
 public final class ZoomBindingSystem extends EntityTickingSystem<EntityStore> {
     /** R in the default controls ("Use Ability 3"). */
@@ -32,12 +31,11 @@ public final class ZoomBindingSystem extends EntityTickingSystem<EntityStore> {
     /** The ability slot R casts from. */
     private static final short RUNE_SLOT = 3;
 
-    private final BooleanSupplier zoomOn;
-    private final Map<UUID, ZoomRules.Hold> holds = new ConcurrentHashMap<>();
+    private final Function<UUID, String> rootFor;
 
-    /** @param zoomOn whether the zoom is switched on and its root interaction is loaded */
-    public ZoomBindingSystem(BooleanSupplier zoomOn) {
-        this.zoomOn = zoomOn;
+    /** @param rootFor the zoom root a player gets, or null while the zoom is off or not loaded */
+    public ZoomBindingSystem(Function<UUID, String> rootFor) {
+        this.rootFor = rootFor;
     }
 
     @Nonnull
@@ -49,6 +47,11 @@ public final class ZoomBindingSystem extends EntityTickingSystem<EntityStore> {
     @Override
     public void tick(float dt, int index, @Nonnull ArchetypeChunk<EntityStore> archetypeChunk, @Nonnull Store<EntityStore> store,
                      @Nonnull CommandBuffer<EntityStore> commandBuffer) {
+        PlayerRef player = archetypeChunk.getComponent(index, PlayerRef.getComponentType());
+        if (player == null) {
+            return;
+        }
+        String root = this.rootFor.apply(player.getUuid());
         Interactions interactions = archetypeChunk.getComponent(index, Interactions.getComponentType());
         String current = interactions == null ? null : interactions.getInteractionId(INPUT);
         boolean ours = ZoomBindings.isZoom(current);
@@ -62,29 +65,14 @@ public final class ZoomBindingSystem extends EntityTickingSystem<EntityStore> {
         boolean block = !ItemStack.isEmpty(inHand) && inHand.getItem().hasBlockType();
         boolean rune = !usingTools && runeReady(archetypeChunk.getComponent(index, InventoryComponent.AbilitySlots.getComponentType()), weapon);
 
-        ZoomRules.Hold hold = ZoomRules.decide(this.zoomOn.getAsBoolean(), taken, block, rune);
-        PlayerRef player = archetypeChunk.getComponent(index, PlayerRef.getComponentType());
-        if (player != null) {
-            this.holds.put(player.getUuid(), hold);
-        }
         Ref<EntityStore> ref = archetypeChunk.getReferenceTo(index);
-        if (hold == ZoomRules.Hold.ZOOM) {
-            if (current == null) {
-                ZoomBindings.bind(commandBuffer, ref, INPUT, ZoomAssets.ROOT);
+        if (ZoomRules.decide(root != null, taken, block, rune) == ZoomRules.Hold.ZOOM) {
+            if (!root.equals(current)) {
+                ZoomBindings.bind(commandBuffer, ref, INPUT, root);
             }
         } else if (ours) {
             ZoomBindings.unbind(commandBuffer, ref, INPUT);
         }
-    }
-
-    /** What R did for the player in the last tick, or null before the first one. */
-    @Nullable
-    public ZoomRules.Hold hold(@Nonnull UUID player) {
-        return this.holds.get(player);
-    }
-
-    public void forget(@Nonnull UUID player) {
-        this.holds.remove(player);
     }
 
     /** Like the game: R casts the rune in slot 3 if it fits the weapon in the hotbar. */

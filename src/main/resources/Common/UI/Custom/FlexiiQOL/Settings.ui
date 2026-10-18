@@ -1,0 +1,137 @@
+$C = "../Common.ui";
+
+$C.@PageOverlay {
+  LayoutMode: Middle;
+
+  $C.@DecoratedContainer {
+    Anchor: (Width: 460);
+
+    #Title {
+      $C.@Title {
+        @Text = %flexiiqol.settings.title;
+      }
+    }
+
+    #Content {
+      LayoutMode: Top;
+      Padding: (Full: 16);
+
+      Group #ZoomSection {
+        LayoutMode: Top;
+
+        $C.@Subtitle {
+          @Text = %flexiiqol.settings.zoom;
+        }
+
+        Group {
+          LayoutMode: Left;
+          Padding: (Horizontal: 15);
+
+          Label {
+            Anchor: (Width: 110);
+            Text: %flexiiqol.settings.strength;
+            Style: (...$C.@DefaultLabelStyle, VerticalAlignment: Center);
+          }
+
+          Slider #Zoom {
+            Anchor: (Left: 5, Width: 200, Height: 3);
+            Style: (
+              ...$C.@DefaultSliderStyle,
+              Background: (Color: #333333)
+            );
+            Min: 2;
+            Max: 12;
+            Step: 1;
+            Value: 4;
+          }
+
+          Label #ZoomValue {
+            Anchor: (Left: 5, Width: 60);
+            Text: "4x";
+            Style: (...$C.@DefaultLabelStyle, VerticalAlignment: Center, HorizontalAlignment: End);
+          }
+        }
+
+        Group {
+          Anchor: (Top: 20);
+          LayoutMode: Left;
+          Padding: (Horizontal: 15);
+
+          Label {
+            Anchor: (Width: 110);
+            Text: %flexiiqol.settings.glide;
+            Style: (...$C.@DefaultLabelStyle, VerticalAlignment: Center);
+          }
+
+          Slider #Glide {
+            Anchor: (Left: 5, Width: 200, Height: 3);
+            Style: (
+              ...$C.@DefaultSliderStyle,
+              Background: (Color: #333333)
+            );
+            Min: 0;
+            Max: 18;
+            Step: 1;
+            Value: 5;
+          }
+
+          Label #GlideValue {
+            Anchor: (Left: 5, Width: 60);
+            Text: "0.5";
+            Style: (...$C.@DefaultLabelStyle, VerticalAlignment: Center, HorizontalAlignment: End);
+          }
+        }
+      }
+
+      Group #FullbrightSection {
+        Anchor: (Top: 28);
+        LayoutMode: Top;
+
+        $C.@Subtitle {
+          @Text = %flexiiqol.settings.fullbright;
+        }
+
+        Group {
+          Padding: (Horizontal: 15);
+
+          $C.@CheckBoxWithLabel #Fullbright {
+            @Text = %flexiiqol.settings.on;
+            @Checked = false;
+          }
+        }
+
+        Group {
+          Anchor: (Top: 20);
+          LayoutMode: Left;
+          Padding: (Horizontal: 15);
+
+          Label {
+            Anchor: (Width: 110);
+            Text: %flexiiqol.settings.brightness;
+            Style: (...$C.@DefaultLabelStyle, VerticalAlignment: Center);
+          }
+
+          Slider #Brightness {
+            Anchor: (Left: 5, Width: 200, Height: 3);
+            Style: (
+              ...$C.@DefaultSliderStyle,
+              Background: (Color: #333333)
+            );
+            Min: 1;
+            Max: 6;
+            Step: 1;
+            Value: 3;
+          }
+
+          Label #BrightnessValue {
+            Anchor: (Left: 5, Width: 60);
+            Text: "3";
+            Style: (...$C.@DefaultLabelStyle, VerticalAlignment: Center, HorizontalAlignment: End);
+          }
+        }
+      }
+    }
+  }
+}
+
+$C.@BackButton {}

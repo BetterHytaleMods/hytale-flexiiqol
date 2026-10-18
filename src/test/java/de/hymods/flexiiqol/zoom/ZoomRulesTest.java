@@ -9,7 +9,6 @@ import static de.hymods.flexiiqol.zoom.ZoomRules.Hold.TAKEN;
 import static de.hymods.flexiiqol.zoom.ZoomRules.Hold.ZOOM;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ZoomRulesTest {
 
@@ -30,10 +29,11 @@ class ZoomRulesTest {
 
     @Test
     void glideTrailsMoreTheHigherItIs() {
-        assertNull(Glide.Setting.of(0f, false));
-        assertEquals(0.3f, Glide.Setting.of(0.7f, false).lerp(), 1e-6f);
-        assertEquals(0.05f, Glide.Setting.of(2f, false).lerp(), 1e-6f);
-        assertEquals(0.7f, Glide.Setting.of(0.7f, true).glide(), 1e-6f);
-        assertThrows(IllegalArgumentException.class, () -> new Glide.Setting(1f, false));
+        assertNull(Glide.lerp(0f));
+        assertEquals(0.5f, Glide.lerp(0.5f), 1e-6f);
+        assertEquals(0.1f, Glide.lerp(0.9f), 1e-6f);
+        assertEquals(0.05f, Glide.lerp(1.8f), 1e-6f);
+        assertEquals(0.075f, Glide.lerp(1.2f), 1e-6f);
+        assertEquals(0.05f, Glide.lerp(3f), 1e-6f);
     }
 }

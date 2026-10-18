@@ -14,18 +14,23 @@ import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 
 import javax.annotation.Nonnull;
+import java.util.UUID;
+import java.util.function.Function;
 
 /**
- * Every tick, while gliding is on: does the player hold a zoom chain right now? Watching the chains
- * also covers every way a zoom can end (release, click, item change, death), not only the release.
+ * Every tick: does the player hold a zoom chain right now? Watching the chains also covers every way a
+ * zoom can end (release, click, item change, death), not only the release.
  */
 public final class GlideSystem extends EntityTickingSystem<EntityStore> {
     private final Glide glide;
+    private final Function<UUID, Float> lerpFor;
     private final ComponentType<EntityStore, InteractionManager> managerType;
     private final Query<EntityStore> query;
 
-    public GlideSystem(Glide glide) {
+    /** @param lerpFor the camera lerp a player's glide asks for ({@link Glide#lerp}), null for none */
+    public GlideSystem(Glide glide, Function<UUID, Float> lerpFor) {
         this.glide = glide;
+        this.lerpFor = lerpFor;
         this.managerType = InteractionModule.get().getInteractionManagerComponent();
         this.query = Query.and(PlayerRef.getComponentType(), this.managerType);
     }
@@ -43,12 +48,11 @@ public final class GlideSystem extends EntityTickingSystem<EntityStore> {
         if (player == null) {
             return;
         }
-        Glide.Setting setting = this.glide.setting();
-        if (setting == null && !this.glide.isActive(player.getUuid())) {
+        boolean zooming = zooming(archetypeChunk.getComponent(index, this.managerType));
+        if (!zooming && !this.glide.isActive(player.getUuid())) {
             return;
         }
-        boolean want = setting != null && (setting.always() || zooming(archetypeChunk.getComponent(index, this.managerType)));
-        this.glide.update(player, want, setting);
+        this.glide.update(player, zooming ? this.lerpFor.apply(player.getUuid()) : null);
     }
 
     static boolean zooming(InteractionManager manager) {

@@ -4,72 +4,45 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.junit.jupiter.api.Test;
 
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ZoomSpecTest {
 
     @Test
-    void rootHoldsTheZoomWhileTheKeyIsDown() {
-        JsonObject root = JsonParser.parseString(ZoomSpec.defaults().toRootJson()).getAsJsonObject();
+    void theRootHoldsTheZoomUntilReleaseAndHidesTheItem() {
+        JsonObject root = JsonParser.parseString(new ZoomSpec(6, 0.25f, 0.15f, 0.25f).toRootJson()).getAsJsonObject();
         assertTrue(root.get("RequireNewClick").getAsBoolean());
-        assertEquals(0f, root.getAsJsonObject("Cooldown").get("Cooldown").getAsFloat());
         assertEquals(0, root.getAsJsonObject("Rules").getAsJsonArray("BlockedBy").size());
 
         JsonObject hold = root.getAsJsonArray("Interactions").get(0).getAsJsonObject();
         assertEquals("Charging", hold.get("Type").getAsString());
         assertTrue(hold.get("AllowIndefiniteHold").getAsBoolean());
-        assertFalse(hold.get("DisplayProgress").getAsBoolean());
-        assertFalse(hold.has("Next"), "a Next entry would keep the zoom after release");
+        assertFalse(hold.has("Next"), "without Next, letting go ends the chain and the zoom");
         assertTrue(hold.get("CancelOnOtherClick").getAsBoolean());
-        assertEquals("Ignore", hold.get("OnItemChangeBehavior").getAsString());
 
-        JsonObject zoom = hold.getAsJsonObject("Effects").getAsJsonObject("Zoom");
-        assertEquals(4f, zoom.get("MagnificationMultiplier").getAsFloat());
-        assertEquals(0.35f, zoom.get("MouseSensitivityMultiplier").getAsFloat());
+        JsonObject effects = hold.getAsJsonObject("Effects");
+        assertTrue(effects.get("HideFirstPersonHeldItem").getAsBoolean());
+        JsonObject zoom = effects.getAsJsonObject("Zoom");
+        assertEquals(6, zoom.get("MagnificationMultiplier").getAsInt());
+        assertEquals(0.25f, zoom.get("MouseSensitivityMultiplier").getAsFloat());
         assertEquals("FirstPerson", zoom.get("ForcePerspective").getAsString());
         assertFalse(zoom.has("OverlayTexture"));
     }
 
     @Test
-    void theJarsZoomMatchesTheDefaults() throws Exception {
-        try (InputStream in = ZoomSpecTest.class.getResourceAsStream("/Server/Item/RootInteractions/FlexiiQOL/Root_FlexiiQOL_Zoom_Base.json")) {
-            assertNotNull(in);
-            assertEquals(JsonParser.parseString(ZoomSpec.defaults().toRootJson()),
-                    JsonParser.parseString(new String(in.readAllBytes(), StandardCharsets.UTF_8)));
-        }
-    }
-
-    @Test
-    void settingsChangeOneValueEach() {
-        ZoomSpec spec = ZoomSpec.defaults()
-                .with("mag", "6").with("sens", "0.25").with("in", "0.1").with("out", "0.3")
-                .with("persp", "none").with("overlay", "spyglass").with("click", "block").with("dof", "on").with("item", "cancel");
-        assertEquals(new ZoomSpec(6f, 0.25f, 0.1f, 0.3f, "None", "ScreenEffects/Spyglass.png", false, true, "Cancel"), spec);
-
-        JsonObject hold = JsonParser.parseString(spec.toRootJson()).getAsJsonObject().getAsJsonArray("Interactions").get(0).getAsJsonObject();
-        assertFalse(hold.get("CancelOnOtherClick").getAsBoolean());
-        JsonObject zoom = hold.getAsJsonObject("Effects").getAsJsonObject("Zoom");
-        assertEquals("ScreenEffects/Spyglass.png", zoom.get("OverlayTexture").getAsString());
-        assertTrue(zoom.get("DepthOfField").getAsBoolean());
-    }
-
-    @Test
     void rejectsValuesTheClientCannotUse() {
-        ZoomSpec spec = ZoomSpec.defaults();
-        assertThrows(IllegalArgumentException.class, () -> spec.with("mag", "1"));
-        assertThrows(IllegalArgumentException.class, () -> spec.with("mag", "four"));
-        assertThrows(IllegalArgumentException.class, () -> spec.with("sens", "0"));
-        assertThrows(IllegalArgumentException.class, () -> spec.with("in", "1.5"));
-        assertThrows(IllegalArgumentException.class, () -> spec.with("overlay", "../../x"));
-        assertThrows(IllegalArgumentException.class, () -> spec.with("persp", "side"));
-        assertThrows(IllegalArgumentException.class, () -> spec.with("item", "drop"));
-        assertThrows(IllegalArgumentException.class, () -> spec.with("fov", "90"));
+        assertThrows(IllegalArgumentException.class, () -> new ZoomSpec(1, 0.35f, 0.15f, 0.25f));
+        assertThrows(IllegalArgumentException.class, () -> new ZoomSpec(4, 0f, 0.15f, 0.25f));
+        assertThrows(IllegalArgumentException.class, () -> new ZoomSpec(4, 0.35f, 1.5f, 0.25f));
+    }
+
+    @Test
+    void zoomRootsAreNamedAfterTheirStep() {
+        assertEquals("Root_FlexiiQOL_Zoom_4x", ZoomAssets.root(4));
+        assertTrue(ZoomBindings.isZoom(ZoomAssets.root(8)));
+        assertFalse(ZoomBindings.isZoom("Root_Spyglass"));
     }
 }

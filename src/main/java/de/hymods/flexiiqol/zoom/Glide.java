@@ -12,59 +12,38 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * A gliding camera like OptiFine's cinematic camera: a server camera in first person that follows
- * the player's look with a rotation lerp below 1. Whether it gets along with the client-side zoom is
- * what the feasibility test finds out.
+ * A gliding camera like OptiFine's cinematic camera, while zoomed: a server camera in first person
+ * that follows the player's look with a rotation lerp below 1.
  */
 public final class Glide {
-    /**
-     * @param lerp   share of the remaining turn the camera covers per step, above 0 and below 1
-     * @param always also without zooming, to try the camera on its own
-     */
-    public record Setting(float lerp, boolean always) {
-        public Setting {
-            if (!(lerp > 0f && lerp < 1f)) {
-                throw new IllegalArgumentException("glide lerp must be above 0 and below 1");
-            }
-        }
-
-        /** The setting for a config value: 0 is off, higher values trail more. */
-        @Nullable
-        public static Setting of(float glide, boolean always) {
-            return glide > 0f ? new Setting(1f - Math.min(glide, 0.95f), always) : null;
-        }
-
-        /** As the config writes it. */
-        public float glide() {
-            return 1f - this.lerp;
-        }
-    }
-
-    private volatile Setting setting;
     /** Players whose camera is ours right now, with the lerp they got. */
     private final Map<UUID, Float> active = new ConcurrentHashMap<>();
 
-    public void set(@Nullable Setting setting) {
-        this.setting = setting;
-    }
-
+    /**
+     * The camera's rotation lerp for a glide amount: the share of the remaining turn covered per
+     * step. Null for 0, which is no glide at all. Up to 0.9 the lerp is {@code 1 - glide}; above,
+     * the lag (1 / lerp) grows in proportion, so 1.8 lags twice as long as 0.9.
+     */
     @Nullable
-    public Setting setting() {
-        return this.setting;
+    public static Float lerp(float glide) {
+        if (!(glide > 0f)) {
+            return null;
+        }
+        return glide <= 0.9f ? 1f - glide : 0.09f / Math.min(glide, 1.8f);
     }
 
     public boolean isActive(@Nonnull UUID player) {
         return this.active.containsKey(player);
     }
 
-    /** Sends the gliding camera or the normal one when {@code want} changes. */
-    void update(@Nonnull PlayerRef player, boolean want, @Nullable Setting setting) {
+    /** Sends the gliding camera, or the normal one for null, when that changes. */
+    void update(@Nonnull PlayerRef player, @Nullable Float lerp) {
         UUID id = player.getUuid();
-        if (want && setting != null) {
+        if (lerp != null) {
             Float sent = this.active.get(id);
-            if (sent == null || sent != setting.lerp()) {
-                this.active.put(id, setting.lerp());
-                player.getPacketHandler().writeNoCache(new SetServerCamera(ClientCameraView.Custom, true, camera(setting.lerp())));
+            if (sent == null || !sent.equals(lerp)) {
+                this.active.put(id, lerp);
+                player.getPacketHandler().writeNoCache(new SetServerCamera(ClientCameraView.Custom, true, camera(lerp)));
             }
         } else if (this.active.remove(id) != null) {
             reset(player);

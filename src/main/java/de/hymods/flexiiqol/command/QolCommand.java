@@ -1,44 +1,58 @@
 package de.hymods.flexiiqol.command;
 
+import com.hypixel.hytale.component.Ref;
+import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.command.system.CommandContext;
-import com.hypixel.hytale.server.core.command.system.basecommands.AbstractCommandCollection;
+import com.hypixel.hytale.server.core.command.system.basecommands.AbstractPlayerCommand;
 import com.hypixel.hytale.server.core.command.system.basecommands.CommandBase;
+import com.hypixel.hytale.server.core.entity.entities.Player;
+import com.hypixel.hytale.server.core.universe.PlayerRef;
+import com.hypixel.hytale.server.core.universe.world.World;
+import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import de.hymods.flexiiqol.FlexiiQolPlugin;
 import de.hymods.flexiiqol.QolConfig;
-import de.hymods.flexiiqol.spike.SpikeCommand;
-import de.hymods.flexiiqol.zoom.Glide;
-import de.hymods.flexiiqol.zoom.ZoomSpec;
+import de.hymods.flexiiqol.settings.PlayerSettings;
+import de.hymods.flexiiqol.ui.SettingsPage;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
 
 /**
- * {@code /qol status|reload|spike} for operators and the console. Commands need a permission unless
- * they say otherwise, so normal players cannot use any of these.
+ * {@code /qol} opens the settings page, for every player. {@code /qol status} and {@code /qol reload}
+ * keep the permission every command needs by default, so they are for operators and the console.
  */
-public final class QolCommand extends AbstractCommandCollection {
+public final class QolCommand extends AbstractPlayerCommand {
+    private final FlexiiQolPlugin plugin;
 
     public QolCommand(FlexiiQolPlugin plugin) {
         super("qol", "flexiiqol.commands.qol.desc");
+        this.plugin = plugin;
+        this.requireNoPermission();
         this.addSubCommand(new Status(plugin));
         this.addSubCommand(new Reload(plugin));
-        this.addSubCommand(new SpikeCommand(plugin));
+    }
+
+    @Override
+    protected void execute(@Nonnull CommandContext context, @Nonnull Store<EntityStore> store, @Nonnull Ref<EntityStore> ref,
+                           @Nonnull PlayerRef playerRef, @Nonnull World world) {
+        Player player = store.getComponent(ref, Player.getComponentType());
+        if (player != null) {
+            player.getPageManager().openCustomPage(ref, store, new SettingsPage(playerRef, this.plugin));
+        }
     }
 
     /** One line each for the zoom and fullbright. */
     public static String[] describe(FlexiiQolPlugin plugin) {
         QolConfig config = plugin.config();
-        ZoomSpec zoom = plugin.zoom();
-        Glide.Setting glide = plugin.glide().setting();
         return new String[]{
-                "FlexiiQOL zoom %s: %s, glide %s".formatted(
+                "FlexiiQOL zoom %s: %s, default %dx (%s), glide default %s".formatted(
                         config.zoom.enabled ? "on" : "off",
-                        zoom == null ? "root not loaded" : zoom.describe(),
-                        glide == null ? "off" : glide.glide() + (glide.always() ? " always" : "")),
-                "FlexiiQOL fullbright %s: level %d, %d player(s) with it on, %s".formatted(
-                        plugin.fullbright().isAvailable() ? "on" : "off", config.fullbright.level,
-                        plugin.fullbright().players(), plugin.fullbright().stats())
+                        plugin.zoomLoaded() ? "steps %d-%dx loaded".formatted(PlayerSettings.ZOOM_MIN, PlayerSettings.ZOOM_MAX) : "roots not loaded",
+                        config.zoom.magnification, config.zoom.spec(config.zoom.magnification).describe(), config.zoom.glide),
+                "FlexiiQOL fullbright %s: default brightness %d, on for %d player(s) online; %d player(s) with own settings".formatted(
+                        config.fullbright.enabled ? "on" : "off", config.fullbright.level, plugin.fullbright().active(),
+                        plugin.players().size())
         };
     }
 
@@ -70,7 +84,7 @@ public final class QolCommand extends AbstractCommandCollection {
         @Override
         protected void executeSync(@Nonnull CommandContext context) {
             try {
-                this.plugin.reload().whenComplete((zoom, error) -> {
+                this.plugin.reload().whenComplete((ignored, error) -> {
                     if (error != null) {
                         context.sendMessage(Message.raw("FlexiiQOL: config reloaded, but the zoom did not load: " + error.getMessage()));
                         return;

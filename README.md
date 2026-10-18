@@ -3,18 +3,20 @@
 Quality of life for Hytale servers (0.7):
 
 - **Zoom:** hold **R** to zoom in, like OptiFine. FlexiiQOL uses Hytale's own client-side zoom (the one
-  the spyglass uses): the view narrows smoothly, the mouse slows down, and letting go zooms back out.
-  While zoomed, the camera glides after the mouse.
+  the spyglass uses): the view narrows smoothly, the item in your hand goes away, the mouse slows down,
+  and the camera glides after it. Letting go zooms back out.
   - R is Hytale's "Use Ability 3"; bind that action to any key under Settings → Controls.
   - R keeps its usual job while you hold a block (rotating it), while the rune in ability slot 3 fits
     your weapon (casting it), and in game modes or with plugins that use R themselves.
-- **Fullbright:** `/fullbright` lights up caves for you alone and stays on until you switch it off, also
-  after a relog. Nobody else sees it, and mob spawning and plant growth keep using the real light.
+- **Fullbright:** caves and nights light up for you alone. Torches, lava and the sun still light up
+  more, so the world keeps its depth. Nobody else sees it, and mob spawning and plant growth keep
+  using the real light.
+- **Settings page:** `/qol` lets every player pick their zoom strength (2x to 12x), how much the camera
+  glides, and fullbright with its brightness (1 to 6). The choices are saved per player.
 
 FlexiiQOL is a server plugin. Players need nothing but the normal Hytale client.
 
-**Status:** in development, nothing released yet. The zoom and fullbright values are provisional until
-they have been tried in game.
+**Status:** in development, nothing released yet.
 
 ## Install
 
@@ -22,44 +24,46 @@ Put `FlexiiQOL-<version>.jar` into the server's `mods/` folder and restart.
 
 ## Settings
 
-`mods/de.hymods_FlexiiQOL/config.json`, created on the first start. `/qol reload` applies changes
-without a restart.
+`mods/de.hymods_FlexiiQOL/config.json`, created on the first start, holds what players get until they
+pick their own on `/qol`. `/qol reload` applies changes without a restart.
 
 ```json
 {
   "zoom": {
     "enabled": true,
-    "magnification": 4.0,
+    "magnification": 4,
     "sensitivity": 0.35,
     "inLerp": 0.15,
     "outLerp": 0.25,
-    "glide": 0.7
+    "glide": 0.5
   },
   "fullbright": {
     "enabled": true,
-    "level": 15
+    "level": 3
   }
 }
 ```
 
 | Setting | Meaning |
 |---|---|
-| `zoom.magnification` | How many times narrower the view gets (1.25 to 16), relative to each player's own field of view |
-| `zoom.sensitivity` | Mouse sensitivity while zoomed, as a share of the normal one (0.05 to 1) |
+| `zoom.enabled`, `fullbright.enabled` | Switch a feature off for everyone; it also leaves the settings page |
+| `zoom.magnification` | Default zoom strength, 2 to 12 |
+| `zoom.sensitivity` | Mouse sensitivity at 4x, as a share of the normal one; other strengths scale it |
 | `zoom.inLerp`, `zoom.outLerp` | How fast the view zooms in and out (0.01 slow to 1 instant) |
-| `zoom.glide` | How much the camera trails the mouse while zoomed (0 off, up to 0.95) |
-| `fullbright.level` | The light level fullbright raises every block to (1 to 15); the sky light stays real |
+| `zoom.glide` | Default glide while zoomed, 0 (off) to 1.8 |
+| `fullbright.level` | Default fullbright brightness, 1 to 6 |
 
-Players with fullbright on get their own copy of every chunk section instead of the shared one, which
-costs the server some extra work per player.
+Each player's own choices are in `players.json` next to it. Switching fullbright on or changing its
+brightness makes that player's client rebuild the world it has loaded, which can show as a short
+flicker.
 
 ## Commands
 
 ```
+/qol                   settings page (every player)
 /fullbright            switch fullbright on or off for yourself (every player)
 /qol status            settings and state (operators and the console)
-/qol reload            read config.json again
-/qol spike ...         feasibility test tools, see SpikeCommand
+/qol reload            read config.json again (operators and the console)
 ```
 
 ## Development
@@ -69,13 +73,14 @@ comes through the wrapper.
 
 ```bash
 dev/server.sh start            # build, install the plugin, start a local server (run/)
-dev/server.sh reload           # rebuild and reload only the plugin
+dev/server.sh reload           # rebuild and reload only the plugin (not for asset changes)
 dev/server.sh cmd <command>    # console command, e.g. dev/server.sh cmd qol status
 dev/server.sh logs | status | stop | restart
 ./mvnw verify                  # tests
 ```
 
 - The local server listens on `127.0.0.1:5521`; add it to the client's server list.
+  `BIND=0.0.0.0 dev/server.sh restart` opens it to the local network.
 - It runs in `authenticated` mode, because the release client refuses the insecure development flow.
   Once per `run/` folder: `dev/server.sh cmd auth persistence Encrypted`, then
   `dev/server.sh cmd auth login device` and confirm the code from the log in the browser.

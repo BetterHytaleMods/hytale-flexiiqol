@@ -10,48 +10,42 @@ Einstellungsseite und Progression.
   Vanilla-Assets. Lesen ja, übernehmen nein. Keine privaten Infrastruktur-Details (AWS, SSM) hier.
 - **Produktentscheidungen** (Zoomstärke, Klickverhalten, Gleiten, Helligkeit, Texte) trifft Felix:
   fragen statt Defaults setzen.
-- `zoom/ZoomSpec`, `zoom/ZoomRules`, `light/LightTree`, `fullbright/FullbrightPlayers` und `QolConfig`
+- `zoom/ZoomSpec`, `zoom/ZoomRules`, `settings/PlayerSettings` und `QolConfig`
   bleiben frei von Hytale-Klassen (testbar ohne Server). Hytale-Spezifisches gehört in die übrigen
   Klassen.
 - Hytale hat keine deutsche Sprache (Client und Server: en-US, es-ES, fr-FR, pt-BR, ru-RU, uk-UA,
   zh-CN). Texte also auf Englisch in `Server/Languages/en-US/flexiiqol.lang`.
 
-## Stand (17.10.2026)
+## Stand (18.10.2026)
 
-Zoom und Fullbright sind gebaut und laufen serverseitig. **Im Spiel ist noch nichts getestet**: Felix
-hatte keine Zeit; der Machbarkeitstest (Plan Schritt 1a) läuft jetzt gleich mit den fertigen Klassen.
-Bis dahin kein Release und nichts auf den AWS-Server.
+Im Spiel mit Felix getestet (Client und Testserver 0.7.2), alles läuft. Noch kein Release, nichts auf
+AWS. **Nächstes Vorhaben:** Brillen-Progression („FlexiisGoggles“), wird gerade geplant.
 
-**Vorläufige Werte, Felix entscheidet im Test:** Zoom 4×, Empfindlichkeit 0,35, `inLerp` 0,15,
-`outLerp` 0,25, Ego-Perspektive, keine Vignette, Klick beendet den Zoom, Gleiten 0,7 (nur beim Zoomen),
-Fullbright-Stufe 15, die drei Texte in `flexiiqol.lang`.
-
-**Offene Fragen an den Test:**
-- Nimmt der Client die zur Laufzeit geladene Root an (`Root_FlexiiQOL_Zoom`)? Sonst
-  `/qol spike zoom base` (Root aus dem Jar) zum Vergleich.
-- Liegen „Use Ability 3“ und „Rotate a Block“ beide auf R? Falls nicht, kann die Block-Regel weg.
-- Verträgt sich die Gleit-Kamera (`SetServerCamera`) mit dem Client-Zoom?
-- Zeigt der Client das umgeschriebene Licht? Wird ein Abschnitt nach dem Abbauen dunkel, und reicht
-  das Nachschicken (`EditResend`), oder braucht es die Stirnlampe? Ändern Flüssigkeiten das Licht im
-  Client (bisher nur Blöcke beobachtet)?
+**Felix' Entscheidungen (18.10.):**
+- Zoom nur auf R („Use Ability 3“), keine Tastenwahl im Mod; eine andere Taste legt jeder in Hytales
+  Steuerung um. Ausnahmen wie gehabt (Block in der Hand, passende Rune, fremde Belegung).
+- Beim Zoomen Ego-Perspektive, Item in der Hand ausgeblendet, keine Vignette, Klick beendet den Zoom.
+- Einstellungsseite `/qol` für jeden Spieler: Zoomstärke 2–12× (ab Werk 4×, Schritte 1), Gleiten aus
+  bis 1,8 (ab Werk 0,5), Fullbright an/aus (ab Werk aus) mit Helligkeit 1–6 (ab Werk 3).
+- Fullbright über das Licht der Luft (siehe API-Fakten), Radius 0. Die Lichtdaten der Chunks zu
+  ändern wirkt im Client nicht.
 
 ## Aufbau
 
 | Klasse | Aufgabe |
 |---|---|
-| `zoom/ZoomBindingSystem` | Jeden Tick je Spieler: R auf `Root_FlexiiQOL_Zoom` legen oder freigeben, nach `ZoomRules` |
+| `settings/PlayerSettings` | Eigene Wahl je Spieler in `players.json`; nicht Gewähltes folgt der Config |
+| `ui/SettingsPage` + `Common/UI/Custom/FlexiiQOL/Settings.ui` | Seite `/qol`: Schieberegler mit Wertanzeige, Checkbox |
+| `zoom/ZoomBindingSystem` | Jeden Tick je Spieler: R auf die Zoom-Root der gewählten Stufe legen oder freigeben, nach `ZoomRules` |
 | `zoom/ZoomRules` | R bleibt beim Spiel bei Block in der Hand, passender Rune in Slot 3, fremder Belegung oder `OverrideAll` (Zuschauer) |
 | `zoom/UseEntityGuard` | Bricht `UseEntityEvent.Pre` ab, wenn das Ziel unseren Zoom auf der Taste hat |
-| `zoom/ZoomAssets`, `ZoomSpec` | Root aus der Config schreiben und zur Laufzeit laden (`start()`, `/qol reload`) |
-| `zoom/Glide`, `GlideSystem` | Server-Kamera mit `rotationLerpSpeed = 1 - glide`, solange eine Zoom-Kette läuft |
-| `fullbright/Fullbright` | Fassade: Spielerliste, Filter, Nachschicken |
-| `fullbright/FullbrightFilter` | Ausgehende `SetChunk` kopieren und aufhellen; `ServerSetBlock(s)` an `EditResend` melden |
-| `fullbright/EditResend` | Nach Blockänderungen: 250 ms Ruhe, warten bis der Server neu belichtet hat (max. 3 s), Abschnitt neu schicken |
-| `fullbright/FullbrightPlayers` | `fullbright.json` im Datenordner |
-| `command/FullbrightCommand` | `/fullbright` für alle (`requireNoPermission()`) |
-| `spike/*` | `/qol spike …` und Paket-Mitschnitt für den Test; fliegt danach raus |
+| `zoom/ZoomAssets`, `ZoomSpec` | Eine Root je Stufe (`Root_FlexiiQOL_Zoom_<n>x`) schreiben und zur Laufzeit laden (`start()`, `/qol reload`) |
+| `zoom/Glide`, `GlideSystem` | Server-Kamera mit kleinem `rotationLerpSpeed`, solange eine Zoom-Kette läuft |
+| `fullbright/FullbrightSystem`, `AirLight` | Jeden Tick je Spieler: hat sein Client das gewünschte Licht der Luft? Änderung nach 300 ms Ruhe schicken |
+| `command/QolCommand` | `/qol` öffnet die Seite (für alle); `/qol status|reload` brauchen die Berechtigung |
+| `command/FullbrightCommand` | `/fullbright` schaltet um (für alle) |
 
-## Hytale 0.7.1: geprüfte API-Fakten
+## Hytale 0.7.1/0.7.2: geprüfte API-Fakten
 
 Quelle: dekompilierter Server unter `~/Hytale-Projects/decompiled/0.7.1/` (`dev/decompile.sh`), dazu die
 Fakten aus `../hytale-gifchat/CLAUDE.md` (World-Thread, Client-Log, Asset-Pack-Pfade).
@@ -82,18 +76,25 @@ Fakten aus `../hytale-gifchat/CLAUDE.md` (World-Thread, Client-Log, Asset-Pack-P
   geladene Assets stehen.
 - **Server-Kamera:** `SetServerCamera(Custom, true, ServerCameraSettings)`, zurück mit
   `SetServerCamera(Custom, false, null)`. `rotationLerpSpeed < 1` lässt die Kamera nachgleiten.
-- **Licht:** `SetChunk.localLight` = 1 Byte „hat Licht“ + Baum (Maskenbyte, 8 Oktanten, Wert 16 Bit LE:
-  Rot 0–3, Grün 4–7, Blau 8–11, Himmel 12–15). Ab Werk schickt der Server lokales Licht, globales nicht
-  (`BlockChunk.SEND_LOCAL_LIGHTING_DATA`/`SEND_GLOBAL_LIGHTING_DATA`). Der Server teilt ein
-  `CachedPacket` je Abschnitt zwischen allen Spielern: nur kopieren. Ausgehende Filter laufen synchron
-  in `PacketHandler.writePacket`; die eigene Kopie läuft wieder durch den Filter.
-- **Blockänderungen:** `ServerSetBlock` trägt Blockkoordinaten, `ServerSetBlocks` Abschnittskoordinaten
-  (Abschnitt = 32³, `ChunkUtil.chunkCoordinate`); ab 1024 Änderungen geht der ganze Abschnitt als
-  `SetChunk` raus. Der Server belichtet danach im Licht-Thread neu (`World.getChunkLighting()`,
-  `isQueued(org.joml.Vector3i(x, y, z))`) und schickt kein Licht hinterher.
-- **Abschnitte neu schicken:** `ChunkTracker.removeForReload(x, y, z)` in Abschnittskoordinaten.
-  `forEachLoadedSection` hält das Lock während des Callbacks, das Lock ist nicht reentrant: erst sammeln,
-  dann neu schicken.
+- **Licht rechnet der Client selbst (Test 18.10., Client 0.7.2):** Lokales und globales Licht in
+  `SetChunk` umzuschreiben änderte nichts Sichtbares (neu geschickte Abschnitte; einen frischen
+  Login damit haben wir nicht getestet). Der Client flutet das Licht aus den
+  `Light`-Werten der Blocktypen (wie der Server: `Color` #rgb = Stufe 0–15 je Kanal, −1 je Block).
+  Im Shader: Blocklicht × 2 (`StaticLightMultiplier`), max. mit Sonnenlicht; `CubeShadingMode:
+  Fullbright` rendert einen Würfel ohne Licht voll hell.
+- **Fullbright = Licht der Luft:** `UpdateBlockTypes` (`AddOrUpdate`, nur `Empty`, id 0, mit
+  `light = ColorLight(0, L, L, L)`, `updateMapGeometry = true`) nur an den einen Spieler. Der Client
+  baut dann die geladene Welt neu (Client-Log „All rendered chunks were discarded“, ~0,5–0,8 s).
+  **Radius muss 0 sein:** Blocklichter mit Radius bekommen zusätzlich je ein Punktlicht, mit jeder
+  Luftzelle summiert sich das zu grellem Licht (auch mit `#111`). `BlockType.toPacket()` ist gecacht
+  und geteilt: nur Kopien (`new protocol.BlockType(other)`) ändern.
+- Item in der Hand beim Zoomen ausblenden: `Effects.HideFirstPersonHeldItem` (so auch das Fernrohr).
+- **Seiten-UI (Test 18.10.):** Vanilla-Muster aus `EntitySpawnPage` laufen: `Slider` mit
+  `Min`/`Max`/`Step`, Wert als Codec.FLOAT über `ValueChanged` und `MouseButtonReleased`,
+  Label daneben per `set("#X.TextSpans", Message)`; `$C.@CheckBoxWithLabel #Id` mit
+  `"#Id #CheckBox.Value"`; `$C.@BackButton {}`. Übersetzungen im Markup als `%flexiiqol.<key>`.
+  Ein `AbstractPlayerCommand` kann Unterbefehle haben; mit `requireNoPermission()` gilt das nur für ihn
+  selbst, Unterbefehle brauchen weiter ihre Berechtigung (auch von der Konsole aufrufbar).
 - `HytaleServer.SCHEDULED_EXECUTOR` ist ein einzelner Thread für den ganzen Server: nur kurze Aufgaben.
 - Die Warnung „Skipping pack at de.hymods_FlexiiQOL: missing or invalid manifest.json“ beim Start ist
   harmlos: Der Server sucht in `mods/` nach Asset-Packs und findet dort unseren Datenordner.
@@ -101,7 +102,7 @@ Fakten aus `../hytale-gifchat/CLAUDE.md` (World-Thread, Client-Log, Asset-Pack-P
 ## Entwicklung
 
 `dev/server.sh start|stop|restart|reload|cmd|logs|status` – lokaler Server in `run/` (git-ignoriert) auf
-`127.0.0.1:5521`, Debugger 5006, damit der GifChat-Testserver (5520/5005) parallel laufen kann. Konsole
+`127.0.0.1:5521` (`BIND=0.0.0.0 dev/server.sh restart` öffnet ihn fürs Heimnetz), Debugger 5006, damit der GifChat-Testserver (5520/5005) parallel laufen kann. Konsole
 über eine FIFO. `reload` (= `plugin reload`) lädt nur Code; Änderungen am Asset-Pack (auch an
 `flexiiqol.lang`) brauchen `restart`. Felix ist auf dem Testserver Operator (`run/permissions.json`).
 

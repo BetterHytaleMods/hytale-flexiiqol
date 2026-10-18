@@ -10,6 +10,7 @@
 #   dev/server.sh status
 #
 # Connect the Hytale client to 127.0.0.1:5521 (PORT; 5521 so the GifChat dev server can keep 5520).
+# BIND=0.0.0.0 dev/server.sh restart opens it to the local network (default: this machine only).
 # The server jar is copied from the launcher
 # installation whenever its version changes, so it always matches the client. Everything
 # the server writes lives in run/ (ignored by git). The server must not run inside the
@@ -31,6 +32,7 @@ JAVA="$(/usr/libexec/java_home -v 25)/bin/java"
 PLUGIN_ID=de.hymods:FlexiiQOL
 AUTH_MODE=${AUTH_MODE:-authenticated}
 PORT=${PORT:-5521}
+BIND=${BIND:-127.0.0.1}
 DEBUG_PORT=${DEBUG_PORT:-5006}
 FIFO=$RUN/console.fifo
 PIDFILE=$RUN/server.pid
@@ -86,7 +88,7 @@ start() {
     exec "$JAVA" -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=127.0.0.1:$DEBUG_PORT \
       -jar HytaleServer.jar \
       --assets "$GAME/Assets.zip" \
-      --bind 127.0.0.1:$PORT \
+      --bind "$BIND:$PORT" \
       --auth-mode "$AUTH_MODE" \
       --disable-sentry \
       --allow-op \
