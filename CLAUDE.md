@@ -1,49 +1,66 @@
 # FlexiisGoggles – Arbeitsregeln
 
-Öffentlicher Hytale-Server-Mod (CurseForge, MIT): Zoom auf R, Fullbright je Spieler, später
-Einstellungsseite und Progression.
+Öffentlicher Hytale-Server-Mod (CurseForge, MIT), bis 18.10.2026 „FlexiiQOL“: Zoom und Night Vision
+über craftbare Brillen, eine eigene Werkbank (Optician's Bench) und Quarz als neues Erz.
 
 ## Regeln
 
 - **Commits auf Englisch, ohne Claude-Zeilen** (kein `Co-Authored-By`, keine Session-Zeile).
 - **Öffentliches Repo:** kein dekompilierter Hytale-Code, keine kopierten Ausschnitte, keine kopierten
-  Vanilla-Assets. Lesen ja, übernehmen nein. Keine privaten Infrastruktur-Details (AWS, SSM) hier.
-- **Produktentscheidungen** (Zoomstärke, Klickverhalten, Gleiten, Helligkeit, Texte) trifft Felix:
-  fragen statt Defaults setzen.
-- `zoom/ZoomSpec`, `zoom/ZoomRules`, `settings/PlayerSettings` und `GogglesConfig`
-  bleiben frei von Hytale-Klassen (testbar ohne Server). Hytale-Spezifisches gehört in die übrigen
-  Klassen.
-- Hytale hat keine deutsche Sprache (Client und Server: en-US, es-ES, fr-FR, pt-BR, ru-RU, uk-UA,
-  zh-CN). Texte also auf Englisch in `Server/Languages/en-US/flexiisgoggles.lang`.
+  Vanilla-Assets. Lesen ja, übernehmen nein. Vanilla-IDs (Items, Sounds, Texturen) nur als Verweis.
+  Keine privaten Infrastruktur-Details (AWS, SSM) hier.
+- **Produktentscheidungen** (Stärken, Materialien, Namen, Optik, Texte) trifft Felix: fragen statt
+  Defaults setzen.
+- `zoom/ZoomSpec`, `zoom/ZoomSteps`, `zoom/ZoomRules`, `goggles/Goggles`, `goggles/Effective`,
+  `settings/PlayerSettings` und `GogglesConfig` bleiben frei von Hytale-Klassen (testbar ohne Server).
+- Hytale hat keine deutsche Sprache. Texte auf Englisch in
+  `Server/Languages/en-US/flexiisgoggles.lang` (Schlüssel `flexiisgoggles.<key>`).
+- **Grafik nur über `dev/art/Art.java`** (`java dev/art/Art.java` im Repo): Modelle aus Boxen, Texturen
+  aus Paletten, Icons daraus gerendert. Danach Server neu starten.
 
 ## Stand (18.10.2026)
 
-Im Spiel mit Felix getestet (Client und Testserver 0.7.2), alles läuft. Noch kein Release, nichts auf
-AWS. **Nächstes Vorhaben:** Brillen-Progression („FlexiisGoggles“), wird gerade geplant.
+- Zoom, Night Vision und Einstellungsseite sind im Spiel mit Felix getestet, noch ohne Brillen.
+- Die Brillen-Progression ist gebaut: Brillen, Brillenhelme, Werkbank mit 4 Stufen, Quarz, Glas,
+  Linsen, Rezepte und Welt-Generierung. Serverseitig ist alles geprüft (alle Assets laden, Quarz entsteht
+  in neuen Chunks), **im Spiel noch nicht**. Felix hatte keine Zeit.
+- Offen im Spiel:
+  - Sitzen Brillen und Helme richtig auf dem Kopf? Der Versatz (0, 20, 2) ist nur abgeleitet.
+  - Wie wirken Optik und Icons?
+  - Klappen Werkbank-Stufen, Rezepte und Kategorien?
+  - Geht das Regler-Maximum (`#Zoom.Max`)?
+  - Wirkt `CosmeticsToHide`?
+- Noch kein Release, nichts auf AWS.
 
 **Felix' Entscheidungen (18.10.):**
-- Zoom nur auf R („Use Ability 3“), keine Tastenwahl im Mod; eine andere Taste legt jeder in Hytales
-  Steuerung um. Ausnahmen wie gehabt (Block in der Hand, passende Rune, fremde Belegung).
-- Beim Zoomen Ego-Perspektive, Item in der Hand ausgeblendet, keine Vignette, Klick beendet den Zoom.
-- Einstellungsseite `/goggles` für jeden Spieler: Zoomstärke 2–12× (ab Werk 4×, Schritte 1), Gleiten aus
-  bis 1,8 (ab Werk 0,5), Fullbright an/aus (ab Werk aus) mit Helligkeit 1–6 (ab Werk 3).
-- Fullbright über das Licht der Luft (siehe API-Fakten), Radius 0. Die Lichtdaten der Chunks zu
-  ändern wirkt im Client nicht.
+- Komplett umbenannt (Repo, Plugin, `/goggles`). Ohne Brille kein Zoom und kein Night Vision; Schalter
+  `requireGoggles`.
+- Brillen: Zoom I–IV (1,5/3/5/8×), Night Vision I–IV (1/2/3/5), UltraGoggles nur Stufe 4 (12×, 6).
+  Config kann je Brille nur senken.
+- Spielerseite: Regler bis zum Maximum der getragenen Brille, Gleiten frei (0–1,8), Night Vision an/aus.
+  Night Vision ist beim Aufsetzen an.
+- Brillenhelme: je Brille einer (Scout, Nightwatch, Overseer), Rezept an der Rüstungswerkbank mit
+  Vanilla-Helm der passenden Stufe (Kupfer, Eisen, Thorium, Adamantit); Rüstungswerte per `Parent`.
+- Zoom fest auf R („Use Ability 3“), keine Tastenwahl im Mod.
+- **Quarz nur durch Abbauen des neuen Erzes**, kein Weg über Quarzit.
+- Werte, Materialien und Namen sind Vorschläge aus dem Plan; Felix prüft sie im Spiel.
 
 ## Aufbau
 
-| Klasse | Aufgabe |
+| Teil | Aufgabe |
 |---|---|
-| `settings/PlayerSettings` | Eigene Wahl je Spieler in `players.json`; nicht Gewähltes folgt der Config |
-| `ui/SettingsPage` + `Common/UI/Custom/FlexiisGoggles/Settings.ui` | Seite `/goggles`: Schieberegler mit Wertanzeige, Checkbox |
-| `zoom/ZoomBindingSystem` | Jeden Tick je Spieler: R auf die Zoom-Root der gewählten Stufe legen oder freigeben, nach `ZoomRules` |
-| `zoom/ZoomRules` | R bleibt beim Spiel bei Block in der Hand, passender Rune in Slot 3, fremder Belegung oder `OverrideAll` (Zuschauer) |
-| `zoom/UseEntityGuard` | Bricht `UseEntityEvent.Pre` ab, wenn das Ziel unseren Zoom auf der Taste hat |
-| `zoom/ZoomAssets`, `ZoomSpec` | Eine Root je Stufe (`Root_FlexiisGoggles_Zoom_<n>x`) schreiben und zur Laufzeit laden (`start()`, `/goggles reload`) |
-| `zoom/Glide`, `GlideSystem` | Server-Kamera mit kleinem `rotationLerpSpeed`, solange eine Zoom-Kette läuft |
-| `fullbright/FullbrightSystem`, `AirLight` | Jeden Tick je Spieler: hat sein Client das gewünschte Licht der Luft? Änderung nach 300 ms Ruhe schicken |
-| `command/GogglesCommand` | `/goggles` öffnet die Seite (für alle); `/goggles status|reload` brauchen die Berechtigung |
-| `command/FullbrightCommand` | `/fullbright` schaltet um (für alle) |
+| `goggles/Goggles` | Alle Brillen mit Höchstwerten, Item-IDs der Brillen und Helme |
+| `goggles/WornGoggles` | Jeden Tick: welche Brille (oder welchen Helm) jeder Spieler im Kopf-Slot trägt |
+| `goggles/Effective` | Fähigkeit (Brille oder Server) und Spielerwahl → Zoom, Gleiten, Night-Vision-Stufe |
+| `GogglesConfig` | `config.json`: `requireGoggles`, Zoom, Night Vision, Grenzen je Brille |
+| `settings/PlayerSettings` | Eigene Wahl je Spieler in `players.json` |
+| `ui/SettingsPage` + `Common/UI/Custom/FlexiisGoggles/Settings.ui` | Seite `/goggles`, Regler enden beim Brillenmaximum |
+| `zoom/*` | R auf die Zoom-Root der Stufe (`Root_FlexiisGoggles_Zoom_<n>x`, Stufen in `ZoomSteps`), Gleiten, Schutz gegen „R auf anderen Spieler“ |
+| `nightvision/NightVisionSystem`, `AirLight` | Licht der Luft je Spieler, Änderung nach 300 ms Ruhe |
+| `command/GogglesCommand`, `NightVisionCommand` | `/goggles` (+ `status`, `reload`), `/nightvision` (`/nv`) |
+| `Server/Item/Items/FlexiisGoggles/` | Brillen (über `Flexii_Goggles_Template`), Helme (`Parent` = Vanilla-Helm), Quarz, Glas, Linsen, Erz, Werkbank |
+| `Server/WorldGen/Modifier/Flexii_Quartz.json` | Quarzerz in den Höhlen der Zonen 1–3 |
+| `dev/art/Art.java` | Alle Modelle, Texturen und Icons |
 
 ## Hytale 0.7.1/0.7.2: geprüfte API-Fakten
 
@@ -95,6 +112,28 @@ Fakten aus `../hytale-gifchat/CLAUDE.md` (World-Thread, Client-Log, Asset-Pack-P
   `"#Id #CheckBox.Value"`; `$C.@BackButton {}`. Übersetzungen im Markup als `%flexiisgoggles.<key>`.
   Ein `AbstractPlayerCommand` kann Unterbefehle haben; mit `requireNoPermission()` gilt das nur für ihn
   selbst, Unterbefehle brauchen weiter ihre Berechtigung (auch von der Konsole aufrufbar).
+- **Werkbank** = Item mit `BlockType.Bench {Type: Crafting, Id, Categories[], TierLevels[]}` und
+  `BlockEntity.Components.BenchBlock`. `TierLevels[n]` = Kosten von Stufe n auf n+1; 4 Einträge, der
+  letzte ohne Kosten, ergeben 4 Stufen. Optik je Stufe über `State.Definitions.TierN`. Oberfläche
+  generisch, nur Kategorie-Icons nötig. Ohne `HitboxType` gilt ein voller Block.
+- **Rezepte** stehen im Item (`Recipe`); `BenchRequirement` mit `Id`, `Categories` (Pflicht, sonst
+  unsichtbar) und `RequiredTierLevel`. Material per `ItemId` oder `ResourceTypeId` (`Sands`,
+  `Crystal_Shards`, `Wood_Trunk`, `Rock`). Werkbänke selbst: `Workbench`, Kategorie
+  `Workbench_Crafting`. Rüstungswerkbank: `Armor_Bench`, Kategorie `Armor_Head`, Stufen 1–3.
+- **Kopf-Items:** nur die Slots Kopf, Brust, Hände und Beine; Brille und Helm teilen sich den Kopf
+  (Slot 0 in `InventoryComponent.Armor`). Sichtbares hängt an der Item-ID. `Parent` vererbt fast alles
+  außer `Quality` und `Recipe`. Items gibt man sich mit `/give <item>`, von der Konsole
+  `give <spieler> <item>`.
+- **Modelle am Kopf:** Teile hängen relativ zu Kopfknochen (am Hals) plus Versatz des Wurzelknotens
+  `Head`. Kopfmitte = (0, 20, 2) (Spielerfigur: Kopf-Box 30×28×28 mit diesem Versatz). Vanilla nutzt
+  (0, 0, 0), (0, 15, 3) oder (0, 20, 2); die Position des Wurzelknotens zählt nicht. Item- und
+  Blockmodelle: 32 Einheiten je Block, ein Barren ist 26 lang.
+- **Welt-Generierung:** `Server/WorldGen/Modifier/<Id>.json` mit `Target {Root: Default, Rules: [Glob
+  auf Zones.<Zone>.Cave.Caves]}` und `Operations [{Type: Add, Content: {Type: CaveType, PointGrid,
+  HeightRange, BlockMask, Generator: {Type: OreCluster}}}]` greift (Test 18.10.). Enums in Codecs in
+  Pascal-Schreibweise (`CaveType`, nicht `CAVE_TYPE`). `{Type: Log, ContentType: CaveType}` loggt die
+  getroffenen Dateien. `PointGrid.Scale` = Abstand in Blöcken; Scale 3 ergab etwa 60 Quarzblöcke je
+  Chunk, Kupfer etwa 370. Nur neu erzeugte Chunks; von der Konsole erzeugt `chunk load <x> <z>` einen.
 - `HytaleServer.SCHEDULED_EXECUTOR` ist ein einzelner Thread für den ganzen Server: nur kurze Aufgaben.
 - Die Warnung „Skipping pack at de.hymods_FlexiisGoggles: missing or invalid manifest.json“ beim Start ist
   harmlos: Der Server sucht in `mods/` nach Asset-Packs und findet dort unseren Datenordner.

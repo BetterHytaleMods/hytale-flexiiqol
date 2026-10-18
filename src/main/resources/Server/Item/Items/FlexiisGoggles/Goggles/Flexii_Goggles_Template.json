@@ -6,9 +6,9 @@
   "ItemLevel": 10,
   "PlayerAnimationsId": "Block",
   "ItemSoundSetId": "ISS_Armor_Leather",
-  "Icon": "Icons/ItemsGenerated/Armor_Diving_Crude_Head.png",
-  "Model": "Items/Armors/Diving_Crude/Head.blockymodel",
-  "Texture": "Items/Armors/Diving_Crude/Head_Texture.png",
+  "Icon": "Icons/ItemsGenerated/Flexii_Goggles_Zoom_1.png",
+  "Model": "Items/FlexiisGoggles/Goggles_Zoom.blockymodel",
+  "Texture": "Items/FlexiisGoggles/Goggles_Zoom_1.png",
   "Interactions": {
     "Primary": {
       "Interactions": [

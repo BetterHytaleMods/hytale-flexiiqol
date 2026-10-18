@@ -1,22 +1,40 @@
 # FlexiisGoggles
 
-Quality of life for Hytale servers (0.7):
+Craftable goggles for Hytale servers (0.7): zoom like OptiFine and night vision, earned through a new
+crafting bench and its own ore.
 
-- **Zoom:** hold **R** to zoom in, like OptiFine. FlexiisGoggles uses Hytale's own client-side zoom (the one
-  the spyglass uses): the view narrows smoothly, the item in your hand goes away, the mouse slows down,
-  and the camera glides after it. Letting go zooms back out.
+- **Zoom Goggles I–IV:** hold **R** to zoom in. FlexiisGoggles uses Hytale's own client-side zoom (the
+  one the spyglass uses): the view narrows smoothly, the item in your hand goes away, the mouse slows
+  down, and the camera glides after it. Letting go zooms back out.
   - R is Hytale's "Use Ability 3"; bind that action to any key under Settings → Controls.
   - R keeps its usual job while you hold a block (rotating it), while the rune in ability slot 3 fits
     your weapon (casting it), and in game modes or with plugins that use R themselves.
-- **Fullbright:** caves and nights light up for you alone. Torches, lava and the sun still light up
-  more, so the world keeps its depth. Nobody else sees it, and mob spawning and plant growth keep
-  using the real light.
-- **Settings page:** `/goggles` lets every player pick their zoom strength (2x to 12x), how much the camera
-  glides, and fullbright with its brightness (1 to 6). The choices are saved per player.
+- **Night Vision Goggles I–IV:** caves and nights light up for you alone. Torches, lava and the sun
+  still light up more, so the world keeps its depth. Nobody else sees it, and mob spawning and plant
+  growth keep using the real light.
+- **UltraGoggles:** both at full strength. A late-game item.
+- **Helms:** mount goggles on a helmet at the armor bench to wear both: Scout Helm (zoom), Nightwatch
+  Helm (night vision), Overseer Helm (ultra).
+- **Optician's Bench:** a cheap bench that upgrades through four tiers; each tier unlocks stronger
+  goggles. Glass and lenses are made there too.
+- **Quartz:** a new ore in the stone of zones 1–3 (in newly generated chunks).
+- **Settings page:** `/goggles` lets players pick their zoom strength and night vision brightness, up to
+  what their goggles allow, and how much the camera glides. The choices are saved per player.
 
 FlexiisGoggles is a server plugin. Players need nothing but the normal Hytale client.
 
 **Status:** in development, nothing released yet.
+
+## Goggles
+
+| Goggles | Bench tier | Zoom | Night vision |
+|---|---|---|---|
+| Zoom Goggles I / II / III / IV | 1 / 2 / 3 / 4 | 1.5x / 3x / 5x / 8x | – |
+| Night Vision Goggles I / II / III / IV | 1 / 2 / 3 / 4 | – | 1 / 2 / 3 / 5 |
+| UltraGoggles | 4 | 12x | 6 |
+
+Helms count like the goggles mounted on them. They need a vanilla helmet of the matching tier
+(copper, iron, thorium, adamantite) and keep its armor values.
 
 ## Install
 
@@ -24,46 +42,30 @@ Put `FlexiisGoggles-<version>.jar` into the server's `mods/` folder and restart.
 
 ## Settings
 
-`mods/de.hymods_FlexiisGoggles/config.json`, created on the first start, holds what players get until they
-pick their own on `/goggles`. `/goggles reload` applies changes without a restart.
-
-```json
-{
-  "zoom": {
-    "enabled": true,
-    "magnification": 4,
-    "sensitivity": 0.35,
-    "inLerp": 0.15,
-    "outLerp": 0.25,
-    "glide": 0.5
-  },
-  "fullbright": {
-    "enabled": true,
-    "level": 3
-  }
-}
-```
+`mods/de.hymods_FlexiisGoggles/config.json`, created on the first start. `/goggles reload` applies
+changes without a restart.
 
 | Setting | Meaning |
 |---|---|
-| `zoom.enabled`, `fullbright.enabled` | Switch a feature off for everyone; it also leaves the settings page |
-| `zoom.magnification` | Default zoom strength, 2 to 12 |
+| `requireGoggles` | `true`: zoom and night vision only while wearing goggles. `false`: everyone gets both, up to 12x and brightness 6 |
+| `zoom.enabled`, `nightVision.enabled` | Switch a feature off for everyone |
+| `goggles.<name>.zoom`, `goggles.<name>.nightVision` | How strong each pair of goggles is on this server; can only be lowered |
+| `zoom.magnification`, `nightVision.level` | What players get without goggles (`requireGoggles: false`) until they pick their own |
 | `zoom.sensitivity` | Mouse sensitivity at 4x, as a share of the normal one; other strengths scale it |
 | `zoom.inLerp`, `zoom.outLerp` | How fast the view zooms in and out (0.01 slow to 1 instant) |
 | `zoom.glide` | Default glide while zoomed, 0 (off) to 1.8 |
-| `fullbright.level` | Default fullbright brightness, 1 to 6 |
 
-Each player's own choices are in `players.json` next to it. Switching fullbright on or changing its
+Each player's own choices are in `players.json` next to it. Switching night vision on or changing its
 brightness makes that player's client rebuild the world it has loaded, which can show as a short
 flicker.
 
 ## Commands
 
 ```
-/goggles                   settings page (every player)
-/fullbright            switch fullbright on or off for yourself (every player)
-/goggles status            settings and state (operators and the console)
-/goggles reload            read config.json again (operators and the console)
+/goggles               settings page (every player wearing goggles)
+/nightvision, /nv      switch night vision on or off (every player wearing night vision goggles)
+/goggles status        settings and state (operators and the console)
+/goggles reload        read config.json again (operators and the console)
 ```
 
 ## Development
@@ -77,6 +79,7 @@ dev/server.sh reload           # rebuild and reload only the plugin (not for ass
 dev/server.sh cmd <command>    # console command, e.g. dev/server.sh cmd goggles status
 dev/server.sh logs | status | stop | restart
 ./mvnw verify                  # tests
+java dev/art/Art.java          # redraw models, textures and icons into src/main/resources/Common
 ```
 
 - The local server listens on `127.0.0.1:5521`; add it to the client's server list.
@@ -87,6 +90,7 @@ dev/server.sh logs | status | stop | restart
 - Debugger: IntelliJ configuration "Debug dev server" (port 5006).
 - `dev/decompile.sh` decompiles the installed server into `~/Hytale-Projects/decompiled/<version>/` for
   reading the API. Decompiled code never goes into this repository.
+- All art is drawn by `dev/art/Art.java` from boxes and palettes; no game assets are copied.
 
 ## License
 

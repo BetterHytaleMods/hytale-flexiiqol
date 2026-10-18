@@ -1,0 +1,34 @@
+{
+  "Parent": "Armor_Adamantite_Head",
+  "TranslationProperties": {
+    "Name": "flexiisgoggles.items.Flexii_Helm_Overseer.name"
+  },
+  "Quality": "Legendary",
+  "Icon": "Icons/ItemsGenerated/Flexii_Helm_Overseer.png",
+  "Model": "Items/FlexiisGoggles/Helm_Overseer.blockymodel",
+  "Texture": "Items/FlexiisGoggles/Helm_Ultra.png",
+  "Recipe": {
+    "Input": [
+      {
+        "ItemId": "Flexii_Goggles_Ultra",
+        "Quantity": 1
+      },
+      {
+        "ItemId": "Armor_Adamantite_Head",
+        "Quantity": 1
+      }
+    ],
+    "BenchRequirement": [
+      {
+        "Type": "Crafting",
+        "Id": "Armor_Bench",
+        "Categories": [
+          "Armor_Head"
+        ],
+        "RequiredTierLevel": 3
+      }
+    ],
+    "KnowledgeRequired": false,
+    "TimeSeconds": 3
+  }
+}

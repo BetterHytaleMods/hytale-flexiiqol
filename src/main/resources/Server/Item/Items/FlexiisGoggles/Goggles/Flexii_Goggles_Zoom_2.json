@@ -7,5 +7,36 @@
   "ItemLevel": 20,
   "Categories": [
     "Items.Armors"
-  ]
+  ],
+  "Icon": "Icons/ItemsGenerated/Flexii_Goggles_Zoom_2.png",
+  "Model": "Items/FlexiisGoggles/Goggles_Zoom.blockymodel",
+  "Texture": "Items/FlexiisGoggles/Goggles_Zoom_2.png",
+  "Recipe": {
+    "Input": [
+      {
+        "ItemId": "Flexii_Lens_Polished",
+        "Quantity": 2
+      },
+      {
+        "ItemId": "Ingredient_Bar_Iron",
+        "Quantity": 3
+      },
+      {
+        "ItemId": "Ingredient_Leather_Light",
+        "Quantity": 2
+      }
+    ],
+    "BenchRequirement": [
+      {
+        "Type": "Crafting",
+        "Id": "Flexii_Optician_Bench",
+        "Categories": [
+          "Flexii_Optician_Zoom"
+        ],
+        "RequiredTierLevel": 2
+      }
+    ],
+    "KnowledgeRequired": false,
+    "TimeSeconds": 5
+  }
 }

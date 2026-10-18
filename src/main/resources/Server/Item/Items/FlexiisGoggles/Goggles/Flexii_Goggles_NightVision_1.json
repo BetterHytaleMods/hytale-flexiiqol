@@ -7,5 +7,40 @@
   "ItemLevel": 10,
   "Categories": [
     "Items.Armors"
-  ]
+  ],
+  "Icon": "Icons/ItemsGenerated/Flexii_Goggles_NightVision_1.png",
+  "Model": "Items/FlexiisGoggles/Goggles_NightVision.blockymodel",
+  "Texture": "Items/FlexiisGoggles/Goggles_NightVision_1.png",
+  "Recipe": {
+    "Input": [
+      {
+        "ItemId": "Flexii_Lens_Glass",
+        "Quantity": 2
+      },
+      {
+        "ItemId": "Ingredient_Bar_Copper",
+        "Quantity": 2
+      },
+      {
+        "ItemId": "Ingredient_Leather_Light",
+        "Quantity": 2
+      },
+      {
+        "ItemId": "Plant_Crop_Mushroom_Glowing_Green",
+        "Quantity": 3
+      }
+    ],
+    "BenchRequirement": [
+      {
+        "Type": "Crafting",
+        "Id": "Flexii_Optician_Bench",
+        "Categories": [
+          "Flexii_Optician_NightVision"
+        ],
+        "RequiredTierLevel": 1
+      }
+    ],
+    "KnowledgeRequired": false,
+    "TimeSeconds": 4
+  }
 }

@@ -1,0 +1,45 @@
+{
+  "TranslationProperties": {
+    "Name": "flexiisgoggles.items.Flexii_Lens_Void.name"
+  },
+  "Quality": "Epic",
+  "ItemLevel": 40,
+  "Categories": [
+    "Items.Ingredients"
+  ],
+  "Icon": "Icons/ItemsGenerated/Flexii_Lens_Void.png",
+  "Model": "Resources/FlexiisGoggles/Lens.blockymodel",
+  "Texture": "Resources/FlexiisGoggles/Lens_Void.png",
+  "PlayerAnimationsId": "Item",
+  "ItemSoundSetId": "ISS_Items_Gems",
+  "Tags": {
+    "Type": [
+      "Ingredient"
+    ]
+  },
+  "DropOnDeath": true,
+  "Recipe": {
+    "Input": [
+      {
+        "ItemId": "Flexii_Glass",
+        "Quantity": 2
+      },
+      {
+        "ItemId": "Ingredient_Crystal_Void",
+        "Quantity": 2
+      }
+    ],
+    "BenchRequirement": [
+      {
+        "Type": "Crafting",
+        "Id": "Flexii_Optician_Bench",
+        "Categories": [
+          "Flexii_Optician_Materials"
+        ],
+        "RequiredTierLevel": 4
+      }
+    ],
+    "KnowledgeRequired": false,
+    "TimeSeconds": 6
+  }
+}

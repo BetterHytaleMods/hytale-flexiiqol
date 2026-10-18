@@ -1,0 +1,59 @@
+{
+  "Target": {
+    "Root": "Default",
+    "Rules": [
+      "Zones.Zone1_*.Cave.Caves",
+      "Zones.Zone2_Tier*.Cave.Caves",
+      "Zones.Zone3_Tier*.Cave.Caves"
+    ]
+  },
+  "Operations": [
+    {
+      "Type": "Add",
+      "Content": {
+        "Type": "CaveType",
+        "Name": "Flexii_Quartz",
+        "PointGrid": {
+          "Seed": "Flexii_Quartz",
+          "Scale": 3,
+          "Jitter": 0.8
+        },
+        "HeightRange": {
+          "Min": 30,
+          "Max": 105
+        },
+        "BlockMask": {
+          "Include": {
+            "Blocks": [
+              "Rock_Stone"
+            ]
+          },
+          "Exclude": {
+            "Empty": true
+          }
+        },
+        "Generator": {
+          "Type": "OreCluster",
+          "Blocks": [
+            {
+              "Block": "Flexii_Ore_Quartz_Stone",
+              "Weight": 1
+            }
+          ],
+          "Radius": {
+            "Min": 1,
+            "Max": 1
+          },
+          "Length": {
+            "Min": 2,
+            "Max": 4
+          },
+          "Repetitions": {
+            "Min": 1,
+            "Max": 1
+          }
+        }
+      }
+    }
+  ]
+}
