@@ -45,7 +45,8 @@
     ansehen.
   - Geht das Regler-Maximum (`#Zoom.Max`)?
   - Wirkt `CosmeticsToHide`?
-- Noch kein Release, nichts auf AWS.
+- **0.1.0 ist veröffentlicht** (18.10.2026): GitHub-Release `v0.1.0` mit Jar; CurseForge lädt Felix hoch.
+  Ein Release: Version in `pom.xml`, `CHANGELOG.md`, `./mvnw clean verify`, Tag `vX.Y.Z`, `gh release create`.
 
 **Felix' Entscheidungen (18.10.):**
 - Komplett umbenannt (Repo, Plugin, `/goggles`). Ohne Brille kein Zoom und kein Night Vision; Schalter
