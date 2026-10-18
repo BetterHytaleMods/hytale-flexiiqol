@@ -25,18 +25,47 @@ public final class Art {
     public static void main(String[] args) throws IOException {
         Gear.all();
         Materials.all();
-        Bench.all();
+        Optician.all();
         System.out.println("art written to " + COMMON);
     }
 
     // ---------------------------------------------------------------- colours and materials
 
-    enum Style { METAL, LEATHER, GLASS, GLOW, WOOD, STONE, CRYSTAL, PLAIN }
+    enum Style { METAL, LEATHER, GLASS, PANE, GLOW, WOOD, STONE, CRYSTAL, PLAIN, TEXTURE, CHART }
 
-    record Mat(int rgb, Style style) {
+    /** A colour and how to paint it; {@code TEXTURE} copies a game block texture (Common/ path) instead. */
+    record Mat(int rgb, Style style, String texture) {
+        Mat(int rgb, Style style) {
+            this(rgb, style, null);
+        }
+
         static Mat of(String hex, Style style) {
             return new Mat(Integer.parseInt(hex.substring(1), 16), style);
         }
+
+        /** One of the game's block textures, 32 texels per block like our models. */
+        static Mat tex(String path) {
+            return new Mat(0xffffff, Style.TEXTURE, path);
+        }
+    }
+
+    private static final java.util.Map<String, BufferedImage> GAME_TEXTURES = new java.util.HashMap<>();
+
+    /** A texture from the game's Assets.zip (Hypixel allows mod creators to use the game's assets). */
+    static BufferedImage gameTexture(String path) {
+        return GAME_TEXTURES.computeIfAbsent(path, key -> {
+            try (java.util.zip.ZipFile zip = new java.util.zip.ZipFile(Helms.assets().toFile())) {
+                java.util.zip.ZipEntry entry = zip.getEntry("Common/" + key);
+                if (entry == null) {
+                    throw new IllegalArgumentException("not in Assets.zip: " + key);
+                }
+                try (java.io.InputStream in = zip.getInputStream(entry)) {
+                    return ImageIO.read(in);
+                }
+            } catch (IOException e) {
+                throw new java.io.UncheckedIOException(e);
+            }
+        });
     }
 
     static int shade(int rgb, double factor) {
@@ -56,6 +85,36 @@ public final class Art {
 
     /** Paints one face of {@code w} x {@code h} texels in the material's style. */
     static void paint(BufferedImage img, int u, int v, int w, int h, Mat mat, Random rnd) {
+        if (mat.style() == Style.TEXTURE) {
+            BufferedImage source = gameTexture(mat.texture());
+            int sw = source.getWidth(), sh = source.getHeight();
+            int ox = rnd.nextInt(sw), oy = rnd.nextInt(sh);
+            // planks and grain run along the face's long side, like on the game's furniture
+            boolean turned = h > w;
+            for (int y = 0; y < h; y++) {
+                for (int x = 0; x < w; x++) {
+                    int c = (turned ? source.getRGB((ox + y) % sw, (oy + x) % sh) : source.getRGB((ox + x) % sw, (oy + y) % sh)) & 0xffffff;
+                    img.setRGB(u + x, v + y, 0xff000000 | bevel(c, x, y, w, h));
+                }
+            }
+            return;
+        }
+        if (mat.style() == Style.PANE) {
+            // see-through glass: a light rim and a glint, the rest is cut out
+            for (int y = 0; y < h; y++) {
+                for (int x = 0; x < w; x++) {
+                    boolean rim = x == 0 || y == 0 || x == w - 1 || y == h - 1;
+                    boolean glint = !rim && x + y == Math.min(w, h) / 2 && x > 0;
+                    int c = rim ? mix(mat.rgb(), 0xffffff, y == 0 ? 0.55 : 0.25) : glint ? mix(mat.rgb(), 0xffffff, 0.8) : 0;
+                    img.setRGB(u + x, v + y, rim || glint ? 0xff000000 | c : 0);
+                }
+            }
+            return;
+        }
+        if (mat.style() == Style.CHART) {
+            chart(img, u, v, w, h);
+            return;
+        }
         for (int y = 0; y < h; y++) {
             for (int x = 0; x < w; x++) {
                 boolean edge = x == 0 || y == 0 || x == w - 1 || y == h - 1;
@@ -107,6 +166,133 @@ public final class Art {
         }
     }
 
+    /** Lighter top and left rim, darker bottom and right rim: the game's bevelled look. */
+    static int bevel(int c, int x, int y, int w, int h) {
+        if (w < 3 || h < 3) {
+            return c;
+        }
+        if (y == 0) return shade(c, 1.16);
+        if (y == h - 1) return shade(c, 0.74);
+        if (x == 0) return shade(c, 1.06);
+        if (x == w - 1) return shade(c, 0.84);
+        return c;
+    }
+
+    /**
+     * An optician's eye chart on cream paper in a dark frame: a big E, then rows of ever smaller
+     * letters, a line of fine print and, if there is room, the red-green bar of the duochrome test.
+     */
+    static void chart(BufferedImage img, int u, int v, int w, int h) {
+        int frame = 0x4a3826, paper = 0xeee6cf, ink = 0x26252a, red = 0xc0463c, green = 0x4c9a48;
+        Random grain = new Random(w * 31L + h);
+        for (int y = 0; y < h; y++) {
+            for (int x = 0; x < w; x++) {
+                boolean border = x == 0 || y == 0 || x == w - 1 || y == h - 1;
+                img.setRGB(u + x, v + y, 0xff000000 | (border ? frame : shade(paper, 0.97 + grain.nextDouble() * 0.05)));
+            }
+        }
+        String[] big = {"1111111", "1111111", "11", "111111", "11", "1111111", "1111111"};
+        String[][] medium = {{"11111", "1", "1111", "1", "11111"}, {"11111", "1", "1111", "1", "1"}, {"1111", "1   1", "1111", "1", "1"},
+                {"11111", "  1", "  1", "  1", "  1"}, {" 111", "1   1", "1   1", "1   1", " 111"}, {"1111", "1   1", "1   1", "1   1", "1111"}};
+        String[][] small = {{"111", "11", "111"}, {"111", "1 1", "111"}, {"111", " 1", " 1"}, {"11", "1 1", "11"}, {"111", "11", "1"}};
+        int y = 2;
+        int bigSize = h >= 24 ? 7 : 5;
+        int g = 0;
+        // the big E, cut down to 5 rows on small charts
+        String[] e = bigSize == 7 ? big : new String[]{"11111", "1", "1111", "1", "11111"};
+        y = glyphRow(img, u, v, w, y, new String[][]{e}, ink, 1) + 1;
+        if (y + 5 <= h - 2) {
+            y = glyphRow(img, u, v, w, y, new String[][]{medium[g++ % medium.length], medium[g++ % medium.length]}, ink, 1) + 1;
+        }
+        if (y + 3 <= h - 2) {
+            y = glyphRow(img, u, v, w, y, new String[][]{small[0], small[1], small[2]}, ink, 1) + 1;
+        }
+        if (y + 1 <= h - 3) {
+            for (int x = 3; x < w - 3; x++) {
+                if (x % 2 == 1 || x % 5 == 0) img.setRGB(u + x, v + y, 0xff000000 | shade(ink, 1.6));
+            }
+            y += 2;
+        }
+        if (y + 1 <= h - 2) {
+            for (int x = 2; x < w - 2; x++) {
+                img.setRGB(u + x, v + h - 2, 0xff000000 | (x < w / 2 ? red : green));
+            }
+        }
+    }
+
+    /** One centred row of glyphs (strings of '1' per pixel row), {@code gap} apart; returns the row below it. */
+    private static int glyphRow(BufferedImage img, int u, int v, int w, int y, String[][] glyphs, int ink, int gap) {
+        int width = 0, height = 0;
+        for (String[] glyph : glyphs) {
+            int gw = 0;
+            for (String row : glyph) gw = Math.max(gw, row.length());
+            width += gw + gap;
+            height = Math.max(height, glyph.length);
+        }
+        width -= gap;
+        int x = (w - width + 1) / 2;
+        for (String[] glyph : glyphs) {
+            int gw = 0;
+            for (int r = 0; r < glyph.length; r++) {
+                gw = Math.max(gw, glyph[r].length());
+                for (int c = 0; c < glyph[r].length(); c++) {
+                    if (glyph[r].charAt(c) == '1') img.setRGB(u + x + c, v + y + r, 0xff000000 | ink);
+                }
+            }
+            x += gw + gap;
+        }
+        return y + height;
+    }
+
+    /**
+     * One picture shared by several faces, painted once: the round face of a disc built from pixel rows
+     * shows one round picture (a wheel's grooves, a lens' glint) instead of one strip per row.
+     */
+    record Decal(String key, int size, Mat mat) {
+    }
+
+    /** A node without a shape of its own: its boxes turn together around (x, y, z). */
+    record Group(String name, double x, double y, double z) {
+    }
+
+    /** Paints a round decal: a wheel for textures, a lens with a glint for glass, a glow for light. */
+    static void paintDecal(BufferedImage img, int u, int v, Decal decal, Random rnd) {
+        int d = decal.size();
+        Mat mat = decal.mat();
+        double r = d / 2.0;
+        BufferedImage source = mat.style() == Style.TEXTURE ? gameTexture(mat.texture()) : null;
+        int ox = source != null ? rnd.nextInt(source.getWidth()) : 0, oy = source != null ? rnd.nextInt(source.getHeight()) : 0;
+        for (int y = 0; y < d; y++) {
+            for (int x = 0; x < d; x++) {
+                double dx = x + 0.5 - r, dy = y + 0.5 - r;
+                double t = Math.hypot(dx, dy) / r;
+                int c;
+                switch (mat.style()) {
+                    case TEXTURE -> {
+                        c = source.getRGB((ox + x) % source.getWidth(), (oy + y) % source.getHeight()) & 0xffffff;
+                        if (t > 0.84) {
+                            c = shade(c, dx + dy < 0 ? 0.92 : 0.7);
+                        } else if (Math.abs(t - 0.6) < 0.07 || (d >= 10 && Math.abs(t - 0.32) < 0.06)) {
+                            c = shade(c, 0.84);
+                        }
+                    }
+                    case GLASS -> {
+                        c = mix(mix(mat.rgb(), 0xffffff, 0.35), shade(mat.rgb(), 0.86), t);
+                        if (t > 0.8) {
+                            c = shade(mat.rgb(), 0.8);
+                        }
+                        if (Math.hypot(dx + r * 0.38, dy + r * 0.38) < Math.max(0.75, r * 0.22)) {
+                            c = mix(c, 0xffffff, 0.85);
+                        }
+                    }
+                    case GLOW -> c = mix(mix(mat.rgb(), 0xffffff, 0.6), mat.rgb(), Math.min(1, t * 1.1));
+                    default -> c = t > 0.84 ? shade(mat.rgb(), 0.75) : shade(mat.rgb(), 1.05 - 0.2 * t);
+                }
+                img.setRGB(u + x, v + y, 0xff000000 | c);
+            }
+        }
+    }
+
     // ---------------------------------------------------------------- geometry
 
     static final class Box {
@@ -118,6 +304,11 @@ public final class Art {
         String shading = "standard";
         /** u, v of each face: front, back, left, right, top, bottom. */
         final int[][] uv = new int[6][2];
+        /** Materials for single faces, overriding {@link #mat}. */
+        final Mat[] faces = new Mat[6];
+        /** Decals for single faces, and where in the decal each face starts. */
+        final Decal[] decals = new Decal[6];
+        final int[][] decalAt = new int[6][2];
 
         Box(String name, double x, double y, double z, int sx, int sy, int sz, Mat mat) {
             this.name = name;
@@ -130,6 +321,11 @@ public final class Art {
             this.mat = mat;
         }
 
+        /** An orientation given directly, instead of the angles. */
+        double[] q;
+        /** The node holding this box, if not the root. */
+        String group;
+
         Box rot(double rx, double ry, double rz) {
             this.rx = rx;
             this.ry = ry;
@@ -137,8 +333,31 @@ public final class Art {
             return this;
         }
 
+        Box orient(double[] q) {
+            this.q = q;
+            return this;
+        }
+
+        double[] rotation() {
+            return this.q != null ? this.q : quaternion(this.rx, this.ry, this.rz);
+        }
+
         Box glow() {
             this.shading = "fullbright";
+            return this;
+        }
+
+        /** Another material for one face: 0 front, 1 back, 2 left, 3 right, 4 top, 5 bottom. */
+        Box face(int face, Mat mat) {
+            this.faces[face] = mat;
+            return this;
+        }
+
+        /** Shows the part of a shared decal that starts at (du, dv) on one face. */
+        Box decal(int face, Decal decal, int du, int dv) {
+            this.decals[face] = decal;
+            this.decalAt[face][0] = du;
+            this.decalAt[face][1] = dv;
             return this;
         }
 
@@ -156,6 +375,14 @@ public final class Art {
         final boolean head;
         final List<Box> boxes = new ArrayList<>();
         int texW, texH;
+        /** Nodes that hold boxes, by name. */
+        final java.util.Map<String, Group> groups = new java.util.LinkedHashMap<>();
+        /** Where each decal went in the texture, and the decals by key. */
+        final java.util.Map<String, int[]> decals = new java.util.LinkedHashMap<>();
+        final java.util.Map<String, Decal> decalOf = new java.util.LinkedHashMap<>();
+        /** The root node's name and position; benches two blocks wide sit one half block to the side. */
+        String rootName;
+        double[] rootPosition = {0, 0, 0};
 
         /** @param path relative to Common/, without extension */
         Model(String path, boolean head) {
@@ -205,8 +432,35 @@ public final class Art {
 
         private boolean tryPack(int width) {
             int x = 0, y = 0, rowH = 0;
+            this.decals.clear();
+            // decals first, one region each
+            for (Box box : this.boxes) {
+                for (Decal decal : box.decals) {
+                    if (decal == null || this.decals.containsKey(decal.key())) {
+                        continue;
+                    }
+                    if (decal.size() > width) {
+                        return false;
+                    }
+                    if (x + decal.size() > width) {
+                        x = 0;
+                        y += rowH;
+                        rowH = 0;
+                    }
+                    this.decals.put(decal.key(), new int[]{x, y});
+                    this.decalOf.put(decal.key(), decal);
+                    x += decal.size();
+                    rowH = Math.max(rowH, decal.size());
+                }
+            }
             for (Box box : this.boxes) {
                 for (int f = 0; f < 6; f++) {
+                    if (box.decals[f] != null) {
+                        int[] at = this.decals.get(box.decals[f].key());
+                        box.uv[f][0] = at[0] + box.decalAt[f][0];
+                        box.uv[f][1] = at[1] + box.decalAt[f][1];
+                        continue;
+                    }
                     int[] s = box.faceSize(f);
                     if (s[0] > width) {
                         return false;
@@ -234,10 +488,16 @@ public final class Art {
         BufferedImage texture(long seed) {
             BufferedImage img = new BufferedImage(this.texW, this.texH, BufferedImage.TYPE_INT_ARGB);
             Random rnd = new Random(seed);
+            for (java.util.Map.Entry<String, int[]> e : this.decals.entrySet()) {
+                paintDecal(img, e.getValue()[0], e.getValue()[1], this.decalOf.get(e.getKey()), rnd);
+            }
             for (Box box : this.boxes) {
                 for (int f = 0; f < 6; f++) {
+                    if (box.decals[f] != null) {
+                        continue;
+                    }
                     int[] s = box.faceSize(f);
-                    paint(img, box.uv[f][0], box.uv[f][1], s[0], s[1], box.mat, rnd);
+                    paint(img, box.uv[f][0], box.uv[f][1], s[0], s[1], box.faces[f] != null ? box.faces[f] : box.mat, rnd);
                 }
             }
             return img;
@@ -245,32 +505,72 @@ public final class Art {
 
         String json() {
             StringBuilder out = new StringBuilder("{\n  \"nodes\": [\n");
-            out.append("    {\"id\": \"0\", \"name\": \"").append(this.head ? "Head" : "Root").append("\", ")
-                    .append("\"position\": {\"x\": 0, \"y\": 0, \"z\": 0}, \"orientation\": {\"x\": 0, \"y\": 0, \"z\": 0, \"w\": 1}, ")
+            out.append("    {\"id\": \"0\", \"name\": \"").append(this.rootName != null ? this.rootName : this.head ? "Head" : "Root").append("\", ")
+                    .append("\"position\": ").append(vec(this.rootPosition[0], this.rootPosition[1], this.rootPosition[2]))
+                    .append(", \"orientation\": {\"x\": 0, \"y\": 0, \"z\": 0, \"w\": 1}, ")
                     .append("\"shape\": {\"type\": \"none\", \"offset\": ").append(this.head ? vec(0, 20, 2) : vec(0, 0, 0))
                     .append(", \"stretch\": {\"x\": 1, \"y\": 1, \"z\": 1}, ")
                     .append("\"settings\": {").append(this.head ? "\"isPiece\": true" : "").append("}, \"textureLayout\": {}, ")
                     .append("\"unwrapMode\": \"custom\", \"visible\": true, \"doubleSided\": false, \"shadingMode\": \"flat\"},\n")
                     .append("     \"children\": [\n");
-            String[] faces = {"front", "back", "left", "right", "top", "bottom"};
-            for (int i = 0; i < this.boxes.size(); i++) {
-                Box b = this.boxes.get(i);
-                double[] q = quaternion(b.rx, b.ry, b.rz);
-                out.append("      {\"id\": \"").append(i + 1).append("\", \"name\": \"").append(b.name).append("\", ")
-                        .append("\"position\": ").append(vec(b.x, b.y, b.z)).append(", ")
-                        .append("\"orientation\": {\"x\": ").append(num(q[0])).append(", \"y\": ").append(num(q[1]))
-                        .append(", \"z\": ").append(num(q[2])).append(", \"w\": ").append(num(q[3])).append("}, ")
-                        .append("\"shape\": {\"type\": \"box\", \"offset\": {\"x\": 0, \"y\": 0, \"z\": 0}, \"stretch\": {\"x\": 1, \"y\": 1, \"z\": 1}, ")
-                        .append("\"settings\": {\"size\": ").append(vec(b.sx, b.sy, b.sz)).append("}, \"textureLayout\": {");
-                for (int f = 0; f < 6; f++) {
-                    out.append(f == 0 ? "" : ", ").append('"').append(faces[f]).append("\": {\"offset\": {\"x\": ").append(b.uv[f][0])
-                            .append(", \"y\": ").append(b.uv[f][1]).append("}, \"mirror\": {\"x\": false, \"y\": false}, \"angle\": 0}");
+            List<String> children = new ArrayList<>();
+            int id = 1;
+            java.util.Set<String> written = new java.util.HashSet<>();
+            for (Box b : this.boxes) {
+                if (b.group == null) {
+                    children.add(boxNode(b, new double[]{0, 0, 0}, id++, "      "));
+                    continue;
                 }
-                out.append("}, \"unwrapMode\": \"custom\", \"visible\": true, \"doubleSided\": false, \"shadingMode\": \"")
-                        .append(b.shading).append("\"}, \"children\": []}").append(i + 1 < this.boxes.size() ? ",\n" : "\n");
+                if (!written.add(b.group)) {
+                    continue;
+                }
+                Group g = this.groups.get(b.group);
+                double[] at = {g.x(), g.y(), g.z()};
+                StringBuilder node = new StringBuilder("      {\"id\": \"").append(id++).append("\", \"name\": \"").append(g.name()).append("\", ")
+                        .append("\"position\": ").append(vec(at[0], at[1], at[2])).append(", \"orientation\": {\"x\": 0, \"y\": 0, \"z\": 0, \"w\": 1}, ")
+                        .append("\"shape\": {\"type\": \"none\", \"offset\": {\"x\": 0, \"y\": 0, \"z\": 0}, \"stretch\": {\"x\": 1, \"y\": 1, \"z\": 1}, ")
+                        .append("\"settings\": {\"isPiece\": false}, \"textureLayout\": {}, \"unwrapMode\": \"custom\", \"visible\": true, \"doubleSided\": false, ")
+                        .append("\"shadingMode\": \"flat\"},\n       \"children\": [\n");
+                List<String> inner = new ArrayList<>();
+                for (Box c : this.boxes) {
+                    if (g.name().equals(c.group)) {
+                        inner.add(boxNode(c, at, id++, "        "));
+                    }
+                }
+                children.add(node.append(String.join(",\n", inner)).append("\n       ]}").toString());
             }
+            out.append(String.join(",\n", children)).append("\n");
             out.append("     ]}\n  ],\n  \"lod\": \"auto\"\n}\n");
             return out.toString();
+        }
+
+        /** One box as a node, placed relative to {@code origin}. */
+        private static String boxNode(Box b, double[] origin, int id, String indent) {
+            String[] faces = {"front", "back", "left", "right", "top", "bottom"};
+            double[] q = b.rotation();
+            StringBuilder out = new StringBuilder(indent).append("{\"id\": \"").append(id).append("\", \"name\": \"").append(b.name).append("\", ")
+                    .append("\"position\": ").append(vec(b.x - origin[0], b.y - origin[1], b.z - origin[2])).append(", ")
+                    .append("\"orientation\": {\"x\": ").append(num(q[0])).append(", \"y\": ").append(num(q[1]))
+                    .append(", \"z\": ").append(num(q[2])).append(", \"w\": ").append(num(q[3])).append("}, ")
+                    .append("\"shape\": {\"type\": \"box\", \"offset\": {\"x\": 0, \"y\": 0, \"z\": 0}, \"stretch\": {\"x\": 1, \"y\": 1, \"z\": 1}, ")
+                    .append("\"settings\": {\"size\": ").append(vec(b.sx, b.sy, b.sz)).append("}, \"textureLayout\": {");
+            for (int f = 0; f < 6; f++) {
+                out.append(f == 0 ? "" : ", ").append('"').append(faces[f]).append("\": {\"offset\": {\"x\": ").append(b.uv[f][0])
+                        .append(", \"y\": ").append(b.uv[f][1]).append("}, \"mirror\": {\"x\": false, \"y\": false}, \"angle\": 0}");
+            }
+            return out.append("}, \"unwrapMode\": \"custom\", \"visible\": true, \"doubleSided\": false, \"shadingMode\": \"")
+                    .append(b.shading).append("\"}, \"children\": []}").toString();
+        }
+
+        /**
+         * Puts the boxes added since {@code mark} into a node of their own with its pivot at (x, y, z), so an
+         * animation can turn them together.
+         */
+        void group(String name, int mark, double x, double y, double z) {
+            this.groups.put(name, new Group(name, x, y, z));
+            for (int i = mark; i < this.boxes.size(); i++) {
+                this.boxes.get(i).group = name;
+            }
         }
 
         /** Packs the textures and writes the model file. */
@@ -316,7 +616,15 @@ public final class Art {
 
     /** Renders the model the way inventory icons look: from above front-right, softly lit, 64x64. */
     static BufferedImage icon(Model model, BufferedImage texture, double yaw, double pitch) {
-        final int ss = 4, size = 64 * ss;
+        return icon(model, texture, yaw, pitch, 5, 1.0, 4);
+    }
+
+    /**
+     * As above, with {@code margin} free pixels around the model, the light scaled by {@code gain} and
+     * {@code ss} x {@code ss} samples per pixel (fewer keep the texture's pixels crisper).
+     */
+    static BufferedImage icon(Model model, BufferedImage texture, double yaw, double pitch, int margin, double gain, int ss) {
+        final int size = 64 * ss;
         record Tri(double[][] p, double[][] t, double light, boolean glow) {
         }
         List<Tri> tris = new ArrayList<>();
@@ -324,7 +632,7 @@ public final class Art {
         double cp = Math.cos(Math.toRadians(pitch)), sp = Math.sin(Math.toRadians(pitch));
         double[] lightDir = norm(new double[]{-0.35, 0.85, 0.4});
         for (Box b : model.boxes) {
-            double[] q = quaternion(b.rx, b.ry, b.rz);
+            double[] q = b.rotation();
             double hx = b.sx / 2.0, hy = b.sy / 2.0, hz = b.sz / 2.0;
             // corners per face: front +z, back -z, left -x, right +x, top +y, bottom -y; ordered top-left, top-right, bottom-right, bottom-left as seen from outside
             double[][][] faces = {
@@ -346,14 +654,15 @@ public final class Art {
                     double vz2 = wy * sp + vz * cp;
                     world[i] = new double[]{vx, vy, vz2};
                 }
-                double[] n = norm(cross(sub(world[1], world[0]), sub(world[3], world[0])));
+                // the corners run clockwise as seen from outside: this order gives the outward normal
+                double[] n = norm(cross(sub(world[3], world[0]), sub(world[1], world[0])));
                 if (n[2] <= 0) {
                     continue;
                 }
                 int[] s = b.faceSize(f);
                 double u0 = b.uv[f][0], v0 = b.uv[f][1];
                 double[][] uv = {{u0, v0}, {u0 + s[0], v0}, {u0 + s[0], v0 + s[1]}, {u0, v0 + s[1]}};
-                double light = b.shading.equals("fullbright") ? 1.15 : 0.55 + 0.5 * Math.max(0, dot(n, lightDir));
+                double light = b.shading.equals("fullbright") ? 1.15 : gain * (0.55 + 0.5 * Math.max(0, dot(n, lightDir)));
                 tris.add(new Tri(new double[][]{world[0], world[1], world[2]}, new double[][]{uv[0], uv[1], uv[2]}, light, false));
                 tris.add(new Tri(new double[][]{world[0], world[2], world[3]}, new double[][]{uv[0], uv[2], uv[3]}, light, false));
             }
@@ -367,7 +676,7 @@ public final class Art {
                 maxY = Math.max(maxY, p[1]);
             }
         }
-        double scale = (size - 10.0 * ss) / Math.max(maxX - minX, maxY - minY);
+        double scale = (size - 2.0 * margin * ss) / Math.max(maxX - minX, maxY - minY);
         double ox = size / 2.0 - (minX + maxX) / 2 * scale, oy = size / 2.0 + (minY + maxY) / 2 * scale;
         int[] color = new int[size * size];
         double[] depth = new double[size * size];
@@ -399,23 +708,28 @@ public final class Art {
                     if (z <= depth[idx]) {
                         continue;
                     }
-                    depth[idx] = z;
                     double u = w0 * t.t()[0][0] + w1 * t.t()[1][0] + w2 * t.t()[2][0];
                     double v = w0 * t.t()[0][1] + w1 * t.t()[1][1] + w2 * t.t()[2][1];
                     int tx = Math.clamp((int) Math.floor(u), 0, texture.getWidth() - 1);
                     int ty = Math.clamp((int) Math.floor(v), 0, texture.getHeight() - 1);
-                    color[idx] = 0xff000000 | shade(texture.getRGB(tx, ty) & 0xffffff, t.light());
+                    int argb = texture.getRGB(tx, ty);
+                    if ((argb >>> 24) < 128) {
+                        continue;
+                    }
+                    depth[idx] = z;
+                    color[idx] = 0xff000000 | shade(argb & 0xffffff, t.light());
                 }
             }
         }
         return downsample(color, size, ss);
     }
 
-    /** Averages {@code ss} x {@code ss} samples into each pixel of a 64x64 icon. */
+    /** Averages {@code ss} x {@code ss} samples into each pixel of the image. */
     static BufferedImage downsample(int[] color, int size, int ss) {
-        BufferedImage out = new BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB);
-        for (int y = 0; y < 64; y++) {
-            for (int x = 0; x < 64; x++) {
+        int pixels = size / ss;
+        BufferedImage out = new BufferedImage(pixels, pixels, BufferedImage.TYPE_INT_ARGB);
+        for (int y = 0; y < pixels; y++) {
+            for (int x = 0; x < pixels; x++) {
                 double r = 0, g = 0, bl = 0, a = 0;
                 for (int dy = 0; dy < ss; dy++) {
                     for (int dx = 0; dx < ss; dx++) {
@@ -675,55 +989,4 @@ public final class Art {
         }
     }
 
-    /** The optician's bench: a desk with a grinding wheel, a lens on an arm and lens blanks. */
-    static final class Bench {
-        static void all() throws IOException {
-            String dir = "Blocks/FlexiisGoggles/";
-            Mat wood = Mat.of("#8a5a33", Style.WOOD);
-            Mat darkWood = Mat.of("#5e3b20", Style.WOOD);
-            Mat stone = Mat.of("#9a9690", Style.STONE);
-            Palette[] tiers = {
-                    new Palette("Tier1", COPPER, Mat.of("#cfe3ea", Style.GLASS), wood, darkWood),
-                    new Palette("Tier2", IRON, Mat.of("#9fd3ff", Style.GLASS), wood, darkWood),
-                    new Palette("Tier3", GOLD, Mat.of("#ffd36b", Style.GLASS), wood, Mat.of("#3e5c8a", Style.WOOD)),
-                    new Palette("Tier4", VOID, Mat.of("#b98cff", Style.GLOW), Mat.of("#3a2a3e", Style.WOOD), Mat.of("#24182c", Style.WOOD)),
-                    new Palette("Tier5", Mat.of("#2fbfb4", Style.METAL), Mat.of("#3fe6d6", Style.GLOW), Mat.of("#26343a", Style.WOOD), Mat.of("#18232a", Style.WOOD))};
-            variants(p -> desk(dir + "Optician_Bench", p, stone), tiers, dir + "Optician_Bench_",
-                    new String[]{"Flexii_Bench_Optician", null, null, null, null}, 35, 25);
-            // category icons: lenses, zoom, night vision, ultra
-            Files.createDirectories(COMMON.resolve("Icons/CraftingCategories/FlexiisGoggles"));
-            copyIcon("Flexii_Lens_Polished", "Materials");
-            copyIcon("Flexii_Goggles_Zoom_2", "Zoom");
-            copyIcon("Flexii_Goggles_NightVision_2", "NightVision");
-            copyIcon("Flexii_Goggles_Ultra", "Ultra");
-        }
-
-        static void copyIcon(String item, String category) throws IOException {
-            Files.copy(COMMON.resolve("Icons/ItemsGenerated/" + item + ".png"),
-                    COMMON.resolve("Icons/CraftingCategories/FlexiisGoggles/" + category + ".png"),
-                    java.nio.file.StandardCopyOption.REPLACE_EXISTING);
-        }
-
-        static Model desk(String path, Palette p, Mat stone) {
-            Model m = new Model(path, false);
-            m.add(new Box("Top", 0, 22.5, 0, 32, 3, 28, p.strap()));
-            m.pair("Leg_Front", 13.5, 10.5, 11.5, 3, 21, 3, p.accent());
-            m.pair("Leg_Back", 13.5, 10.5, -11.5, 3, 21, 3, p.accent());
-            m.add(new Box("Shelf", 0, 6, 0, 26, 2, 22, p.accent()));
-            // grinding wheel on a frame, right side
-            m.add(new Box("Wheel_Stand", 9, 25.5, -3, 8, 3, 6, p.frame()));
-            m.add(new Box("Wheel", 9, 32, -3, 2, 10, 10, stone));
-            m.add(new Box("Wheel_Axle", 9, 32, -3, 6, 2, 2, p.frame()));
-            // lens on an arm, left side
-            m.add(new Box("Arm_Base", -9, 25, 5, 5, 2, 5, p.frame()));
-            m.add(new Box("Arm", -9, 30, 5, 2, 9, 2, p.frame()));
-            m.add(new Box("Lens_Ring", -9, 36.5, 6, 9, 9, 1, p.frame()));
-            m.add(new Box("Lens", -9, 36.5, 6.75, 7, 7, 1, p.lens()));
-            // lens blanks lying on the desk
-            m.add(new Box("Blank_1", 1, 24.5, 8, 4, 1, 4, p.lens()));
-            m.add(new Box("Blank_2", 4, 24.5, 4, 3, 1, 3, p.lens()));
-            m.add(new Box("Plate", -2, 24.25, -6, 7, 1, 5, p.frame()));
-            return m;
-        }
-    }
 }

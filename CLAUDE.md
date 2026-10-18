@@ -17,20 +17,26 @@
 - Hytale hat keine deutsche Sprache. Texte auf Englisch in
   `Server/Languages/en-US/flexiisgoggles.lang` (Schlüssel `flexiisgoggles.<key>`).
 - **Grafik nur über `dev/art/Art.java`** (`java dev/art/Art.java` im Repo): Modelle aus Boxen, Texturen
-  aus Paletten, Icons daraus gerendert. Die Brillenhelme liest `dev/art/Helms.java` aus dem Vanilla-Helm
-  der Stufe in `Assets.zip` (Pfad per `HYTALE_ASSETS` änderbar) und setzt die Brille ein;
-  `dev/art/Blocky.java` rendert beliebige Blockymodelle. Danach Server neu starten.
+  aus Paletten oder Spiel-Texturen (`Mat.tex`), Icons daraus gerendert; die Ausgabe ist bei jedem Lauf
+  gleich. Die Brillenhelme liest `dev/art/Helms.java` aus dem Vanilla-Helm der Stufe in `Assets.zip`
+  (Pfad per `HYTALE_ASSETS` änderbar) und setzt die Brille ein. Die Werkbank baut `dev/art/Optician.java`:
+  je Stufe ein Modell, runde Teile aus Pixelzeilen mit einem gemeinsamen Bild (`Decal`), drehende Teile
+  als eigene Knoten (`Model.group`) und die `.blockyanim` dazu. `dev/art/Blocky.java` rendert beliebige
+  Blockymodelle. Danach Server neu starten.
 
 ## Stand (18.10.2026)
 
 - Zoom, Night Vision und Einstellungsseite sind im Spiel mit Felix getestet, noch ohne Brillen.
-- Die Brillen-Progression ist gebaut: Brillen, Brillenhelme, Werkbank mit 4 Stufen, Quarz, Glas,
+- Die Brillen-Progression ist gebaut: Brillen, Brillenhelme, Werkbank mit 5 Stufen, Quarz, Glas,
   Linsen, Rezepte und Welt-Generierung. Serverseitig ist alles geprüft (alle Assets laden, Quarz entsteht
   in neuen Chunks), **im Spiel noch nicht**. Felix hatte keine Zeit.
 - Offen im Spiel:
   - Helme am Kopf (die Brillen sitzen laut Felix ordentlich, Versatz (0, 20, 2) bestätigt).
   - Wie wirken Optik und Icons?
   - Klappen Werkbank-Stufen, Rezepte und Kategorien?
+  - Neue Werkbank (18.10. abends, nach Felix' „sehr 0815“): zwei Blöcke breit, je Stufe ein eigenes
+    Modell, Licht ab Stufe 3, Animation beim Craften, ab Stufe 5 dauerhaft. Liegt das Modell über der
+    Hitbox, dreht es mit (NESW), laufen die Animationen?
   - Geht das Regler-Maximum (`#Zoom.Max`)?
   - Wirkt `CosmeticsToHide`?
 - Noch kein Release, nichts auf AWS.
@@ -68,7 +74,7 @@
 | `command/GogglesCommand`, `NightVisionCommand` | `/goggles` (+ `status`, `reload`), `/nightvision` (`/nv`) |
 | `Server/Item/Items/FlexiisGoggles/` | Brillen (über `Flexii_Goggles_Template`), Helme (`Parent` = Vanilla-Helm), Quarz, Glas, Linsen, Erz, Werkbank |
 | `Server/WorldGen/Modifier/Flexii_Quartz.json`, `Flexii_Lumenite.json` | Quarz- und Lumenite-Erz in den Höhlen der Zonen 1–3 |
-| `dev/art/Art.java` | Alle Modelle, Texturen und Icons |
+| `dev/art/Art.java` | Alle Modelle, Texturen und Icons (dazu `Helms.java`, `Optician.java`, `Blocky.java`, `Json.java`) |
 
 ## Hytale 0.7.1/0.7.2: geprüfte API-Fakten
 
@@ -124,6 +130,19 @@ Fakten aus `../hytale-gifchat/CLAUDE.md` (World-Thread, Client-Log, Asset-Pack-P
   `BlockEntity.Components.BenchBlock`. `TierLevels[n]` = Kosten von Stufe n auf n+1; 4 Einträge, der
   letzte ohne Kosten, ergeben 4 Stufen. Optik je Stufe über `State.Definitions.TierN`. Oberfläche
   generisch, nur Kategorie-Icons nötig. Ohne `HitboxType` gilt ein voller Block.
+- **Werkbank-Zustände (Vorbild `Bench_WorkBench.json`):** Ein Auftrag mit Dauer setzt den Zustand
+  `CraftCompleted` (sofortige: `CraftCompletedInstant`), danach `default`. `default` heißt „Container des
+  aktuellen Blocktyps“ (`getDefaultStateKey`); jede Stufe braucht deshalb ein eigenes, verschachteltes
+  `State.Definitions {CraftCompleted: {…, State: {Definitions: {}}}, TierN: "*<ItemId>_State_Definitions_TierN"}`,
+  sonst zeigt die Bank nach einem Auftrag bis zum Schließen die Optik von Stufe 1. Zustände sind volle
+  Blocktypen (`INJECT_PARENT`): `HitboxType`, `Light {Color}` (Radius 0 als Standard) und
+  `CustomModelAnimation` + `Looping` gehen je Stufe. Zwei Blöcke breit wie die Vanilla-Werkbank:
+  Wurzelknoten `R-Attachment` bei (−16, 0, 0), Hitbox `Bench_Workbench` (X −1..1 = Modell-x −32..32, Vorderseite +z).
+- **`.blockyanim`:** `{formatVersion: 1, duration, holdLastKeyframe, nodeAnimations: {<Knotenname>:
+  {position, orientation, shapeStretch, shapeVisible, shapeUvOffset}}}`, Schlüsselbilder `{time, delta,
+  interpolationType}`, `delta` relativ zur Ruhelage (Quaternion bzw. Versatz). Drehen wie der
+  Lagerfeuer-Spieß: alle 120° ein Schlüsselbild, die Schleife schließt bei `duration`. Gedreht wird um
+  den Knotenpunkt, also drehende Teile als eigenen Knoten anlegen.
 - **Rezepte** stehen im Item (`Recipe`); `BenchRequirement` mit `Id`, `Categories` (Pflicht, sonst
   unsichtbar) und `RequiredTierLevel`. Material per `ItemId` oder `ResourceTypeId` (`Sands`,
   `Crystal_Shards`, `Wood_Trunk`, `Rock`). Werkbänke selbst: `Workbench`, Kategorie

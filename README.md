@@ -16,7 +16,8 @@ crafting bench and its own ore.
 - **Helms:** mount goggles on a helmet at the armor bench to wear both: Scout Helm (zoom), Nightwatch
   Helm (night vision), Overseer Helm (ultra).
 - **Optician's Bench:** a cheap bench that upgrades through five tiers; each tier unlocks stronger
-  goggles. Glass and lenses are made there too.
+  goggles and visibly grows, from a trestle table with a grindstone to a gold-trimmed desk with a
+  floating lumenite crystal. Glass and lenses are made there too.
 - **Quartz:** a new crystal ore in the stone of zones 1–3 (in newly generated chunks).
 - **Lumenite:** a rare crystal deep in the stone that looks like plain stone to everyone. Only Night
   Vision Goggles IV and UltraGoggles (also mounted on a helm) show it, while their night vision is on.

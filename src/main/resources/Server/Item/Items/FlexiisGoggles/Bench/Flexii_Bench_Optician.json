@@ -10,13 +10,14 @@
     "Material": "Solid",
     "DrawType": "Model",
     "Opacity": "Transparent",
-    "CustomModel": "Blocks/FlexiisGoggles/Optician_Bench.blockymodel",
+    "CustomModel": "Blocks/FlexiisGoggles/Optician_Bench_Tier1.blockymodel",
     "CustomModelTexture": [
       {
-        "Texture": "Blocks/FlexiisGoggles/Optician_Bench_Tier1.png",
+        "Texture": "Blocks/FlexiisGoggles/Optician_Bench_Tier1_Texture.png",
         "Weight": 1
       }
     ],
+    "HitboxType": "Bench_Workbench",
     "VariantRotation": "NESW",
     "Bench": {
       "Type": "Crafting",
@@ -142,41 +143,111 @@
     },
     "State": {
       "Definitions": {
+        "CraftCompleted": {
+          "CustomModelAnimation": "Blocks/FlexiisGoggles/Optician_Bench_Tier1_Crafting.blockyanim",
+          "Looping": true
+        },
+        "CraftCompletedInstant": {
+          "CustomModelAnimation": "Blocks/FlexiisGoggles/Optician_Bench_Tier1_Crafting.blockyanim"
+        },
         "Tier2": {
-          "CustomModel": "Blocks/FlexiisGoggles/Optician_Bench.blockymodel",
+          "CustomModel": "Blocks/FlexiisGoggles/Optician_Bench_Tier2.blockymodel",
           "CustomModelTexture": [
             {
-              "Texture": "Blocks/FlexiisGoggles/Optician_Bench_Tier2.png",
+              "Texture": "Blocks/FlexiisGoggles/Optician_Bench_Tier2_Texture.png",
               "Weight": 1
             }
-          ]
+          ],
+          "HitboxType": "Bench_Workbench3",
+          "State": {
+            "Definitions": {
+              "CraftCompleted": {
+                "CustomModelAnimation": "Blocks/FlexiisGoggles/Optician_Bench_Tier2_Crafting.blockyanim",
+                "Looping": true,
+                "State": {
+                  "Definitions": {}
+                }
+              },
+              "Tier2": "*Flexii_Bench_Optician_State_Definitions_Tier2"
+            }
+          }
         },
         "Tier3": {
-          "CustomModel": "Blocks/FlexiisGoggles/Optician_Bench.blockymodel",
+          "CustomModel": "Blocks/FlexiisGoggles/Optician_Bench_Tier3.blockymodel",
           "CustomModelTexture": [
             {
-              "Texture": "Blocks/FlexiisGoggles/Optician_Bench_Tier3.png",
+              "Texture": "Blocks/FlexiisGoggles/Optician_Bench_Tier3_Texture.png",
               "Weight": 1
             }
-          ]
+          ],
+          "HitboxType": "Bench_Workbench3",
+          "Light": {
+            "Color": "#875"
+          },
+          "State": {
+            "Definitions": {
+              "CraftCompleted": {
+                "CustomModelAnimation": "Blocks/FlexiisGoggles/Optician_Bench_Tier3_Crafting.blockyanim",
+                "Looping": true,
+                "State": {
+                  "Definitions": {}
+                }
+              },
+              "Tier3": "*Flexii_Bench_Optician_State_Definitions_Tier3"
+            }
+          }
         },
         "Tier4": {
-          "CustomModel": "Blocks/FlexiisGoggles/Optician_Bench.blockymodel",
+          "CustomModel": "Blocks/FlexiisGoggles/Optician_Bench_Tier4.blockymodel",
           "CustomModelTexture": [
             {
-              "Texture": "Blocks/FlexiisGoggles/Optician_Bench_Tier4.png",
+              "Texture": "Blocks/FlexiisGoggles/Optician_Bench_Tier4_Texture.png",
               "Weight": 1
             }
-          ]
+          ],
+          "HitboxType": "Bench_Workbench3",
+          "Light": {
+            "Color": "#749"
+          },
+          "State": {
+            "Definitions": {
+              "CraftCompleted": {
+                "CustomModelAnimation": "Blocks/FlexiisGoggles/Optician_Bench_Tier4_Crafting.blockyanim",
+                "Looping": true,
+                "State": {
+                  "Definitions": {}
+                }
+              },
+              "Tier4": "*Flexii_Bench_Optician_State_Definitions_Tier4"
+            }
+          }
         },
         "Tier5": {
-          "CustomModel": "Blocks/FlexiisGoggles/Optician_Bench.blockymodel",
+          "CustomModel": "Blocks/FlexiisGoggles/Optician_Bench_Tier5.blockymodel",
           "CustomModelTexture": [
             {
-              "Texture": "Blocks/FlexiisGoggles/Optician_Bench_Tier5.png",
+              "Texture": "Blocks/FlexiisGoggles/Optician_Bench_Tier5_Texture.png",
               "Weight": 1
             }
-          ]
+          ],
+          "HitboxType": "Bench_Workbench3",
+          "Light": {
+            "Color": "#4ba"
+          },
+          "CustomModelAnimation": "Blocks/FlexiisGoggles/Optician_Bench_Tier5_Idle.blockyanim",
+          "Looping": true,
+          "State": {
+            "Definitions": {
+              "CraftCompleted": {
+                "CustomModelAnimation": "Blocks/FlexiisGoggles/Optician_Bench_Tier5_Crafting.blockyanim",
+                "Looping": true,
+                "State": {
+                  "Definitions": {}
+                }
+              },
+              "Tier5": "*Flexii_Bench_Optician_State_Definitions_Tier5"
+            }
+          }
         }
       }
     },

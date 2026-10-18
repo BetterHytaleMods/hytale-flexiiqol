@@ -136,20 +136,20 @@ final class Helms {
     }
 
     private static Map<String, Object> node(Art.Box b, double dx, double dy, double dz, int vShift, String id) {
-        double[] q = Art.quaternion(b.rx, b.ry, b.rz);
+        double[] q = b.rotation();
         Map<String, Object> layout = new LinkedHashMap<>();
         String[] faces = {"front", "back", "left", "right", "top", "bottom"};
         for (int f = 0; f < 6; f++) {
-            layout.put(faces[f], Map.of(
-                    "offset", Map.of("x", (double) b.uv[f][0], "y", (double) (b.uv[f][1] + vShift)),
-                    "mirror", Map.of("x", false, "y", false),
+            layout.put(faces[f], ordered(
+                    "offset", ordered("x", (double) b.uv[f][0], "y", (double) (b.uv[f][1] + vShift)),
+                    "mirror", ordered("x", false, "y", false),
                     "angle", 0.0));
         }
         Map<String, Object> shape = new LinkedHashMap<>();
         shape.put("type", "box");
         shape.put("offset", xyz(0, 0, 0));
         shape.put("stretch", xyz(1, 1, 1));
-        shape.put("settings", Map.of("size", xyz(b.sx, b.sy, b.sz)));
+        shape.put("settings", ordered("size", xyz(b.sx, b.sy, b.sz)));
         shape.put("textureLayout", layout);
         shape.put("unwrapMode", "custom");
         shape.put("visible", true);
@@ -159,10 +159,19 @@ final class Helms {
         node.put("id", id);
         node.put("name", b.name);
         node.put("position", xyz(b.x + dx, b.y + dy, b.z + dz));
-        node.put("orientation", Map.of("x", q[0], "y", q[1], "z", q[2], "w", q[3]));
+        node.put("orientation", ordered("x", q[0], "y", q[1], "z", q[2], "w", q[3]));
         node.put("shape", shape);
         node.put("children", new ArrayList<>());
         return node;
+    }
+
+    /** A map that keeps its keys in the given order, so the written files stay the same from run to run. */
+    private static Map<String, Object> ordered(Object... keysAndValues) {
+        Map<String, Object> m = new LinkedHashMap<>();
+        for (int i = 0; i < keysAndValues.length; i += 2) {
+            m.put((String) keysAndValues[i], keysAndValues[i + 1]);
+        }
+        return m;
     }
 
     private static Map<String, Object> xyz(double x, double y, double z) {

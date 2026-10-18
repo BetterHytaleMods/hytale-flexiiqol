@@ -114,7 +114,12 @@ final class Blocky {
 
     /** The model as an inventory icon, 64x64, seen from above front-right. */
     static BufferedImage render(List<Face> faces, BufferedImage texture, double yaw, double pitch) {
-        final int ss = 4, size = 64 * ss;
+        return render(faces, texture, yaw, pitch, 64);
+    }
+
+    /** As above, {@code pixels} wide and high. */
+    static BufferedImage render(List<Face> faces, BufferedImage texture, double yaw, double pitch, int pixels) {
+        final int ss = 4, size = pixels * ss;
         double cyaw = Math.cos(Math.toRadians(yaw)), syaw = Math.sin(Math.toRadians(yaw));
         double cp = Math.cos(Math.toRadians(pitch)), sp = Math.sin(Math.toRadians(pitch));
         double[] light = Art.norm(new double[]{-0.35, 0.85, 0.4});
