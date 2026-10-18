@@ -35,7 +35,8 @@
 **Felix' Entscheidungen (18.10.):**
 - Komplett umbenannt (Repo, Plugin, `/goggles`). Ohne Brille kein Zoom und kein Night Vision; Schalter
   `requireGoggles`.
-- Brillen: Zoom I–IV (1,5/3/5/8×), Night Vision I–IV (1/2/3/5), UltraGoggles nur Stufe 4 (12×, 6).
+- Brillen: Zoom I–IV (1,5/3/5/8×), Night Vision I–IV (1/2/3/5), UltraGoggles (16×, Start 12×, Night
+  Vision 6).
   Config kann je Brille nur senken.
 - Spielerseite: Regler bis zum Maximum der getragenen Brille, Gleiten frei (0–1,8), Night Vision an/aus.
   Night Vision ist beim Aufsetzen an.

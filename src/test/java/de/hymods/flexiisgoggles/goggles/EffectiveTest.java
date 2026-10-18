@@ -47,6 +47,10 @@ class EffectiveTest {
         Effective ultra = Effective.of(config, choice.withZoom(3f), Effective.Ability.of(config, Goggles.ULTRA));
         assertEquals(3f, ultra.zoom());
         assertEquals(6, ultra.nightVisionLevel());
+        Effective ultraStart = Effective.of(config, Choice.NONE, Effective.Ability.of(config, Goggles.ULTRA));
+        assertEquals(12f, ultraStart.zoom(), "the ultragoggles start at 12x");
+        assertEquals(16f, ultraStart.zoomCap());
+        assertEquals(16f, Effective.of(config, Choice.NONE.withZoom(16f), Effective.Ability.of(config, Goggles.ULTRA)).zoom());
 
         Effective weak = Effective.of(config, choice, Effective.Ability.of(config, Goggles.ZOOM_2));
         assertEquals(3f, weak.zoom());

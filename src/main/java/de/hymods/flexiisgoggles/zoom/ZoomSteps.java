@@ -2,9 +2,9 @@ package de.hymods.flexiisgoggles.zoom;
 
 import java.util.Locale;
 
-/** The zoom strengths there are: 1.5x, then whole steps up to 12x. Each has its own root interaction. */
+/** The zoom strengths there are: 1.5x, then whole steps up to 16x. Each has its own root interaction. */
 public final class ZoomSteps {
-    private static final float[] VALUES = {1.5f, 2f, 3f, 4f, 5f, 6f, 7f, 8f, 9f, 10f, 11f, 12f};
+    private static final float[] VALUES = {1.5f, 2f, 3f, 4f, 5f, 6f, 7f, 8f, 9f, 10f, 11f, 12f, 13f, 14f, 15f, 16f};
     public static final float MIN = VALUES[0];
     public static final float MAX = VALUES[VALUES.length - 1];
 

@@ -31,7 +31,7 @@ public final class GogglesConfig {
 
     public static final class Zoom {
         public boolean enabled = true;
-        /** Zoom strength without goggles (requireGoggles false), until a player picks their own. */
+        /** Zoom strength without goggles (requireGoggles false), until a player picks their own, 1.5 to 16. */
         public float magnification = 4f;
         /** Mouse sensitivity at 4x, as a share of the normal one; the other strengths scale it. */
         public float sensitivity = 0.35f;

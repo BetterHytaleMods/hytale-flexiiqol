@@ -35,7 +35,7 @@ class PlayerSettingsTest {
     @Test
     void valuesOutOfRangeAreClampedOrSnapped() {
         PlayerSettings.Choice choice = PlayerSettings.Choice.NONE.withZoom(20f).withGlide(-3).withBrightness(15);
-        assertEquals(12f, choice.zoom());
+        assertEquals(16f, choice.zoom());
         assertEquals(0, choice.glide());
         assertEquals(PlayerSettings.BRIGHTNESS_MAX, choice.brightness());
         assertNull(choice.nightVision());

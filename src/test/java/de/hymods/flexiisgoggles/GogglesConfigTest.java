@@ -21,7 +21,7 @@ class GogglesConfigTest {
         assertEquals(4f, config.zoom.magnification);
         assertEquals(0.5f, config.zoom.glide);
         assertEquals(3, config.nightVision.level);
-        assertEquals(12f, config.zoomCap(Goggles.ULTRA));
+        assertEquals(16f, config.zoomCap(Goggles.ULTRA));
         assertEquals(5, config.nightVisionCap(Goggles.NIGHT_VISION_4));
         String written = Files.readString(file);
         assertTrue(written.contains("\"requireGoggles\": true"), written);
@@ -56,7 +56,7 @@ class GogglesConfigTest {
         Path file = dir.resolve("config.json");
         Files.writeString(file, "{\"zoom\": {\"magnification\": 99, \"sensitivity\": -1, \"glide\": 3}, \"nightVision\": {\"level\": 20}}");
         GogglesConfig config = GogglesConfig.load(file);
-        assertEquals(12f, config.zoom.magnification);
+        assertEquals(16f, config.zoom.magnification);
         assertEquals(0.05f, config.zoom.sensitivity);
         assertEquals(1.8f, config.zoom.glide);
         assertEquals(6, config.nightVision.level);

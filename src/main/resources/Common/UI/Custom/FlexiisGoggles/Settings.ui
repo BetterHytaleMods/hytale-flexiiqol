@@ -41,7 +41,7 @@ $C.@PageOverlay {
               Background: (Color: #333333)
             );
             Min: 0;
-            Max: 11;
+            Max: 15;
             Step: 1;
             Value: 3;
           }

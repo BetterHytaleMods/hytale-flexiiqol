@@ -7,12 +7,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class ZoomStepsTest {
 
     @Test
-    void stepsRunFromOneAndAHalfToTwelve() {
-        assertEquals(12, ZoomSteps.count());
+    void stepsRunFromOneAndAHalfToSixteen() {
+        assertEquals(16, ZoomSteps.count());
         assertEquals(1.5f, ZoomSteps.value(0));
         assertEquals(2f, ZoomSteps.value(1));
         assertEquals(12f, ZoomSteps.value(11));
-        assertEquals(12f, ZoomSteps.value(99));
+        assertEquals(16f, ZoomSteps.value(99));
     }
 
     @Test
@@ -29,6 +29,7 @@ class ZoomStepsTest {
         assertEquals(2, ZoomSteps.maxIndex(3f));
         assertEquals(2, ZoomSteps.maxIndex(3.9f));
         assertEquals(11, ZoomSteps.maxIndex(12f));
+        assertEquals(15, ZoomSteps.maxIndex(16f));
         assertEquals(0, ZoomSteps.maxIndex(1f));
     }
 

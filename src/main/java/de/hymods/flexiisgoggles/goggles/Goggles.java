@@ -19,7 +19,7 @@ public enum Goggles {
     NIGHT_VISION_2("NightVision_2", 2, 0f, 2),
     NIGHT_VISION_3("NightVision_3", 3, 0f, 3),
     NIGHT_VISION_4("NightVision_4", 4, 0f, 5),
-    ULTRA("Ultra", 5, 12f, 6);
+    ULTRA("Ultra", 5, 16f, 6);
 
     private static final Map<String, Goggles> BY_ITEM = new HashMap<>();
 
@@ -60,6 +60,11 @@ public enum Goggles {
     /** 0 if they have no night vision. */
     public int maxNightVision() {
         return this.maxNightVision;
+    }
+
+    /** The zoom a player gets before picking their own: the full strength, except 12x for the UltraGoggles. */
+    public float startZoom() {
+        return this == ULTRA ? 12f : this.maxZoom;
     }
 
     /** Whether these goggles show lumenite ore while their night vision is on; elsewhere it looks like stone. */

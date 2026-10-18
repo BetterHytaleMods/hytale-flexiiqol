@@ -33,7 +33,7 @@ FlexiisGoggles is a server plugin. Players need nothing but the normal Hytale cl
 |---|---|---|---|
 | Zoom Goggles I / II / III / IV | 1 / 2 / 3 / 4 | 1.5x / 3x / 5x / 8x | – |
 | Night Vision Goggles I / II / III / IV | 1 / 2 / 3 / 4 | – | 1 / 2 / 3 / 5 |
-| UltraGoggles | 5 | 12x | 6 |
+| UltraGoggles | 5 | 16x (starts at 12x) | 6 |
 
 Helms count like the goggles mounted on them. They need a vanilla helmet of the matching tier
 (copper, iron, thorium, adamantite) and keep its armor values.
@@ -49,7 +49,7 @@ changes without a restart.
 
 | Setting | Meaning |
 |---|---|
-| `requireGoggles` | `true`: zoom and night vision only while wearing goggles. `false`: everyone gets both, up to 12x and brightness 6 |
+| `requireGoggles` | `true`: zoom and night vision only while wearing goggles. `false`: everyone gets both, up to 16x and brightness 6 |
 | `zoom.enabled`, `nightVision.enabled` | Switch a feature off for everyone |
 | `goggles.<name>.zoom`, `goggles.<name>.nightVision` | How strong each pair of goggles is on this server; can only be lowered |
 | `zoom.magnification`, `nightVision.level` | What players get without goggles (`requireGoggles: false`) until they pick their own |
